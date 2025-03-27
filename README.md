@@ -18,5 +18,3 @@ You can view the full project requirements here:
 - **Frontend:** HTML, CSS  
 - **Backend:** .NET  
 - **Database:** SQL Server  
-
-## 📂 Folder Structure  
