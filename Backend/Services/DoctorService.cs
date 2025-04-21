@@ -1,6 +1,4 @@
-﻿using Hospital.Utils;
-
-namespace Hospital.Services
+﻿namespace Hospital.Services
 {
 	
 	public class DoctorService : IDoctorService

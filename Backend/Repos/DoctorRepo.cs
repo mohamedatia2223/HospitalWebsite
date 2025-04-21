@@ -14,7 +14,7 @@
 
 		public async Task<Doctor> GetDoctorById(Guid doctorId)
 		{
-			var doc = await _context.Doctors.FirstOrDefaultAsync(d => d.DoctorId == doctorId);
+			var doc = await _context.Doctors.FindAsync(doctorId);
 
 			return doc; 
 		}

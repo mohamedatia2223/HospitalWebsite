@@ -13,6 +13,8 @@ namespace Hospital
                     builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<IDoctorRepo,DoctorRepo>();
             builder.Services.AddScoped<IDoctorService,DoctorService>();
+            builder.Services.AddScoped<IPatientRepo,PatientRepo>();
+            builder.Services.AddScoped<IPatientService,PatientService>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
