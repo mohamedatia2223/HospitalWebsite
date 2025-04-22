@@ -5,6 +5,7 @@ namespace Hospital.Data.Models
 	{
 		[Key]
 		public Guid AppointmentId { get; set; } = Guid.NewGuid();
+		[Required]
 		public DateTime AppointmentDate { get; set; }
 		public string? ReasonForVisit { get; set; }
 

@@ -9,7 +9,9 @@
 		public Task UpdateDoctorById(Guid doctorId, Doctor doctor);
 		public Task DeleteDoctorById(Guid doctorId);
 		public Task<List<PatientDTO>> GetAllPatientsByDoctorId(Guid doctorId);
-		public Task<List<DoctorDTO>> FilterDoctors(string specialty , int yearsOfExp);
+		public Task<List<DoctorDTO>> FilterDoctors(string specialty , int yearsOfExp,string name);
 		public Task<List<AppointmentDTO>> GetAllAppointmentsByDoctorId(Guid doctorId);
+		public Task<int?> GetDoctorRatingByPatientId(Guid doctorId, Guid patientId);
+		public Task<float?> GetAverageDoctorRating(Guid doctorId);
 	}
 }

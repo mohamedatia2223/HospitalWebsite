@@ -39,7 +39,7 @@
 			doc.YearsOfExperience = doctor.YearsOfExperience;
 			doc.Specialty = doctor.Specialty;
 			doc.Password = doctor.Password;
-			doc.Patients = doctor.Patients;
+			doc.HourlyPay = doctor.HourlyPay;
 
 			await _context.SaveChangesAsync();
 
@@ -56,9 +56,18 @@
 		public async Task<List<Doctor>> GetDoctorsWithNavProp()
 		{
 			return await _context.Doctors
-				.Include(d => d.Patients)
+				.Include(d => d.DoctorPatients)
+				.ThenInclude(dp => dp.Patient)
 				.Include(d => d.Appointments)
 				.ToListAsync();
+		}
+		public async Task<Doctor> GetDoctorWithNavProp(Guid doctorId)
+		{
+			return await _context.Doctors
+				.Include(d => d.DoctorPatients)
+				.ThenInclude(dp => dp.Patient)
+				.Include(d => d.Appointments)
+				.FirstOrDefaultAsync(d => d.DoctorId == doctorId);
 		}
 	}
 }

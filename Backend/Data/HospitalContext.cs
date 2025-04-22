@@ -14,12 +14,22 @@
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.Entity<Doctor>()
-				.HasMany(d => d.Patients)
-				.WithOne(p => p.Doctor)
-				.HasForeignKey(p => p.DoctorId)
-				.OnDelete(DeleteBehavior.SetNull);
-	
+			modelBuilder.Entity<DoctorPatient>()
+				.HasKey(dp => new { dp.DoctorId, dp.PatientId });
+
+			modelBuilder.Entity<DoctorPatient>()
+				.HasOne(dp => dp.Doctor)
+				.WithMany(d => d.DoctorPatients)
+				.HasForeignKey(dp => dp.DoctorId)
+				.OnDelete(DeleteBehavior.Cascade);
+			
+			
+			modelBuilder.Entity<DoctorPatient>()
+				.HasOne(dp => dp.Patient)
+				.WithMany(p => p.DoctorPatients)
+				.HasForeignKey(dp => dp.PatientId)
+				.OnDelete(DeleteBehavior.Cascade);
+
 
 			modelBuilder.Entity<Patient>()
 				.HasMany(a => a.MedicalRecords)

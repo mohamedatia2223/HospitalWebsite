@@ -24,10 +24,12 @@
 			
 		}
 
-		public async Task<List<DoctorDTO>> FilterDoctors(string specialty, int yearsOfExp)
+		public async Task<List<DoctorDTO>> FilterDoctors(string specialty, int yearsOfExp ,string name)
 		{
 			var docs = await _docRepo.GetAllDoctors();
-			var filtered = docs.Where(d => d.Specialty == specialty && d.YearsOfExperience >= yearsOfExp).ToList();
+			var filtered = docs.Where(d => d.Specialty == specialty 
+											&& d.YearsOfExperience >= yearsOfExp 
+											&& d.DoctorName == name).ToList();
 			
 			return Mapper.MapDoctorDTOs(filtered);
 		}
@@ -38,9 +40,8 @@
 		{	
 			
 
-			var docs = await _docRepo.GetDoctorsWithNavProp();
-			var doc = docs.FirstOrDefault(d => d.DoctorId == doctorId);
-			
+			var doc = await _docRepo.GetDoctorWithNavProp(doctorId);
+	
 
 			return Mapper.MapAppointmentDTOs(doc.Appointments ?? []) ;
 		}
@@ -54,11 +55,15 @@
 		{
 			
 
-			var docs = await _docRepo.GetDoctorsWithNavProp();
-			var doc = docs.FirstOrDefault(d => d.DoctorId == doctorId);
+			var doc = await _docRepo.GetDoctorWithNavProp(doctorId);
+			var doctorPatients = doc.DoctorPatients;
 
+			if (doc == null || doctorPatients == null)
+				return [];
 
-			return Mapper.MapPatientDTOs(doc.Patients ?? []);
+			var patients = doctorPatients.Select(d => d.Patient).ToList(); 
+
+			return Mapper.MapPatientDTOs(patients);
 		}
 
 		public async Task<DoctorDTO> GetDoctorById(Guid doctorId)
@@ -71,6 +76,30 @@
 		{
 			
 			await _docRepo.UpdateDoctorById(doctorId, doctor);
+		}
+
+
+		public async Task<int?> GetDoctorRatingByPatientId(Guid doctorId, Guid patientId)
+		{
+			var doc = await _docRepo.GetDoctorWithNavProp(doctorId);
+			var doctorPatients = doc.DoctorPatients;
+
+			var doctorPatient = doctorPatients.FirstOrDefault(dp => dp.PatientId == patientId);
+									
+
+			return doctorPatient?.Rating;
+		}
+
+		public async Task<float?> GetAverageDoctorRating(Guid doctorId)
+		{
+			var doc = await _docRepo.GetDoctorWithNavProp(doctorId);
+			var doctorPatients = doc.DoctorPatients;
+
+			var rating = doctorPatients.Select(dp => dp.Rating).Where(r => r > 0).ToList();
+
+			if (rating.Count == 0) return 0;
+
+			return rating.Sum()/rating.Count;
 		}
 	}
 }

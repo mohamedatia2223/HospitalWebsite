@@ -12,6 +12,7 @@
 				Specialty = doctor.Specialty,
 				ContactInfo = doctor.ContactInfo,
 				YearsOfExperience = doctor.YearsOfExperience,
+				HourlyPay = doctor.HourlyPay,
 			};
 		}
 		public static List<DoctorDTO> MapDoctorDTOs(List<Doctor> doctors)
@@ -28,6 +29,7 @@
 						Specialty = doctor.Specialty,
 						ContactInfo = doctor.ContactInfo,
 						YearsOfExperience = doctor.YearsOfExperience,
+						HourlyPay = doctor.HourlyPay,
 					});
 			}
 
@@ -44,7 +46,6 @@
 				ContactInfo = patient.ContactInfo,
 				Address = patient.Address,
 				InsuranceDetails = patient.InsuranceDetails,
-				DoctorId = patient.DoctorId,
 			};
 		}
 		public static List<PatientDTO> MapPatientDTOs(List<Patient> patients)
@@ -63,7 +64,6 @@
 						ContactInfo = patient.ContactInfo,
 						Address = patient.Address,
 						InsuranceDetails = patient.InsuranceDetails,
-						DoctorId = patient.DoctorId,
 					});
 			}
 

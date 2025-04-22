@@ -1,15 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Hospital.Services
+﻿namespace Hospital.Services
 {
 	public class PatientService : IPatientService
 	{
 		private readonly IPatientRepo _patientRepo;
-		private readonly HospitalContext _context;
 		public PatientService(IPatientRepo patientRepo, HospitalContext context)
 		{
 			_patientRepo = patientRepo;
-			_context = context;
 		}
 		public async Task AddPatient(Patient patient)
 		{
@@ -19,11 +15,26 @@ namespace Hospital.Services
 		// ليه الخره ده مش شغال انا حتجنن 😤😤😤😤😤😤😤😤
 		public async Task AssignDoctorToPatient(Guid patientId, Guid doctorId)
 		{
-			var patient = await _patientRepo.GetPatientById(patientId);
+			var patient = await _patientRepo.GetPatientWithNavProp(patientId);
 
-			patient.DoctorId = doctorId;
 
-			await _patientRepo.SaveChanges();
+			if (patient.DoctorPatients == null)
+				patient.DoctorPatients = new List<DoctorPatient>();
+
+
+			if (!patient.DoctorPatients.Any(dp => dp.DoctorId == doctorId))
+			{
+
+				patient.DoctorPatients.Add(
+					new DoctorPatient
+					{
+						DoctorId = doctorId,
+						PatientId = patientId
+					}
+					);
+
+				await _patientRepo.SaveChanges();
+			}
 		}
 
 		public async Task DeletePatientById(Guid patientId)
@@ -57,11 +68,23 @@ namespace Hospital.Services
 			return Mapper.MapAppointmentDTOs(patient.Appointments ?? []);
 		}
 
+		public async Task<List<DoctorDTO>> GetAllDoctorsByPatientId(Guid patientId)
+		{
+			var patient = await _patientRepo.GetPatientWithNavProp(patientId);
+			if (patient.DoctorPatients == null)
+			{
+				patient.DoctorPatients = [];
+			}
+			var docs = patient.DoctorPatients.Select(dp => dp.Doctor).ToList();
+
+			return Mapper.MapDoctorDTOs(docs);
+		}
+
 		public async Task<List<MedicalRecordDTO>> GetAllMedicalRecordsByPatientId(Guid patientId)
 		{
 			var patient = await _patientRepo.GetPatientWithNavProp(patientId);
 
-			return Mapper.MapMedicalRecordDTOs(patient.MedicalRecords);
+			return Mapper.MapMedicalRecordDTOs(patient.MedicalRecords ?? []);
 		}
 
 		public async Task<List<PatientDTO>> GetAllPatients()
@@ -77,6 +100,21 @@ namespace Hospital.Services
 		public async Task<bool> PatientExists(Guid patientId)
 		{
 			return await _patientRepo.PatientExists(patientId);	
+		}
+
+		public async Task RateDoctor(Guid patientId, Guid doctorId, int rating)
+		{
+			var doctorPatient = (await _patientRepo.GetPatientWithNavProp(patientId)).DoctorPatients;
+			if (doctorPatient == null)
+			{
+				doctorPatient = [];
+			}
+			var docpatient = doctorPatient.FirstOrDefault(dp => dp.DoctorId == dp.DoctorId);
+
+			if (docpatient != null) {
+				docpatient.Rating = rating;
+			}
+			await _patientRepo.SaveChanges();
 		}
 
 		public async Task UpdatePatientById(Guid patientId, Patient patient)

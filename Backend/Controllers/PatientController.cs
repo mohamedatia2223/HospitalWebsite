@@ -5,12 +5,12 @@
 	public class PatientController : ControllerBase
 	{
 		private readonly IPatientService _patientService;
-		private readonly IDoctorService _doctorService;
+		private readonly IDoctorService _docService;
 
 		public PatientController(IPatientService patientService, IDoctorService doctorService)
 		{
 			_patientService = patientService;
-			_doctorService = doctorService;
+			_docService = doctorService;
 		}
 		[HttpGet]
 		public async Task<IActionResult> GetAllPatients()
@@ -66,10 +66,13 @@
 		[HttpPost("{patientId}/assignDoctor/{doctorId}")]
 		public async Task<IActionResult> AssignDoctorToPatient(Guid patientId, Guid doctorId)
 		{
-			if (! await _patientService.PatientExists(patientId) && 
-				! await _doctorService.DoctorExists(doctorId))
+			if (!await _patientService.PatientExists(patientId))
 			{
-				return NotFound("Patient or Doctor Not Found");
+				return NotFound("Patient Not Found");
+			}
+			if (!await _docService.DoctorExists(doctorId))
+			{
+				return NotFound("Doctor Not Found");
 			}
 
 			await _patientService.AssignDoctorToPatient(patientId,doctorId);
@@ -116,6 +119,36 @@
 			}
 
 			await _patientService.DeletePatientById(patientId);
+
+			return NoContent();
+		}
+		[HttpGet("{patientId}/doctors")]
+		public async Task<IActionResult> GetAllDoctorsByPatientId(Guid patientId)
+		{
+
+			if (!await _patientService.PatientExists(patientId))
+			{
+				return NotFound("Patient Not Found");
+			}
+
+			var docs = await _patientService.GetAllDoctorsByPatientId(patientId);
+
+			return Ok(docs);
+		}
+		[HttpPost("{patientId}/rateDoctor/{doctorId}")]
+		public async Task<IActionResult> RateDoctor(Guid patientId,Guid doctorId, int rating)
+		{
+
+			if (!await _patientService.PatientExists(patientId))
+			{
+				return NotFound("Patient Not Found");
+			}
+			if (!await _docService.DoctorExists(doctorId))
+			{
+				return NotFound("Doctor Not Found");
+			}
+
+			await _patientService.RateDoctor(patientId,doctorId,rating);
 
 			return NoContent();
 		}

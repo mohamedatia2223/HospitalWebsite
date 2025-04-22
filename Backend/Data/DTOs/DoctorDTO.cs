@@ -8,6 +8,7 @@
 		public string? Email { get; set; }
 		public string? Specialty { get; set; }
 		public string? ContactInfo { get; set; }
+		public int HourlyPay { get; set; }
 		public int YearsOfExperience { get; set; }
 	}
 }

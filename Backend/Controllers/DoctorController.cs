@@ -5,9 +5,11 @@
 	public class DoctorController : ControllerBase
 	{
 		private readonly IDoctorService _docService;
-		public DoctorController(IDoctorService docService)
+		private readonly IPatientService _patientService;
+		public DoctorController(IDoctorService docService, IPatientService patientService)
 		{
 			_docService = docService;
+			_patientService = patientService;
 		}
 		[HttpGet]
 		public async Task<IActionResult> GetAllDoctors()
@@ -18,6 +20,10 @@
 		[HttpGet("{doctorId}")]
 		public async Task<IActionResult> GetDoctorById(Guid doctorId)
 		{
+			if (!await _docService.DoctorExists(doctorId))
+			{
+				return NotFound("Doctor Not Found");
+			}
 			var doc = await _docService.GetDoctorById(doctorId);
 			return Ok(doc);
 		}
@@ -65,9 +71,9 @@
 			return Ok(patients);
 		}
 		[HttpGet("filter")]
-		public async Task<IActionResult> FilterDoctors(string specialty,int minYears)
+		public async Task<IActionResult> FilterDoctors(string specialty,int minYears,string name)
 		{
-			var docs = await _docService.FilterDoctors(specialty,minYears);
+			var docs = await _docService.FilterDoctors(specialty,minYears,name);
 			return Ok(docs);
 		}
 		[HttpGet("{doctorId}/appointments")]
@@ -80,6 +86,32 @@
 			}
 			var appointments = await _docService.GetAllAppointmentsByDoctorId(doctorId);
 			return Ok(appointments);
+		}
+		[HttpGet("{doctorId}/rating")]
+		public async Task<IActionResult> GetAverageDoctorRating(Guid doctorId)
+		{
+
+			if (!await _docService.DoctorExists(doctorId))
+			{
+				return NotFound("Doctor Not Found");
+			}
+			var rating = await _docService.GetAverageDoctorRating(doctorId);
+			return Ok(rating);
+		}
+		[HttpGet("{doctorId}/rating/{patientId}")]
+		public async Task<IActionResult> GetDoctorRatingByPatientId(Guid doctorId,Guid patientId)
+		{
+			if (!await _patientService.PatientExists(patientId))
+			{
+				return NotFound("Patient Not Found");
+			}
+			if (!await _docService.DoctorExists(doctorId))
+			{
+				return NotFound("Doctor Not Found");
+			}
+			// make it so it validates if it's assigned to a doctor or not 
+			var rating = await _docService.GetDoctorRatingByPatientId(doctorId,patientId);
+			return Ok(rating);
 		}
 	}
 }

@@ -13,6 +13,8 @@
 		public Task<List<AppointmentDTO>> GetAllabcomingAppointmentsByPatientId(Guid patientId);
 		public Task<List<PatientDTO>> FilterPatientsByName(string name);
 		public Task AssignDoctorToPatient(Guid patientId,Guid doctorId);
+		public Task RateDoctor(Guid patientId,Guid doctorId,int rating);
+		public Task<List<DoctorDTO>> GetAllDoctorsByPatientId(Guid patientId);
 	}
 }
 

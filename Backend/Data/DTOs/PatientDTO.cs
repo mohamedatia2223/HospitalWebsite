@@ -10,6 +10,5 @@
 		public string? Address { get; set; }
 		public string? InsuranceDetails { get; set; }
 		public string? EmergencyContact { get; set; }
-		public Guid? DoctorId { get; set; }
 	}
 }

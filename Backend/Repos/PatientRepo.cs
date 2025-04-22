@@ -36,7 +36,8 @@
 		public async Task<List<Patient>> GetPatientsWithNavProp()
 		{
 			return await _context.Patients
-				.Include(p => p.Doctor)
+				.Include(p => p.DoctorPatients)
+				.ThenInclude(dp => dp.Doctor)
 				.Include(p => p.Appointments)
 				.Include(p => p.MedicalRecords).ToListAsync();
 		}
@@ -44,7 +45,8 @@
 		public async Task<Patient> GetPatientWithNavProp(Guid patientId)
 		{
 			return await _context.Patients
-				.Include(p => p.Doctor)
+				.Include(p => p.DoctorPatients)
+				.ThenInclude(dp => dp.Doctor)
 				.Include(p => p.MedicalRecords)
 				.Include(p => p.Appointments)
 				.FirstOrDefaultAsync(p => p.PatientId == patientId);
@@ -73,7 +75,6 @@
 			oldPatient.Address = patient.Address;
 			oldPatient.InsuranceDetails = patient.InsuranceDetails;
 			oldPatient.EmergencyContact = patient.EmergencyContact;
-			oldPatient.DoctorId = patient.DoctorId;
 
 			await _context.SaveChangesAsync();
 
