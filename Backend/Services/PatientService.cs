@@ -109,7 +109,7 @@
 			{
 				doctorPatient = [];
 			}
-			var docpatient = doctorPatient.FirstOrDefault(dp => dp.DoctorId == dp.DoctorId);
+			var docpatient = doctorPatient.FirstOrDefault(dp => dp.DoctorId ==  doctorId);
 
 			if (docpatient != null) {
 				docpatient.Rating = rating;
