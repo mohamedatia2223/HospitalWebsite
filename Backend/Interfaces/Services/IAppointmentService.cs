@@ -2,14 +2,14 @@
 {
     public interface IAppointmentService
     {
-        Task<List<AppointmentDTO>> GetAllAppointments();
-        Task<AppointmentDTO> GetAppointmentById(Guid appointmentId);
+        Task<List<AppointmentDTOGet>> GetAllAppointments();
+        Task<AppointmentDTOGet> GetAppointmentById(Guid appointmentId);
         Task<bool> AppointmentExists(Guid appointmentId);
-        Task AddAppointment(AppointmentDTO appointment);
-        Task UpdateAppointmentById(Guid appointmentId, AppointmentDTO appointment);
+        Task AddAppointment(AppointmentDTOUpdate appointment);
+        Task UpdateAppointmentById(Guid appointmentId, AppointmentDTOUpdate appointment);
         Task DeleteAppointmentById(Guid appointmentId);
         Task RescheduleAppointment(Guid appointmentId, DateTime newDateTime);
-        Task<List<AppointmentDTO>> GetAppointmentsForToday();
+        Task<List<AppointmentDTOGet>> GetAppointmentsForToday();
 
     }
 }

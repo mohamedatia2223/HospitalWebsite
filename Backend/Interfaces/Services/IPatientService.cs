@@ -1,20 +1,22 @@
-﻿namespace Hospital.Interfaces.Services
+﻿using Hospital.Data.DTOs;
+
+namespace Hospital.Interfaces.Services
 {
 	public interface IPatientService
 	{
-		public Task<List<PatientDTO>> GetAllPatients();
-		public Task<PatientDTO> GetPatientById(Guid patientId);
+		public Task<List<PatientDTOGet>> GetAllPatients();
+		public Task<PatientDTOGet> GetPatientById(Guid patientId);
 		public Task<bool> PatientExists(Guid patientId);
-		public Task AddPatient(PatientDTO patient);
-		public Task UpdatePatientById(Guid patientId, PatientDTO patient);
+		public Task AddPatient(PatientDTOUpdate patient);
+		public Task UpdatePatientById(Guid patientId, PatientDTOUpdate patient);
 		public Task DeletePatientById(Guid patientId);
-		public Task<List<MedicalRecordDTO>> GetAllMedicalRecordsByPatientId(Guid patientId);
-		public Task<List<AppointmentDTO>> GetAllAppointmentsByPatientId(Guid patientId);
-		public Task<List<AppointmentDTO>> GetAllabcomingAppointmentsByPatientId(Guid patientId);
-		public Task<List<PatientDTO>> FilterPatientsByName(string name);
+		public Task<List<MedicalRecordDTOGet>> GetAllMedicalRecordsByPatientId(Guid patientId);
+		public Task<List<AppointmentDTOGet>> GetAllAppointmentsByPatientId(Guid patientId);
+		public Task<List<AppointmentDTOGet>> GetAllabcomingAppointmentsByPatientId(Guid patientId);
+		public Task<List<PatientDTOGet>> FilterPatientsByName(string name);
 		public Task AssignDoctorToPatient(Guid patientId,Guid doctorId);
 		public Task RateDoctor(Guid patientId,Guid doctorId,int rating);
-		public Task<List<DoctorDTO>> GetAllDoctorsByPatientId(Guid patientId);
+		public Task<List<DoctorDTOGet>> GetAllDoctorsByPatientId(Guid patientId);
 	}
 }
 

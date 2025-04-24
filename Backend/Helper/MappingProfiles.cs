@@ -1,23 +1,31 @@
 ﻿using AutoMapper;
-using System.Diagnostics.Metrics;
 
-namespace PokemonReviewApp.Helper
+namespace HospitalApp.Helper
 {
     public class MappingProfiles : Profile
     {
         public MappingProfiles()
         {
-            CreateMap<AppointmentRepo, Appointment>();
-            CreateMap<Appointment, AppointmentDTO>()
-                .ForMember(dest => dest.PatientId, opt => opt.MapFrom(src => src.PatientId))
-                .ForMember(dest => dest.DoctorId, opt => opt.MapFrom(src => src.DoctorId));
-            CreateMap<AppointmentDTO, Appointment>();
-            CreateMap<Doctor, DoctorDTO>(); 
-            CreateMap<DoctorDTO, Doctor>();
-            CreateMap<PatientDTO, Patient>();
-            CreateMap<Patient, PatientDTO>();
-            CreateMap<MedicalRecord, MedicalRecordDTO>();
-            CreateMap<MedicalRecordDTO, MedicalRecord>();
+            CreateMap<Appointment, AppointmentDTOUpdate>();
+            CreateMap<AppointmentDTOUpdate, Appointment>();
+            CreateMap<Appointment, AppointmentDTOGet>();
+            CreateMap<AppointmentDTOGet, Appointment>();
+
+            CreateMap<Doctor, DoctorDTOUpdate>();
+            CreateMap<DoctorDTOUpdate, Doctor>();
+            CreateMap<Doctor, DoctorDTOGet>();
+            CreateMap<DoctorDTOGet, Doctor>();
+
+            CreateMap<Patient, PatientDTOUpdate>();
+            CreateMap<PatientDTOUpdate, Patient>();
+            CreateMap<Patient, PatientDTOGet>();
+            CreateMap<PatientDTOGet, Patient>();
+
+            CreateMap<MedicalRecord, MedicalRecordDTOUpdate>();
+            CreateMap<MedicalRecordDTOUpdate, MedicalRecord>();
+            CreateMap<MedicalRecord, MedicalRecordDTOGet>();
+            CreateMap<MedicalRecordDTOGet, MedicalRecord>();
+
         }
     }
 }
