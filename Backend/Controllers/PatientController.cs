@@ -80,7 +80,7 @@
 			return NoContent();
 		}
 		[HttpPost]
-		public async Task<IActionResult> AddPatient(Patient patient)
+		public async Task<IActionResult> AddPatient([FromForm] PatientDTO patient)
 		{
 
 			if (!ModelState.IsValid) 
@@ -93,7 +93,7 @@
 			return Created();
 		}
 		[HttpPut]
-		public async Task<IActionResult> UpdatePatient(Guid patientId,Patient patient)
+		public async Task<IActionResult> UpdatePatient(Guid patientId,[FromForm] PatientDTO patient)
 		{
 
 			if (!ModelState.IsValid)

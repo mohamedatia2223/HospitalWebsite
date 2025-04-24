@@ -2,7 +2,6 @@
 {
 	public class MedicalRecordDTO
 	{
-		public Guid MedicalRecordId { get; set; }
 		public DateTime RecordDate { get; set; }
 		public string? Notes { get; set; }
 		public string? Diagnosis { get; set; }

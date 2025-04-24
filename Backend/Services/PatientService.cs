@@ -1,15 +1,22 @@
-﻿namespace Hospital.Services
+﻿using AutoMapper;
+
+namespace Hospital.Services
 {
 	public class PatientService : IPatientService
 	{
 		private readonly IPatientRepo _patientRepo;
-		public PatientService(IPatientRepo patientRepo, HospitalContext context)
+        private readonly IMapper _mapper;
+
+        public PatientService(IMapper mapper, IPatientRepo patientRepo, HospitalContext context)
 		{
 			_patientRepo = patientRepo;
-		}
-		public async Task AddPatient(Patient patient)
+			_mapper = mapper;
+
+        }
+		public async Task AddPatient(PatientDTO patient)
 		{
-			await _patientRepo.AddPatient(patient);
+			var pat = _mapper.Map<Patient>(patient);
+			await _patientRepo.AddPatient(pat);
 		}
 
 		// ليه الخره ده مش شغال انا حتجنن 😤😤😤😤😤😤😤😤
@@ -51,7 +58,7 @@
 			var regex = new Regex(name, RegexOptions.IgnoreCase); 
 			var filtered = patients.Where(p => regex.IsMatch(p.PatientName)).ToList();
 
-			return Mapper.MapPatientDTOs(filtered);
+			return _mapper.Map<List<PatientDTO>>(filtered);
 		}
 
 		public async Task<List<AppointmentDTO>> GetAllabcomingAppointmentsByPatientId(Guid patientId)
@@ -65,7 +72,7 @@
 		{
 			var patient =  await _patientRepo.GetPatientWithNavProp(patientId);
 
-			return Mapper.MapAppointmentDTOs(patient.Appointments ?? []);
+			return _mapper.Map<List<AppointmentDTO>>(patient.Appointments);
 		}
 
 		public async Task<List<DoctorDTO>> GetAllDoctorsByPatientId(Guid patientId)
@@ -77,24 +84,24 @@
 			}
 			var docs = patient.DoctorPatients.Select(dp => dp.Doctor).ToList();
 
-			return Mapper.MapDoctorDTOs(docs);
+			return _mapper.Map<List<DoctorDTO>>(docs);
 		}
 
 		public async Task<List<MedicalRecordDTO>> GetAllMedicalRecordsByPatientId(Guid patientId)
 		{
 			var patient = await _patientRepo.GetPatientWithNavProp(patientId);
 
-			return Mapper.MapMedicalRecordDTOs(patient.MedicalRecords ?? []);
+			return _mapper.Map<List<MedicalRecordDTO>>(patient.MedicalRecords ?? []);
 		}
 
 		public async Task<List<PatientDTO>> GetAllPatients()
 		{
-			return Mapper.MapPatientDTOs(await _patientRepo.GetAllPatients());
+			return _mapper.Map<List<PatientDTO>>(await _patientRepo.GetAllPatients());
 		}
 
 		public async Task<PatientDTO> GetPatientById(Guid patientId)
 		{
-			return Mapper.MapPatientDTO(await _patientRepo.GetPatientById(patientId));
+			return _mapper.Map<PatientDTO>(await _patientRepo.GetPatientById(patientId));
 		}
 
 		public async Task<bool> PatientExists(Guid patientId)
@@ -117,9 +124,10 @@
 			await _patientRepo.SaveChanges();
 		}
 
-		public async Task UpdatePatientById(Guid patientId, Patient patient)
+		public async Task UpdatePatientById(Guid patientId, PatientDTO patient)
 		{
-			await _patientRepo.UpdatePatientById(patientId,patient);
+			var pat = _mapper.Map<Patient>(patient);
+			await _patientRepo.UpdatePatientById(patientId, pat);
 		}
 	}
 }
