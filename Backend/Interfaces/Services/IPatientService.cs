@@ -5,8 +5,8 @@
 		public Task<List<PatientDTO>> GetAllPatients();
 		public Task<PatientDTO> GetPatientById(Guid patientId);
 		public Task<bool> PatientExists(Guid patientId);
-		public Task AddPatient(Patient patient);
-		public Task UpdatePatientById(Guid patientId,Patient patient);
+		public Task AddPatient(PatientDTO patient);
+		public Task UpdatePatientById(Guid patientId, PatientDTO patient);
 		public Task DeletePatientById(Guid patientId);
 		public Task<List<MedicalRecordDTO>> GetAllMedicalRecordsByPatientId(Guid patientId);
 		public Task<List<AppointmentDTO>> GetAllAppointmentsByPatientId(Guid patientId);

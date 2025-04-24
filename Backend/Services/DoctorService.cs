@@ -1,20 +1,28 @@
-﻿namespace Hospital.Services
+﻿using AutoMapper;
+using Hospital.Data.DTOs;
+using Microsoft.EntityFrameworkCore;
+
+namespace Hospital.Services
 {
 	
 	public class DoctorService : IDoctorService
 	{
 		private readonly IDoctorRepo _docRepo;
-		public DoctorService(IDoctorRepo docRepo)
+		private readonly IMapper _mapper;
+        public DoctorService(IMapper mapper, IDoctorRepo docRepo)
 		{
 			_docRepo = docRepo;
-		}
+            _mapper = mapper;
+
+        }
 		public async Task<bool> DoctorExists(Guid doctorId)
 		{
 			return await _docRepo.DoctorExists(doctorId);
 		}
-		public async Task AddDoctor(Doctor doctor)
+		public async Task AddDoctor(DoctorDTO doctor)
 		{
-			await _docRepo.AddDoctor(doctor);
+			var doc = _mapper.Map<Doctor>(doctor);
+			await _docRepo.AddDoctor(doc);
 		}
 
 		public async Task DeleteDoctorById(Guid doctorId)
@@ -31,7 +39,7 @@
 											&& d.YearsOfExperience >= yearsOfExp 
 											&& d.DoctorName == name).ToList();
 			
-			return Mapper.MapDoctorDTOs(filtered);
+			return _mapper.Map<List<DoctorDTO>>(filtered);
 		}
 
 		
@@ -43,12 +51,12 @@
 			var doc = await _docRepo.GetDoctorWithNavProp(doctorId);
 	
 
-			return Mapper.MapAppointmentDTOs(doc.Appointments ?? []) ;
+			return _mapper.Map<List<AppointmentDTO>>(doc.Appointments ?? []) ;
 		}
 
 		public async Task<List<DoctorDTO>> GetAllDoctors()
 		{
-			return Mapper.MapDoctorDTOs(await _docRepo.GetAllDoctors());
+			return _mapper.Map<List<DoctorDTO>>(await _docRepo.GetAllDoctors());
 		}
 
 		public async Task<List<PatientDTO>> GetAllPatientsByDoctorId(Guid doctorId)
@@ -63,19 +71,20 @@
 
 			var patients = doctorPatients.Select(d => d.Patient).ToList(); 
 
-			return Mapper.MapPatientDTOs(patients);
+			return _mapper.Map<List<PatientDTO>>(patients);
 		}
 
 		public async Task<DoctorDTO> GetDoctorById(Guid doctorId)
 		{
 			
-			return Mapper.MapDoctorDTO(await _docRepo.GetDoctorById(doctorId));
+			return _mapper.Map<DoctorDTO>(await _docRepo.GetDoctorById(doctorId));
 		}
 
-		public async Task UpdateDoctorById(Guid doctorId, Doctor doctor)
+		public async Task UpdateDoctorById(Guid doctorId, DoctorDTO doctor)
 		{
-			
-			await _docRepo.UpdateDoctorById(doctorId, doctor);
+            var doc = _mapper.Map<Doctor>(doctor);
+
+            await _docRepo.UpdateDoctorById(doctorId, doc);
 		}
 
 
@@ -101,5 +110,6 @@
 
 			return rating.Sum()/rating.Count;
 		}
-	}
+
+    }
 }

@@ -28,7 +28,7 @@
 			return Ok(doc);
 		}
 		[HttpPost]
-		public async Task<IActionResult> AddDoctor(Doctor doctor)
+		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTO doctor)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -38,7 +38,7 @@
 			return Created();
 		}
 		[HttpPut("{doctorId}")]
-		public async Task<IActionResult> UpdateDoctorById(Guid doctorId,Doctor doctor)
+		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromForm]DoctorDTO doctor)
 		{
 			if (!ModelState.IsValid)
 			{

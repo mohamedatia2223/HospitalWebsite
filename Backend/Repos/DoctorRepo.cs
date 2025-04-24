@@ -69,5 +69,11 @@
 				.Include(d => d.Appointments)
 				.FirstOrDefaultAsync(d => d.DoctorId == doctorId);
 		}
-	}
+        public async Task<bool> IsAvailableAt(Guid doctorId, DateTime newDateTime)
+        {
+            var existingAppointment = await _context.Appointments
+                .FirstOrDefaultAsync(a => a.DoctorId == doctorId && a.AppointmentDate == newDateTime);
+            return existingAppointment == null;
+        }
+    }
 }

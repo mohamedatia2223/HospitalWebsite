@@ -10,6 +10,6 @@
 		public Task DeleteDoctorById(Guid doctorId);
 		public Task<List<Doctor>> GetDoctorsWithNavProp();
 		public Task<Doctor> GetDoctorWithNavProp(Guid doctorId);
-		
-	}
+        public Task<bool> IsAvailableAt(Guid doctorId, DateTime newDateTime);
+    }
 }

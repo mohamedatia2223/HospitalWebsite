@@ -6,7 +6,9 @@
 		public Task<Appointment> GetAppointmentById(Guid appointmentId);
 		public Task<bool> AppointmentExists(Guid appointmentId);
 		public Task AddAppointment(Appointment appointment);
-		public Task UpdateAppointmentById(Guid appointmentId);
+		public Task UpdateAppointmentById(Guid appointmentId, Appointment appointment);
 		public Task DeleteAppointmentById(Guid appointmentId);
-	}
+        Task<List<Appointment>> GetAppointmentsForToday();
+
+    }
 }
