@@ -1,8 +1,7 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
+using Hospital.Data.DTOs;
 using Hospital.Data.Models;
-using Humanizer;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Hospital.Interfaces.Services;
 
 namespace Hospital.Services
 {
@@ -12,15 +11,20 @@ namespace Hospital.Services
         private readonly IPatientRepo _patientRepo;
         private readonly IDoctorRepo _doctorRepo;
         private readonly IMapper _mapper;
-        public AppointmentService(IPatientRepo petientRepo,IMapper mapper,IDoctorRepo doctorRepo, IAppointmentRepo repo)
+
+        public AppointmentService(
+            IPatientRepo patientRepo,
+            IMapper mapper,
+            IDoctorRepo doctorRepo,
+            IAppointmentRepo repo)
         {
             _repo = repo;
             _doctorRepo = doctorRepo;
             _mapper = mapper;
-            _patientRepo = petientRepo;
+            _patientRepo = patientRepo;
         }
 
-        public async Task AddAppointment(AppointmentDTO dto)
+        public async Task AddAppointment(AppointmentDTOUpdate dto)
         {
             var patient = await _patientRepo.GetPatientById(dto.PatientId);
             var doctor = await _doctorRepo.GetDoctorById(dto.DoctorId);
@@ -28,13 +32,7 @@ namespace Hospital.Services
             if (patient == null || doctor == null)
                 throw new Exception("Doctor or Patient not found");
 
-            var appointment = new Appointment
-            {
-                AppointmentDate = dto.AppointmentDate,
-                ReasonForVisit = dto.ReasonForVisit,
-                PatientId = dto.PatientId,
-                DoctorId = dto.DoctorId,
-            };
+            var appointment = _mapper.Map<Appointment>(dto);
 
             await _repo.AddAppointment(appointment);
         }
@@ -49,47 +47,44 @@ namespace Hospital.Services
             await _repo.DeleteAppointmentById(appointmentId);
         }
 
-        public async Task<List<AppointmentDTO>> GetAllAppointments()
+        public async Task<List<AppointmentDTOGet>> GetAllAppointments()
         {
-            return _mapper.Map<List<AppointmentDTO>>(await _repo.GetAllAppointments());
+            var appointments = await _repo.GetAllAppointments();
+            return _mapper.Map<List<AppointmentDTOGet>>(appointments);
         }
 
-        public async Task<AppointmentDTO> GetAppointmentById(Guid appointmentId)
+        public async Task<AppointmentDTOGet> GetAppointmentById(Guid appointmentId)
         {
-            return _mapper.Map<AppointmentDTO>(await _repo.GetAppointmentById(appointmentId));
+            var appointment = await _repo.GetAppointmentById(appointmentId);
+            return _mapper.Map<AppointmentDTOGet>(appointment);
         }
 
-        public async Task<List<AppointmentDTO>> GetAppointmentsForToday()
+        public async Task<List<AppointmentDTOGet>> GetAppointmentsForToday()
         {
-            return _mapper.Map<List<AppointmentDTO>>(await _repo.GetAppointmentsForToday());
+            var todayAppointments = await _repo.GetAppointmentsForToday();
+            return _mapper.Map<List<AppointmentDTOGet>>(todayAppointments);
         }
 
         public async Task RescheduleAppointment(Guid appointmentId, DateTime newDateTime)
         {
             var appointment = await _repo.GetAppointmentById(appointmentId);
+            if (appointment == null)
+                throw new ArgumentException("Appointment not found");
+
             var doctorId = appointment.DoctorId;
 
-            if (appointment == null)
-            {
-                throw new ArgumentException("Appointment not found");
-            }
-
             bool isAvailable = await _doctorRepo.IsAvailableAt(doctorId, newDateTime);
-
             if (!isAvailable)
-            {
                 throw new InvalidOperationException("Doctor is not available at the new time");
-            }
 
             appointment.AppointmentDate = newDateTime;
-
             await _repo.UpdateAppointmentById(appointmentId, appointment);
         }
 
-        public async Task UpdateAppointmentById(Guid appointmentId, AppointmentDTO appointment)
+        public async Task UpdateAppointmentById(Guid appointmentId, AppointmentDTOUpdate dto)
         {
-            var app = _mapper.Map<Appointment>(appointment);
-            await _repo.UpdateAppointmentById(appointmentId, app);
+            var appointment = _mapper.Map<Appointment>(dto);
+            await _repo.UpdateAppointmentById(appointmentId, appointment);
         }
     }
 }

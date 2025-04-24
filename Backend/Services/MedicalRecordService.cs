@@ -13,7 +13,7 @@ namespace Hospital.Services
             _repo = repo;
             _mapper = mapper;
         }
-        public async Task AddMedicalRecord(MedicalRecordDTO medicalRecord)
+        public async Task AddMedicalRecord(MedicalRecordDTOUpdate medicalRecord)
         {
             var MD = _mapper.Map<MedicalRecord>(medicalRecord);
             await _repo.AddMedicalRecord(MD);
@@ -25,39 +25,39 @@ namespace Hospital.Services
             
         }
 
-        public async Task<List<MedicalRecordDTO>> GetAllMedicalRecords()
+        public async Task<List<MedicalRecordDTOGet>> GetAllMedicalRecords()
         {
             var MDs=  await _repo.GetAllMedicalRecords();
             if (!MDs.Any())
                 throw new Exception("No medical records found.");
 
-            return _mapper.Map<List<MedicalRecordDTO>>(MDs); 
+            return _mapper.Map<List<MedicalRecordDTOGet>>(MDs); 
         }
 
-        public async Task<MedicalRecordDTO> GetMedicalRecordById(Guid medicalRecordId)
+        public async Task<MedicalRecordDTOGet> GetMedicalRecordById(Guid medicalRecordId)
         {
             var MD = await _repo.GetMedicalRecordById(medicalRecordId);
             if (MD == null)
                 throw new Exception("Medical record not found.");
-            return _mapper.Map<MedicalRecordDTO>(MD);
+            return _mapper.Map<MedicalRecordDTOGet>(MD);
         }
 
-        public async Task<List<MedicalRecordDTO>> GetRecordsByDateRange(DateTime from, DateTime to)
+        public async Task<List<MedicalRecordDTOGet>> GetRecordsByDateRange(DateTime from, DateTime to)
         {
             var MDs = await _repo.GetRecordsByDateRange(from,to);
             if (!MDs.Any())
                 throw new Exception("No medical records found.");
 
-            return _mapper.Map<List<MedicalRecordDTO>>(MDs);
+            return _mapper.Map<List<MedicalRecordDTOGet>>(MDs);
         }
 
-        public async Task<List<MedicalRecordDTO>> GetRecordsByPatientId(Guid patientId)
+        public async Task<List<MedicalRecordDTOGet>> GetRecordsByPatientId(Guid patientId)
         {
             var MDs = await _repo.GetRecordsByPatientId(patientId);
             if (!MDs.Any())
                 throw new Exception("No medical records found.");
 
-            return _mapper.Map<List<MedicalRecordDTO>>(MDs);
+            return _mapper.Map<List<MedicalRecordDTOGet>>(MDs);
         }
 
         public async Task<bool> MedicalRecordExists(Guid medicalRecordId)
@@ -65,13 +65,13 @@ namespace Hospital.Services
             return await _repo.MedicalRecordExists(medicalRecordId);
         }
 
-        public async Task<List<MedicalRecordDTO>> SearchRecords(string keyword)
+        public async Task<List<MedicalRecordDTOGet>> SearchRecords(string keyword)
         {
             var Mds = await _repo.SearchRecords(keyword);
-            return _mapper.Map<List<MedicalRecordDTO>>(Mds);
+            return _mapper.Map<List<MedicalRecordDTOGet>>(Mds);
         }
 
-        public async Task UpdateMedicalRecordById(Guid medicalRecordId, MedicalRecordDTO mdeicalRecord)
+        public async Task UpdateMedicalRecordById(Guid medicalRecordId, MedicalRecordDTOUpdate mdeicalRecord)
         {
             var MD = _mapper.Map<MedicalRecord>(mdeicalRecord);
             await _repo.UpdateMedicalRecordById(medicalRecordId, MD);
