@@ -13,8 +13,9 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
 global using System.Text.RegularExpressions;
 global using AutoMapper;
-
-
-
-
-
+global using System.Security.Claims;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Text;
+global using Microsoft.IdentityModel.Tokens;
+global using HospitalApp.Helper;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;

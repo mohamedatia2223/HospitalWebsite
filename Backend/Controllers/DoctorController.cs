@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital.Controllers
 {
@@ -13,6 +13,7 @@ namespace Hospital.Controllers
 			_docService = docService;
 			_patientService = patientService;
 		}
+		[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> GetAllDoctors()
 		{

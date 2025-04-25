@@ -1,6 +1,3 @@
-
-using HospitalApp.Helper;
-
 namespace Hospital
 {
     public class Program
@@ -22,7 +19,25 @@ namespace Hospital
             builder.Services.AddScoped<IAppointmentRepo,AppointmentRepo>();
             builder.Services.AddScoped<IAppointmentService,AppointmentService>();
 
+            builder.Services.AddScoped<AuthService>();
+            
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
+
+            builder.Services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>  {
+                options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = true , 
+                    ValidateAudience = false , 
+                    ValidateIssuerSigningKey = true ,
+                    ValidateLifetime = true ,
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidAudience = builder.Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+            };
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,6 +55,7 @@ namespace Hospital
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
