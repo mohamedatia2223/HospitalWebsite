@@ -69,11 +69,25 @@
 				.Include(d => d.Appointments)
 				.FirstOrDefaultAsync(d => d.DoctorId == doctorId);
 		}
-        public async Task<bool> IsAvailableAt(Guid doctorId, DateTime newDateTime)
-        {
-            var existingAppointment = await _context.Appointments
-                .FirstOrDefaultAsync(a => a.DoctorId == doctorId && a.AppointmentDate == newDateTime);
-            return existingAppointment == null;
+        public async Task<bool> IsAvailableAt(Guid doctorId, DateTime startTime,DateTime endTime , Guid? excludeAppId = null )
+        {	
+
+			var doctor = await GetDoctorWithNavProp(doctorId);
+
+            if (doctor.Appointments == null) {
+                doctor.Appointments = [];
+            }
+			// here when reschulding an app , it also checks for the same app
+			// if the doctor is busy , so we need to exclude this app 
+            var apps = doctor.Appointments.Where(a => 
+				(excludeAppId == null || a.AppointmentId != excludeAppId) &&
+				a.AppointmentDate < endTime &&
+                a.AppointmentDate.AddHours(a.Duration) > startTime);
+
+            if (apps.Any()){ 
+                return false ;
+            }
+			return true ; 
         }
     }
 }

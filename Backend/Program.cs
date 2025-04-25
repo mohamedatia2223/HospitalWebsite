@@ -1,4 +1,6 @@
 
+using HospitalApp.Helper;
+
 namespace Hospital
 {
     public class Program
@@ -15,6 +17,13 @@ namespace Hospital
             builder.Services.AddScoped<IDoctorService,DoctorService>();
             builder.Services.AddScoped<IPatientRepo,PatientRepo>();
             builder.Services.AddScoped<IPatientService,PatientService>();
+            builder.Services.AddScoped<IMedicalRecordRepo,MedicalRecordRepo>();
+            builder.Services.AddScoped<IMedicalRecordService,MedicalRecordService>();
+            builder.Services.AddScoped<IAppointmentRepo,AppointmentRepo>();
+            builder.Services.AddScoped<IAppointmentService,AppointmentService>();
+
+            builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

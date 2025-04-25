@@ -1,8 +1,4 @@
-﻿using Hospital.Services;
-using Hospital.Data.Models;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Hospital.API.Controllers
+﻿namespace Hospital.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -25,6 +21,9 @@ namespace Hospital.API.Controllers
         [HttpGet("GetMedicalRecordById/{recordId}")]
         public async Task<IActionResult> GetMedicalRecordById(Guid recordId)
         {
+            if (!await _service.MedicalRecordExists(recordId)){
+                return NotFound("Record NOT FOUND 404") ;
+            }
             try
             {
                 var record = await _service.GetMedicalRecordById(recordId);
@@ -37,15 +36,26 @@ namespace Hospital.API.Controllers
         }
 
         [HttpPost("AddMedicalRecord")]
-        public async Task<IActionResult> AddMedicalRecord([FromForm] MedicalRecordDTO dto)
+        public async Task<IActionResult> AddMedicalRecord([FromForm] MedicalRecordDTOUpdate dto)
         {
+            if (!ModelState.IsValid)
+			{
+				return BadRequest("Invalid Input");
+			}
             await _service.AddMedicalRecord(dto);
-            return Ok();
+            return Created();
         }
 
         [HttpPut("UpdateMedicalRecordById/{id}")]
-        public async Task<IActionResult> UpdateMedicalRecordById(Guid id, [FromForm] MedicalRecordDTO dto)
+        public async Task<IActionResult> UpdateMedicalRecordById(Guid id, [FromForm] MedicalRecordDTOUpdate dto)
         {
+            if (!ModelState.IsValid)
+			{
+				return BadRequest("Invalid Input");
+			}
+            if (!await _service.MedicalRecordExists(id)){
+                return NotFound("Record NOT FOUND 404") ;
+            }
             try
             {
                 await _service.UpdateMedicalRecordById(id, dto);
@@ -60,6 +70,9 @@ namespace Hospital.API.Controllers
         [HttpDelete("DeleteMedicalRecordById/{id}")]
         public async Task<IActionResult> DeleteMedicalRecordById(Guid id)
         {
+            if (!await _service.MedicalRecordExists(id)){
+                return NotFound("Record NOT FOUND 404") ;
+            }
             await _service.DeleteMedicalRecordById(id);
             return NoContent();
         }
@@ -80,7 +93,10 @@ namespace Hospital.API.Controllers
 
         [HttpGet("by-date-range")]
         public async Task<IActionResult> GetByDateRange([FromQuery] DateTime from, [FromQuery] DateTime to)
-        {
+        {   
+            if (from > DateTime.Now || to > DateTime.Now) {
+                return BadRequest("Date can't be in the future");
+            }
             try
             {
                 var records = await _service.GetRecordsByDateRange(from, to);
@@ -95,6 +111,9 @@ namespace Hospital.API.Controllers
         [HttpGet("SearchRecords")]
         public async Task<IActionResult> SearchRecords([FromQuery] string keyword)
         {
+            if (keyword.Length < 1 ) {
+                return BadRequest("Keyword input not valid");
+            }
             var records = await _service.SearchRecords(keyword);
             return Ok(records);
         }

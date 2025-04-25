@@ -5,7 +5,6 @@
         public Guid PatientId { get; set; } = Guid.NewGuid();
 		public string? PatientName { get; set; }
 		public string? Email { get; set; }
-        public required string Password { get; set; }
         public DateTime DateOfBirth { get; set; }
 		public string? ContactInfo { get; set; }
 		public string? Address { get; set; }

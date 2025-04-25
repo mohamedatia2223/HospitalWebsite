@@ -11,8 +11,8 @@ global using Hospital.Services;
 global using Hospital.Data.DTOs;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
-global using Hospital.Utils;
 global using System.Text.RegularExpressions;
+global using AutoMapper;
 
 
 

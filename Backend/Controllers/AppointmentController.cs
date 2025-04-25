@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Hospital.Controllers
+﻿namespace Hospital.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,10 +13,7 @@ namespace Hospital.Controllers
         public async Task<IActionResult> GetAllAppointments()
         {
            var apps = await _appointmentService.GetAllAppointments();
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid Input");
-            }
+            
             return Ok(apps);
         }
         [HttpGet("GetAppointmentsForToday")]
@@ -33,23 +27,26 @@ namespace Hospital.Controllers
             return Ok(apps);
         }
         [HttpPost("AddAppointment")]
-        public async Task<IActionResult> AddAppointment([FromForm]AppointmentDTO appointment)
+        public async Task<IActionResult> AddAppointment([FromForm]AppointmentDTOUpdate appointment)
         {
             await _appointmentService.AddAppointment(appointment);
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid Input");
             }
-            return Ok();
+            return Created();
 
         }
         [HttpPut("UpdateAppointmentById")]
-        public async Task<IActionResult> UpdateAppointmentById(Guid appointmentId,[FromForm] AppointmentDTO appointment)
+        public async Task<IActionResult> UpdateAppointmentById(Guid appointmentId,[FromForm] AppointmentDTOUpdate appointment)
         {  
             await _appointmentService.UpdateAppointmentById(appointmentId, appointment);
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid Input");
+            }
+            if (! await _appointmentService.AppointmentExists(appointmentId)){
+                return NotFound("Appointment NOT FOUND 404");
             }
             return Ok();
         }
@@ -57,9 +54,9 @@ namespace Hospital.Controllers
         public async Task<IActionResult> DeleteAppointment(Guid appointmentId)
         {
             await _appointmentService.DeleteAppointmentById(appointmentId);
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid Input");
+            
+            if (! await _appointmentService.AppointmentExists(appointmentId)){
+                return NotFound("Appointment NOT FOUND 404");
             }
             return Ok();
         }
@@ -71,17 +68,26 @@ namespace Hospital.Controllers
             {
                 return BadRequest("Invalid Input");
             }
+            if (! await _appointmentService.AppointmentExists(appointmentId)){
+                return NotFound("Appointment NOT FOUND 404");
+            }
             return Ok(app);
         }
         [HttpPut("RescheduleAppointment")]
-        public async Task<IActionResult> RescheduleAppointment(Guid appointmentId, DateTime newDateTime)
+        public async Task<IActionResult> RescheduleAppointment(Guid appointmentId, DateTime startTime,int Duration)
         {
-            await _appointmentService.RescheduleAppointment(appointmentId, newDateTime);
+            await _appointmentService.RescheduleAppointment(appointmentId, startTime,Duration);
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid Input");
             }
-            return Ok();
+            if (! await _appointmentService.AppointmentExists(appointmentId)){
+                return NotFound("Appointment NOT FOUND 404");
+            }
+            if (startTime < DateTime.Now) {
+                return BadRequest("You can't set the date in the past");
+            }
+            return NoContent();
         }
     }
 }

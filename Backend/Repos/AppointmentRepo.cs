@@ -54,6 +54,10 @@ namespace Hospital.Repos
                 .Where(a => DateOnly.FromDateTime(a.AppointmentDate) == today) 
                 .ToListAsync();
         }
-
+        public async Task SaveChanges()
+        {
+            
+            await _context.SaveChangesAsync();
+        }
     }
 }

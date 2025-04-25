@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using Hospital.Data.DTOs;
-
-using Hospital.Interfaces.Services;
-
-namespace Hospital.Services
+﻿namespace Hospital.Services
 {
     public class DoctorService : IDoctorService
     {
@@ -48,6 +43,12 @@ namespace Hospital.Services
         {
             var doc = await _docRepo.GetDoctorWithNavProp(doctorId);
             return _mapper.Map<List<AppointmentDTOGet>>(doc.Appointments ?? []);
+        }
+        public async Task<List<AppointmentDTOGet>> GetAllUpcomingAppointmentsByDoctorId(Guid doctorId)
+        {
+            var apps = await GetAllAppointmentsByDoctorId(doctorId);
+            
+            return apps.Where( a => a.AppointmentDate > DateTime.Now).ToList();
         }
 
         public async Task<List<DoctorDTOGet>> GetAllDoctors()
@@ -97,6 +98,24 @@ namespace Hospital.Services
             if (rating.Count == 0) return 0;
 
             return rating.Sum() / rating.Count;
+        }
+        public async Task<double> GetProfit(Guid doctorId, DateTime date)
+        {
+            var doc = await _docRepo.GetDoctorWithNavProp(doctorId) ;             
+            var apps = doc.Appointments ; 
+            if (apps == null) {
+                apps = [];
+            }
+
+            var filteredApps = apps.Where(app => app.AppointmentDate <= date).ToList();
+
+            double profit =  0 ; 
+            foreach (var app in filteredApps)
+            {
+                profit += app.Duration * doc.HourlyPay ;
+            }
+            
+            return profit ; 
         }
     }
 }

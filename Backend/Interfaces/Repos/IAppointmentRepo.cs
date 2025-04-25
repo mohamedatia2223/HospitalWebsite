@@ -8,7 +8,8 @@
 		public Task AddAppointment(Appointment appointment);
 		public Task UpdateAppointmentById(Guid appointmentId, Appointment appointment);
 		public Task DeleteAppointmentById(Guid appointmentId);
-        Task<List<Appointment>> GetAppointmentsForToday();
+        public Task<List<Appointment>> GetAppointmentsForToday();
+        public Task SaveChanges();
 
     }
 }

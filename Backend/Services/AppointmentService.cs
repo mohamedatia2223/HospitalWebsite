@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using Hospital.Data.DTOs;
-using Hospital.Data.Models;
-using Hospital.Interfaces.Services;
-
-namespace Hospital.Services
+﻿namespace Hospital.Services
 {
     public class AppointmentService : IAppointmentService
     {
@@ -32,6 +27,14 @@ namespace Hospital.Services
             if (patient == null || doctor == null)
                 throw new Exception("Doctor or Patient not found");
 
+            var startTime = dto.AppointmentDate ; 
+            var endTime = startTime.AddHours(dto.Duration) ; 
+            
+            var available = await _doctorRepo.IsAvailableAt(dto.DoctorId,startTime,endTime);
+            
+            if (!available) { 
+                throw new Exception("doctor busy");
+            }
             var appointment = _mapper.Map<Appointment>(dto);
 
             await _repo.AddAppointment(appointment);
@@ -65,20 +68,29 @@ namespace Hospital.Services
             return _mapper.Map<List<AppointmentDTOGet>>(todayAppointments);
         }
 
-        public async Task RescheduleAppointment(Guid appointmentId, DateTime newDateTime)
+        public async Task RescheduleAppointment(Guid appointmentId, DateTime newDateTime , int Duration)
         {
             var appointment = await _repo.GetAppointmentById(appointmentId);
+            
             if (appointment == null)
                 throw new ArgumentException("Appointment not found");
 
             var doctorId = appointment.DoctorId;
 
-            bool isAvailable = await _doctorRepo.IsAvailableAt(doctorId, newDateTime);
-            if (!isAvailable)
+            if (doctorId == null ) {
+                throw new InvalidOperationException("Doctor ID null");
+            }
+
+            bool available = await _doctorRepo.IsAvailableAt(
+                doctorId.Value, newDateTime , newDateTime.AddHours(Duration) ,appointmentId);
+            if (!available)
                 throw new InvalidOperationException("Doctor is not available at the new time");
 
             appointment.AppointmentDate = newDateTime;
-            await _repo.UpdateAppointmentById(appointmentId, appointment);
+            appointment.Duration = Duration;
+
+            await _repo.SaveChanges();
+
         }
 
         public async Task UpdateAppointmentById(Guid appointmentId, AppointmentDTOUpdate dto)

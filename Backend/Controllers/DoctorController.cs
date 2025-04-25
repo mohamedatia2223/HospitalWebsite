@@ -1,4 +1,6 @@
-﻿namespace Hospital.Controllers
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace Hospital.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
@@ -28,7 +30,7 @@
 			return Ok(doc);
 		}
 		[HttpPost]
-		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTO doctor)
+		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -38,7 +40,7 @@
 			return Created();
 		}
 		[HttpPut("{doctorId}")]
-		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromForm]DoctorDTO doctor)
+		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromForm]DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -73,6 +75,15 @@
 		[HttpGet("filter")]
 		public async Task<IActionResult> FilterDoctors(string specialty,int minYears,string name)
 		{
+			if (minYears < 1 ) {
+				return BadRequest("MinYears has to be atleast 1 ");
+			}
+			if (specialty.IsNullOrEmpty()) {
+				return BadRequest("specialty input not valid");
+			}
+			if (name.IsNullOrEmpty()) {
+				return BadRequest("name input not valid");
+			}
 			var docs = await _docService.FilterDoctors(specialty,minYears,name);
 			return Ok(docs);
 		}
@@ -87,6 +98,17 @@
 			var appointments = await _docService.GetAllAppointmentsByDoctorId(doctorId);
 			return Ok(appointments);
 		}
+		[HttpGet("{doctorId}/upcomingAppointments")]
+		public async Task<IActionResult> GetUpcomingAppointmentsByDoctorId(Guid doctorId)
+		{
+			if (!await _docService.DoctorExists(doctorId))
+			{
+				return NotFound("Doctor Not Found");
+			}
+			var appointments = await _docService.GetAllUpcomingAppointmentsByDoctorId(doctorId);
+
+			return Ok(appointments);
+		}
 		[HttpGet("{doctorId}/rating")]
 		public async Task<IActionResult> GetAverageDoctorRating(Guid doctorId)
 		{
@@ -95,8 +117,27 @@
 			{
 				return NotFound("Doctor Not Found");
 			}
+			
 			var rating = await _docService.GetAverageDoctorRating(doctorId);
 			return Ok(rating);
+		}
+		[HttpGet("{doctorId}/profit")]
+		public async Task<IActionResult> GetDoctorSalary(Guid doctorId, DateTime? date = null)
+		{	
+			if (date == null) {
+				date = DateTime.Now;
+			}
+			if (!await _docService.DoctorExists(doctorId))
+			{
+				return NotFound("Doctor Not Found");
+			}
+			if (date > DateTime.Now)
+			{
+				return BadRequest("Date cannot be in the future.");
+			}
+
+			var profit = await _docService.GetProfit(doctorId,date.Value);
+			return Ok(profit);
 		}
 		[HttpGet("{doctorId}/rating/{patientId}")]
 		public async Task<IActionResult> GetDoctorRatingByPatientId(Guid doctorId,Guid patientId)
@@ -109,7 +150,7 @@
 			{
 				return NotFound("Doctor Not Found");
 			}
-			// make it so it validates if it's assigned to a doctor or not 
+			
 			var rating = await _docService.GetDoctorRatingByPatientId(doctorId,patientId);
 			return Ok(rating);
 		}

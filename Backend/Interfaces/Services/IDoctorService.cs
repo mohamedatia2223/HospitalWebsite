@@ -13,6 +13,8 @@
 		public Task<List<AppointmentDTOGet>> GetAllAppointmentsByDoctorId(Guid doctorId);
 		public Task<int?> GetDoctorRatingByPatientId(Guid doctorId, Guid patientId);
 		public Task<float?> GetAverageDoctorRating(Guid doctorId);
+		Task<List<AppointmentDTOGet>> GetAllUpcomingAppointmentsByDoctorId(Guid doctorId);
+		Task<double> GetProfit(Guid doctorId, DateTime date);
 
     }
 }

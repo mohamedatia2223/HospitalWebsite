@@ -19,7 +19,7 @@
 			return Ok(patients);
 		}
 		[HttpGet("{patientId}")]
-		public async Task<IActionResult> GetAllPatients(Guid patientId)
+		public async Task<IActionResult> GetPatientById(Guid patientId)
 		{
 			if (!await _patientService.PatientExists(patientId)) {
 				return NotFound("Patient Not Found");
@@ -60,6 +60,9 @@
 		[HttpGet("filter")]
 		public async Task<IActionResult> FilterPatients(string name)
 		{	
+			if (name.Length < 1) {
+				return BadRequest("name input not Valid");
+			}
 			var patients = await _patientService.FilterPatientsByName(name);
 			return Ok(patients);
 		}
@@ -80,7 +83,7 @@
 			return NoContent();
 		}
 		[HttpPost]
-		public async Task<IActionResult> AddPatient([FromForm] PatientDTO patient)
+		public async Task<IActionResult> AddPatient([FromForm] PatientDTOUpdate patient)
 		{
 
 			if (!ModelState.IsValid) 
@@ -93,7 +96,7 @@
 			return Created();
 		}
 		[HttpPut]
-		public async Task<IActionResult> UpdatePatient(Guid patientId,[FromForm] PatientDTO patient)
+		public async Task<IActionResult> UpdatePatient(Guid patientId,[FromForm] PatientDTOUpdate patient)
 		{
 
 			if (!ModelState.IsValid)

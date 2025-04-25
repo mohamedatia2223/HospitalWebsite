@@ -1,8 +1,4 @@
-﻿
-using AutoMapper;
-using Hospital.Data.Models;
-
-namespace Hospital.Services
+﻿namespace Hospital.Services
 {
     public class MedicalRecordService : IMedicalRecordService
     {
