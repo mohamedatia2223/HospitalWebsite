@@ -24,12 +24,17 @@ it has 4 Different Models
     "AllowedHosts": "*",
     "ConnectionStrings": {
         "DefaultConnection": "yourconnectionstring"
+    }, 
+    "JWT" : { 
+      "Issuer" : "yourissuer" ,
+      "Audience" : "youraudience" ,
+      "Key" : "yoursecretkey"
     }
 }
 
 ```
 
-> don't forget to replace `"yourconnectionstring"` with an actual connection string
+> don't forget to replace `"yourconnectionstring"` with an actual connection string , and the other JWT issuer,audience,key values with your own 
 
 2. run `dontnet restore` to install all dependancies 
 
