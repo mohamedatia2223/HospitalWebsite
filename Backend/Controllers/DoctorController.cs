@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
-namespace Hospital.Controllers
+﻿namespace Hospital.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class DoctorController : ControllerBase
 	{
 		private readonly IDoctorService _docService;
@@ -13,7 +12,6 @@ namespace Hospital.Controllers
 			_docService = docService;
 			_patientService = patientService;
 		}
-		[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> GetAllDoctors()
 		{
@@ -30,6 +28,7 @@ namespace Hospital.Controllers
 			var doc = await _docService.GetDoctorById(doctorId);
 			return Ok(doc);
 		}
+		[Authorize(Roles="Admin")]
 		[HttpPost]
 		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTOUpdate doctor)
 		{
@@ -40,6 +39,7 @@ namespace Hospital.Controllers
 			await _docService.AddDoctor(doctor);
 			return Created();
 		}
+		[Authorize(Roles="Admin")]
 		[HttpPut("{doctorId}")]
 		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromForm]DoctorDTOUpdate doctor)
 		{
@@ -53,6 +53,7 @@ namespace Hospital.Controllers
 			await _docService.UpdateDoctorById(doctorId,doctor);
 			return NoContent();
 		}
+		[Authorize(Roles="Admin")]
 		[HttpDelete("{doctorId}")]
 		public async Task<IActionResult> DeleteDoctorById(Guid doctorId)
 		{
@@ -79,10 +80,10 @@ namespace Hospital.Controllers
 			if (minYears < 1 ) {
 				return BadRequest("MinYears has to be atleast 1 ");
 			}
-			if (specialty.IsNullOrEmpty()) {
+			if (string.IsNullOrEmpty(specialty)) {
 				return BadRequest("specialty input not valid");
 			}
-			if (name.IsNullOrEmpty()) {
+			if (string.IsNullOrEmpty(name)) {
 				return BadRequest("name input not valid");
 			}
 			var docs = await _docService.FilterDoctors(specialty,minYears,name);
@@ -122,7 +123,8 @@ namespace Hospital.Controllers
 			var rating = await _docService.GetAverageDoctorRating(doctorId);
 			return Ok(rating);
 		}
-		[HttpGet("{doctorId}/profit")]
+		[Authorize(Roles = "Doctor,Admin")]
+		[HttpGet("{doctorId}/profit/{date}")]
 		public async Task<IActionResult> GetDoctorSalary(Guid doctorId, DateTime? date = null)
 		{	
 			if (date == null) {

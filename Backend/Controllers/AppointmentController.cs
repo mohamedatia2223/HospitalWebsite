@@ -2,6 +2,7 @@
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
@@ -16,7 +17,7 @@
             
             return Ok(apps);
         }
-        [HttpGet("GetAppointmentsForToday")]
+        [HttpGet("Today")]
         public async Task<IActionResult> GetAppointmentsForToday()
         {
             var apps = await _appointmentService.GetAppointmentsForToday();
@@ -37,7 +38,7 @@
             return Created();
 
         }
-        [HttpPut("UpdateAppointmentById")]
+        [HttpPut("{appointmentId}")]
         public async Task<IActionResult> UpdateAppointmentById(Guid appointmentId,[FromForm] AppointmentDTOUpdate appointment)
         {  
             await _appointmentService.UpdateAppointmentById(appointmentId, appointment);
@@ -50,7 +51,7 @@
             }
             return Ok();
         }
-        [HttpDelete("")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteAppointment(Guid appointmentId)
         {
             await _appointmentService.DeleteAppointmentById(appointmentId);
@@ -60,7 +61,7 @@
             }
             return Ok();
         }
-        [HttpGet("GetAppointmentById")]
+        [HttpGet("{appointmentId}")]
         public async Task<IActionResult> GetAppointmentById(Guid appointmentId)
         {
             var app = await _appointmentService.GetAppointmentById(appointmentId);
@@ -73,7 +74,7 @@
             }
             return Ok(app);
         }
-        [HttpPut("RescheduleAppointment")]
+        [HttpPut("{appointmentId}/Reschedule")]
         public async Task<IActionResult> RescheduleAppointment(Guid appointmentId, DateTime startTime,int Duration)
         {
             await _appointmentService.RescheduleAppointment(appointmentId, startTime,Duration);

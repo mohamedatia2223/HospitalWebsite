@@ -2,6 +2,7 @@
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MedicalRecordController : ControllerBase
     {
         private readonly IMedicalRecordService _service;
@@ -18,7 +19,7 @@
             return Ok(records);
         }
 
-        [HttpGet("GetMedicalRecordById/{recordId}")]
+        [HttpGet("{recordId}")]
         public async Task<IActionResult> GetMedicalRecordById(Guid recordId)
         {
             if (!await _service.MedicalRecordExists(recordId)){
@@ -34,7 +35,7 @@
                 return NotFound(ex.Message);
             }
         }
-
+        [Authorize(Roles = "Doctor,Admin")]        
         [HttpPost("AddMedicalRecord")]
         public async Task<IActionResult> AddMedicalRecord([FromForm] MedicalRecordDTOUpdate dto)
         {
@@ -46,7 +47,8 @@
             return Created();
         }
 
-        [HttpPut("UpdateMedicalRecordById/{id}")]
+        [Authorize(Roles = "Doctor,Admin")]        
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMedicalRecordById(Guid id, [FromForm] MedicalRecordDTOUpdate dto)
         {
             if (!ModelState.IsValid)
@@ -67,7 +69,8 @@
             }
         }
 
-        [HttpDelete("DeleteMedicalRecordById/{id}")]
+        [Authorize(Roles = "Admin")]        
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMedicalRecordById(Guid id)
         {
             if (!await _service.MedicalRecordExists(id)){
@@ -108,8 +111,8 @@
             }
         }
 
-        [HttpGet("SearchRecords")]
-        public async Task<IActionResult> SearchRecords([FromQuery] string keyword)
+        [HttpGet("SearchRecords/{keyword}")]
+        public async Task<IActionResult> SearchRecords(string keyword)
         {
             if (keyword.Length < 1 ) {
                 return BadRequest("Keyword input not valid");

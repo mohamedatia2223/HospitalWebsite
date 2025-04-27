@@ -19,3 +19,4 @@ global using System.Text;
 global using Microsoft.IdentityModel.Tokens;
 global using HospitalApp.Helper;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
