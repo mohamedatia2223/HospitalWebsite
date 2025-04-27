@@ -84,6 +84,7 @@
 			return NoContent();
 		}
 		[HttpPost]
+		[AllowAnonymous]
 		public async Task<IActionResult> AddPatient([FromForm] PatientDTOUpdate patient)
 		{
 
