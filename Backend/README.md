@@ -4,8 +4,8 @@ this is the API
 it's a RESTful API with layered archticture 
 
 
-Controller ? Service ? Repo ? DB
-Controller ? DTO ? Service ? Entity ? Repo
+Controller → Service → Repo → DB
+Controller ← DTO ← Service ← Entity ← Repo
 
 
 it has 4 Different Models 
