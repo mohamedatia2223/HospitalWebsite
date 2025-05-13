@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Chat Assistant - MEDora</title>
+  <meta name="keywords" content="MEDora, healthcare, modern, solutions, services, health, active, modern healthcare solutions provider, stay healthy and active">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: system)">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="google-site-verification" content="your-verification-code">
+    <meta name="google-site-verification" content="your-verification-code">
+  <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: "#1CB5BD", secondary: "#64b5f6" },
+          borderRadius: {
+            none: "0px",
+            sm: "4px",
+            DEFAULT: "8px",
+            md: "12px",
+            lg: "16px",
+            xl: "20px",
+            "2xl": "24px",
+            "3xl": "32px",
+            full: "9999px",
+            button: "8px",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .h-full {
+      height: calc(100% - 40px) !important;
+    }
+
+    .chat-container {
+      height: calc(100vh - 180px);
+      max-height: none;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 768px) {
+      .chat-container {
+        height: calc(100vh - 140px);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .chat-container {
+        height: calc(100vh - 200px);
+        max-height: 800px;
+      }
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .chat-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .chat-container {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    .message {
+      max-width: 85%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 640px) {
+      .message {
+        max-width: 95%;
+        padding: 0.75rem;
+        gap: 0.5rem;
+      }
+    }
+
+    .user-message {
+      background-color: #f3f4f6;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+      flex-direction: row-reverse;
+    }
+
+    .bot-message {
+      background-color: #e6f7ff;
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+
+    .message-content {
+      flex: 1;
+    }
+
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 640px) {
+      .message-avatar {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .user-avatar {
+      background-color: #1CB5BD;
+      color: white;
+    }
+
+    .bot-avatar {
+      background-color: #e6f7ff;
+      color: #1CB5BD;
+    }
+
+    .message-time {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+      text-align: right;
+    }
+
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background-color: #e6f7ff;
+      border-radius: 1rem;
+      width: fit-content;
+      margin-bottom: 1.5rem;
+      border-bottom-left-radius: 0;
+    }
+
+    @media (max-width: 640px) {
+      .typing-indicator {
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #1CB5BD;
+      border-radius: 50%;
+      animation: typing 1s infinite;
+    }
+
+    @media (max-width: 640px) {
+      .typing-dot {
+        width: 6px;
+        height: 6px;
+      }
+    }
+
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .suggestions {
+        gap: 0.25rem;
+      }
+    }
+
+    .suggestion {
+      padding: 0.5rem 1rem;
+      background-color: #f3f4f6;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 640px) {
+      .suggestion {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    .suggestion:hover {
+      background-color: #e5e7eb;
+    }
+
+    /* Chat Input Styles */
+    #chat-form {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 640px) {
+      #chat-form {
+        padding: 0.25rem;
+        gap: 0.25rem;
+      }
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 640px) {
+      #message-input {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    #chat-form button {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #1CB5BD;
+      color: white;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 640px) {
+      #chat-form button {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    #chat-form button:hover {
+      background-color: #1a9fa6;
+    }
+
+    /* Navbar Responsive Styles */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.5rem;
+      }
+
+      .navbar-brand {
+        font-size: 1.25rem;
+      }
+
+      .close-button {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    /* Chat Header Responsive Styles */
+    @media (max-width: 640px) {
+      .chat-header {
+        padding: 0.75rem;
+      }
+
+      .chat-header h2 {
+        font-size: 1.125rem;
+      }
+
+      .chat-header p {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Chat Interface Container */
+    .chat-interface {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      flex-shrink: 0;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .chat-input {
+      flex-shrink: 0;
+    }
+
+    /* Ensure the main container takes full height */
+    main {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Adjust the chat wrapper */
+    .chat-wrapper {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="home.html" class="flex-shrink-0 flex items-center">
+            <i class="ri-stethoscope-line ri-2x text-primary mr-2"></i>
+            <span class="text-primary text-2xl font-['Pacifico']">MEDora</span>
+          </a>
+        </div>
+        <div class="flex items-center">
+          <button id="close-chat" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+            <i class="ri-close-line ri-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Chat Interface -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 h-full">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden h-full chat-wrapper">
+      <!-- Chat Header -->
+      <div class="p-4 border-b border-gray-200 chat-header">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-3">
+            <i class="ri-customer-service-2-line ri-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-gray-900">AI Chat Assistant</h2>
+            <p class="text-sm text-gray-500">How can I help you today?</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Messages -->
+      <div class="chat-container p-4 chat-messages">
+        <div class="bot-message">
+          <div class="message-avatar bot-avatar">
+            <i class="ri-robot-2-line"></i>
+          </div>
+          <div class="message-content">
+            <p>Hello! I'm your AI healthcare assistant. I can help you with:</p>
+            <div class="suggestions">
+              <div class="suggestion">Find a doctor</div>
+              <div class="suggestion">Book an appointment</div>
+              <div class="suggestion">Medical advice</div>
+              <div class="suggestion">Hospital services</div>
+            </div>
+            <div class="message-time">Just now</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="p-4 border-t border-gray-200 chat-input">
+        <form id="chat-form" class="flex items-center gap-2">
+          <input type="text" id="message-input" placeholder="Type your message..."
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-primary" />
+          <button type="submit"
+            class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/90 transition duration-300">
+            <i class="ri-send-plane-fill"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const chatForm = document.getElementById('chat-form');
+      const messageInput = document.getElementById('message-input');
+      const chatContainer = document.querySelector('.chat-container');
+      const closeButton = document.getElementById('close-chat');
+      const suggestions = document.querySelectorAll('.suggestion');
+
+      // Load saved messages from localStorage
+      function loadMessages() {
+        const savedMessages = localStorage.getItem('chatMessages');
+        if (savedMessages) {
+          chatContainer.innerHTML = savedMessages;
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+      }
+
+      // Save messages to localStorage
+      function saveMessages() {
+        localStorage.setItem('chatMessages', chatContainer.innerHTML);
+      }
+
+      // Clear chat history
+      function clearChat() {
+        chatContainer.innerHTML = '';
+        localStorage.removeItem('chatMessages');
+        // Add initial bot message
+        const initialMessage = `
+          <div class="bot-message">
+            <div class="message-avatar bot-avatar">
+              <i class="ri-robot-2-line"></i>
+            </div>
+            <div class="message-content">
+              <p>Hello! I'm your AI healthcare assistant. I can help you with:</p>
+              <div class="suggestions">
+                <div class="suggestion">Find a doctor</div>
+                <div class="suggestion">Book an appointment</div>
+                <div class="suggestion">Medical advice</div>
+                <div class="suggestion">Hospital services</div>
+              </div>
+              <div class="message-time">Just now</div>
+            </div>
+          </div>
+        `;
+        chatContainer.innerHTML = initialMessage;
+        saveMessages();
+      }
+
+      // Handle suggestion clicks
+      suggestions.forEach(suggestion => {
+        suggestion.addEventListener('click', function() {
+          const message = this.textContent;
+          addUserMessage(message);
+          simulateBotResponse(message);
+        });
+      });
+
+      // Handle form submission
+      chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (message) {
+          addUserMessage(message);
+          simulateBotResponse(message);
+          messageInput.value = '';
+        }
+      });
+
+      // Close chat and return to previous page
+      closeButton.addEventListener('click', function() {
+        window.history.back();
+      });
+
+      // Add user message to chat
+      function addUserMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message user-message';
+        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        messageDiv.innerHTML = `
+          <div class="message-avatar user-avatar">
+            <i class="ri-user-line"></i>
+          </div>
+          <div class="message-content">
+            <p>${message}</p>
+            <div class="message-time">${currentTime}</div>
+          </div>
+        `;
+        chatContainer.appendChild(messageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        saveMessages();
+      }
+
+      // Get appropriate bot response
+      function getBotResponse(userMessage) {
+        const lowerMessage = userMessage.toLowerCase();
+        
+        // Medical and Healthcare Related
+        if (lowerMessage.includes('doctor') || lowerMessage.includes('find')) {
+          return 'I can help you find a doctor. We have specialists in various fields including cardiology, neurology, pediatrics, and more. Would you like to search by specialty or location?';
+        } else if (lowerMessage.includes('appointment') || lowerMessage.includes('book')) {
+          return 'To book an appointment, you can:\n1. Call our scheduling department at (555) 123-4567\n2. Use our online booking system\n3. Visit our "Book Appointment" page\nWhich method would you prefer?';
+        } else if (lowerMessage.includes('service') || lowerMessage.includes('hospital')) {
+          return 'MEDora Hospital offers comprehensive services including:\n• Emergency Care\n• Specialized Treatments\n• Outpatient Services\n• Diagnostic Imaging\n• Rehabilitation Services\n• Maternity Care\nWhich service would you like to know more about?';
+        } else if (lowerMessage.includes('advice') || lowerMessage.includes('medical')) {
+          return 'I can provide general medical information, but for specific medical advice, please consult with a healthcare professional. What general information would you like to know?';
+        } else if (lowerMessage.includes('emergency') || lowerMessage.includes('urgent')) {
+          return 'For medical emergencies, please call 911 immediately. For urgent but non-emergency care, our emergency department is open 24/7 at 123 Healthcare Avenue. Would you like directions or more information?';
+        } else if (lowerMessage.includes('insurance') || lowerMessage.includes('payment')) {
+          return 'We accept most major insurance plans. You can verify your coverage by:\n1. Calling our billing department at (555) 123-4567\n2. Visiting our "Insurance & Billing" page\n3. Contacting your insurance provider\nWould you like more specific information about your insurance coverage?';
+        } else if (lowerMessage.includes('visiting') || lowerMessage.includes('hours')) {
+          return 'Our visiting hours are:\n• General Wards: 10:00 AM - 8:00 PM\n• ICU: 11:00 AM - 7:00 PM\n• Emergency Department: 24/7\nWould you like information about parking or visitor guidelines?';
+        } else if (lowerMessage.includes('test') || lowerMessage.includes('result')) {
+          return 'Test results are typically available within 24-48 hours. You can access them through:\n1. Our patient portal\n2. Your primary care physician\n3. Our medical records department\nWould you like help accessing your results?';
+        } else if (lowerMessage.includes('prescription') || lowerMessage.includes('medication')) {
+          return 'For prescription refills, you can:\n1. Contact your doctor directly\n2. Use our online prescription portal\n3. Call our pharmacy at (555) 123-4567\nWould you like more information about any of these options?';
+        } else if (lowerMessage.includes('covid') || lowerMessage.includes('coronavirus')) {
+          return 'For COVID-19 related information:\n• Testing is available at our drive-through testing center\n• Vaccination appointments can be scheduled online\n• Current safety protocols are in place\nWould you like specific information about any of these services?';
+        } else if (lowerMessage.includes('clear') || lowerMessage.includes('reset')) {
+          clearChat();
+          return 'Chat history has been cleared. How can I help you today?';
+        } else if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
+          return 'You\'re welcome! Is there anything else I can help you with?';
+        } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+          return 'Hello! I\'m your AI healthcare assistant. How can I help you today?';
+        } else if (lowerMessage.includes('bye') || lowerMessage.includes('goodbye')) {
+          return 'Goodbye! Feel free to return if you have any more questions. Take care!';
+        } else {
+          return 'I\'m here to help with your healthcare needs. Could you please provide more details about what you\'re looking for? I can assist with:\n• Finding doctors\n• Booking appointments\n• Hospital services\n• Medical information\n• Insurance questions\n• And more!';
+        }
+      }
+
+      // Simulate bot response with typing effect
+      function simulateBotResponse(userMessage) {
+        // Show typing indicator
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'typing-indicator';
+        typingIndicator.innerHTML = `
+          <div class="message-avatar bot-avatar">
+            <i class="ri-robot-2-line"></i>
+          </div>
+          <div class="message-content">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        `;
+        chatContainer.appendChild(typingIndicator);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        saveMessages();
+
+        // Simulate thinking time based on message length
+        const thinkingTime = Math.min(1500 + (userMessage.length * 20), 3000);
+
+        // Remove typing indicator and add bot response after delay
+        setTimeout(() => {
+          typingIndicator.remove();
+          const botResponse = getBotResponse(userMessage);
+          const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'message bot-message';
+          messageDiv.innerHTML = `
+            <div class="message-avatar bot-avatar">
+              <i class="ri-robot-2-line"></i>
+            </div>
+            <div class="message-content">
+              <p>${botResponse.replace(/\n/g, '<br>')}</p>
+              <div class="message-time">${currentTime}</div>
+            </div>
+          `;
+          chatContainer.appendChild(messageDiv);
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+          saveMessages();
+        }, thinkingTime);
+      }
+
+      // Load messages when page loads
+      loadMessages();
+    });
+  </script>
+</body>
+
+</html>
+
+
+<!-- <iframe
+    src="https://www.chatbase.co/chatbot-iframe/-k3NnLr2o8oJpPnD_5vpi"
+    width="100%"
+    style="height: 100%; min-height: 700px"
+    frameborder="0"
+></iframe>
