@@ -59,7 +59,7 @@
 			return Ok(appointments);
 		}
 		[HttpGet("filter")]
-		public async Task<IActionResult> FilterPatients(string name)
+		public async Task<IActionResult> FilterPatients([FromQuery]string name)
 		{	
 			if (name.Length < 1) {
 				return BadRequest("name input not Valid");
@@ -85,7 +85,7 @@
 		}
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<IActionResult> AddPatient([FromForm] PatientDTOUpdate patient)
+		public async Task<IActionResult> AddPatient([FromBody] PatientDTOUpdate patient)
 		{
 
 			if (!ModelState.IsValid) 
@@ -141,7 +141,7 @@
 			return Ok(docs);
 		}
 		[HttpPost("{patientId}/rateDoctor/{doctorId}")]
-		public async Task<IActionResult> RateDoctor(Guid patientId,Guid doctorId, int rating)
+		public async Task<IActionResult> RateDoctor(Guid patientId,Guid doctorId,[FromQuery] int rating)
 		{
 
 			if (!await _patientService.PatientExists(patientId))

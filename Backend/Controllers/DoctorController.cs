@@ -30,7 +30,7 @@
 		}
 		[Authorize(Roles="Admin")]
 		[HttpPost]
-		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTOUpdate doctor)
+		public async Task<IActionResult> AddDoctor([FromBody]DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -41,7 +41,7 @@
 		}
 		[Authorize(Roles="Admin")]
 		[HttpPut("{doctorId}")]
-		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromForm]DoctorDTOUpdate doctor)
+		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromBody]DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -75,7 +75,7 @@
 			return Ok(patients);
 		}
 		[HttpGet("filter")]
-		public async Task<IActionResult> FilterDoctors(string specialty,int minYears,string name)
+		public async Task<IActionResult> FilterDoctors([FromQuery]string specialty,[FromQuery]int minYears,[FromQuery]string name)
 		{
 			if (minYears < 1 ) {
 				return BadRequest("MinYears has to be atleast 1 ");

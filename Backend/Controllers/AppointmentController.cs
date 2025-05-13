@@ -27,8 +27,8 @@
             }
             return Ok(apps);
         }
-        [HttpPost("AddAppointment")]
-        public async Task<IActionResult> AddAppointment([FromForm]AppointmentDTOUpdate appointment)
+        [HttpPost]
+        public async Task<IActionResult> AddAppointment([FromBody]AppointmentDTOUpdate appointment)
         {
             await _appointmentService.AddAppointment(appointment);
             if (!ModelState.IsValid)
@@ -39,7 +39,7 @@
 
         }
         [HttpPut("{appointmentId}")]
-        public async Task<IActionResult> UpdateAppointmentById(Guid appointmentId,[FromForm] AppointmentDTOUpdate appointment)
+        public async Task<IActionResult> UpdateAppointmentById(Guid appointmentId,[FromBody] AppointmentDTOUpdate appointment)
         {  
             await _appointmentService.UpdateAppointmentById(appointmentId, appointment);
             if (!ModelState.IsValid)
@@ -75,7 +75,7 @@
             return Ok(app);
         }
         [HttpPut("{appointmentId}/Reschedule")]
-        public async Task<IActionResult> RescheduleAppointment(Guid appointmentId, DateTime startTime,int Duration)
+        public async Task<IActionResult> RescheduleAppointment(Guid appointmentId,[FromQuery] DateTime startTime,[FromQuery]int Duration)
         {
             await _appointmentService.RescheduleAppointment(appointmentId, startTime,Duration);
             if (!ModelState.IsValid)
