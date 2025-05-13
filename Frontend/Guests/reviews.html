@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="MEDora, healthcare, modern, solutions, services, health, active, modern healthcare solutions provider, stay healthy and active">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="google-site-verification" content="your-verification-code">
+    <meta name="google-site-verification" content="your-verification-code">
+  <title>Patient Reviews & Testimonials - MEDora</title>
+  <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: "#1CB5BD", secondary: "#64b5f6" },
+          borderRadius: {
+            none: "0px",
+            sm: "4px",
+            DEFAULT: "8px",
+            md: "12px",
+            lg: "16px",
+            xl: "20px",
+            "2xl": "24px",
+            "3xl": "32px",
+            full: "9999px",
+            button: "8px",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+  <style>
+    :where([class^="ri-"])::before {
+      content: "\f3c2";
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+
+    .dropdown {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    }
+
+    .dropdown-container:hover .dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+    }
+
+    .review-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .featured-review {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .featured-review:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .department-filter {
+      transition: all 0.3s ease;
+    }
+
+    .department-filter.active {
+      background-color: #1cb5bd;
+      color: white;
+    }
+
+    .pagination-item {
+      transition: all 0.3s ease;
+    }
+
+    .pagination-item.active {
+      background-color: #1cb5bd;
+      color: white;
+    }
+
+    .social-share-btn {
+      transition: all 0.3s ease;
+    }
+
+    .social-share-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .custom-checkbox {
+      display: none;
+    }
+
+    .custom-checkbox+label {
+      position: relative;
+      padding-left: 28px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .custom-checkbox+label:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      background: #fff;
+      border-radius: 4px;
+    }
+
+    .custom-checkbox:checked+label:before {
+      background: #1cb5bd;
+      border-color: #1cb5bd;
+    }
+
+    .custom-checkbox:checked+label:after {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 3px;
+      width: 6px;
+      height: 11px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .star-rating input {
+      display: none;
+    }
+
+    .star-rating label {
+      cursor: pointer;
+      color: #d1d5db;
+      transition: color 0.2s ease;
+    }
+
+    .star-rating input:checked~label {
+      color: #f59e0b;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover~label {
+      color: #f59e0b;
+    }
+
+    .star-rating input:checked+label:hover,
+    .star-rating input:checked~label:hover,
+    .star-rating label:hover~input:checked~label,
+    .star-rating input:checked~label:hover~label {
+      color: #f59e0b;
+    }
+
+    .star-display {
+      color: #f59e0b;
+    }
+
+    .star-empty {
+      color: #d1d5db;
+    }
+
+    .filter-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 10;
+      width: 100%;
+      background-color: white;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .filter-dropdown.active {
+      display: block;
+    }
+
+    .review-form-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .review-form-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chatbot-icon {
+      animation: pulse 2s infinite;
+    }
+
+    .chatbot-icon:hover {
+            animation: none;
+        }
+
+    .typing-text {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid white;
+      animation: typing 1.5s steps(20, end), blink-caret 0.75s step-end infinite;
+      animation-play-state: paused;
+    }
+
+    .group:hover .typing-text {
+      animation: typing 1.5s steps(20, end), blink-caret 0.75s step-end infinite;
+      animation-iteration-count: infinite;
+    }
+
+    /* Chatbot Icon Animation */
+    @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            
+            50% {
+                transform: scale(1.05);
+            }
+            
+            100% {
+                transform: scale(1);
+            }
+        }
+
+    /* Chatbot Typing Animation */
+    @keyframes typing {
+        0% { width: 0 }
+        100% { width: 100% }
+        }
+
+        @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: white }
+        }
+
+        /* Add mobile menu styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 0;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #1CB5BD;
+        }
+
+        .mobile-menu div:last-of-type a:hover {
+            color: white;
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu .dropdown-content {
+            display: none;
+            padding-left: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .mobile-menu .dropdown-content.active {
+            display: block;
+        }
+
+        .mobile-menu .dropdown-content a {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .mobile-menu .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        #mobile-menu-button {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu-button:hover {
+            color: #1CB5BD;
+        }
+
+        /* Dropdown2 specific styles */
+        .dropdown2 {
+            position: relative;
+        }
+
+        .dropdown-content2 {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            min-width: 200px;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            z-index: 50;
+        }
+
+        .dropdown-content2.active {
+            display: block;
+        }
+
+        .dropdown-content2 a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-content2 a:hover {
+            background-color: #f3f4f6;
+            color: #1CB5BD;
+        }
+
+        .dropdown-content2 a i {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Mobile menu dropdown2 styles */
+        .mobile-menu .dropdown2 {
+            position: static;
+        }
+
+        .mobile-menu .dropdown-content2 {
+            position: static;
+            display: none;
+            padding-left: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            box-shadow: none;
+        }
+
+        .mobile-menu .dropdown-content2.active {
+            display: block;
+        }
+
+        .mobile-menu .dropdown-content2 a {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .mobile-menu .dropdown-content2 a:last-child {
+            border-bottom: none;
+        }
+
+        .rotate-90 {
+            transform: rotate(90deg);
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        @media (min-width: 1075px) {
+          html { font-size: 14px; }
+        }
+        @media (max-width: 1075px) {
+          html { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+          html { font-size: 10px; }
+        }
+
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center md:space-x-4 lg:space-x-8 xl:space-x-10">
+                <div>
+                    <a href="#" class="flex-shrink-0 flex items-center">
+                        <i class="ri-stethoscope-line ri-2x text-primary mr-2"></i>
+                        <span class="text-primary text-2xl font-['Pacifico']">MEDora</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center md:space-x-1 lg:space-x-4 xl:space-x-8">
+                    <a href="home.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Home</a>
+                    <div class="dropdown-container relative">
+                        <a href="#" id="services-menu"
+                            class="text-gray-700 hover:text-primary px-1 pt-1 font-medium flex items-center sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                            Our Services
+                            <div class="w-5 h-5 flex items-center justify-center ml-1">
+                                <i id="services-arrow" class="ri-arrow-down-s-line transition-transform duration-300"></i>
+                            </div>
+                        </a>
+                        <div id="services-dropdown"
+                            class="hidden absolute left-0 mt-2 w-80 bg-white rounded shadow-lg p-4 z-50">
+                            <div class="grid grid-cols-2 gap-3">
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full text-red-500">
+                                        <i class="ri-heart-pulse-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Emergency & Critical Care</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full text-blue-500">
+                                        <i class="ri-medicine-bottle-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Support Services</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full text-purple-500">
+                                        <i class="ri-hospital-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Specialized Units</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full text-green-500">
+                                        <i class="ri-parent-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Maternity & Childcare</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500">
+                                        <i class="ri-stethoscope-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Outpatient Services</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-indigo-100 rounded-full text-indigo-500">
+                                        <i class="ri-surgical-mask-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Surgical Services</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="find-doctor.html" data-readdy="true"
+                        class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">Find Doctor</a>
+                    <a href="blog.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Blog</a>
+                    <a href="reviews.html" class="text-primary border-b-2 border-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Reviews</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Contact</a>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8">
+                <button
+                    class="px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                    <a href="log-in.html">Sign
+                    In</a></button>
+                <button
+                    class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                    <a href="sign-up.html">Sign
+                    Up</a></button>
+            </div>
+            <div class="flex md:hidden items-center">
+                <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i id="mobile-icon" class="ri-menu-line ri-lg transition-transform duration-300"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+  <!-- Main Content -->
+  <main class="pt-16">
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div class="flex items-center text-sm text-gray-500">
+          <a href="home.html" class="hover:text-primary">Home</a>
+          <div class="w-4 h-4 flex items-center justify-center mx-1">
+            <i class="ri-arrow-right-s-line"></i>
+          </div>
+          <span class="text-primary font-medium">Reviews</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="relative h-[400px] bg-gradient-to-r from-primary/10 to-primary/5 overflow-hidden">
+      <img src="../assets/images/Reviews Hero.jpg" alt="Reviews Hero"
+        class="absolute inset-0 w-full h-full object-cover mix-blend-overlay" />
+      <div class="absolute inset-0 bg-gradient-to-r from-white/90 to-white/50"></div>
+      <div
+        class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center">
+        <h1 class="text-5xl font-bold text-gray-900 mb-6">
+          Patient Reviews & Testimonials
+        </h1>
+        <div class="w-24 h-1 bg-primary rounded-full mb-6"></div>
+        <p class="text-xl text-gray-600 max-w-2xl mb-8">
+          Real experiences from real patients. Discover why thousands trust
+          MEDora with their healthcare needs.
+        </p>
+        <div class="flex items-center justify-center space-x-3 bg-white/80 px-6 py-3 rounded-full shadow-md">
+          <div class="flex">
+            <i class="ri-star-fill text-yellow-400 text-2xl"></i>
+            <i class="ri-star-fill text-yellow-400 text-2xl"></i>
+            <i class="ri-star-fill text-yellow-400 text-2xl"></i>
+            <i class="ri-star-fill text-yellow-400 text-2xl"></i>
+            <i class="ri-star-half-fill text-yellow-400 text-2xl"></i>
+          </div>
+          <div class="text-xl font-bold text-gray-900">4.8</div>
+          <div class="text-gray-500 text-sm">based on 2,547 reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="bg-white border-b sticky top-16 z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex flex-wrap gap-2">
+            <!-- Department Filter -->
+            <div class="relative">
+              <button id="department-filter-btn"
+                class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition whitespace-nowrap">
+                <span>Department</span>
+                <div class="w-5 h-5 flex items-center justify-center ml-1">
+                  <i class="ri-arrow-down-s-line"></i>
+                </div>
+              </button>
+              <div id="department-dropdown" class="filter-dropdown p-3 mt-1 w-full min-w-[190px]">
+                <div class="flex flex-col space-y-2">
+                  <label class="flex items-center">
+                    <input type="radio" name="department" value="all" class="w-4 h-4 text-primary" checked />
+                    <span class="ml-2 text-sm">All Departments</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="department" value="cardiology" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Cardiology</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="department" value="pediatrics" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Pediatrics</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="department" value="orthopedics" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Orthopedics</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="department" value="neurology" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Neurology</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="department" value="oncology" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Oncology</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rating Filter -->
+            <div class="relative">
+              <button id="rating-filter-btn"
+                class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition whitespace-nowrap">
+                <span>Rating</span>
+                <div class="w-5 h-5 flex items-center justify-center ml-1">
+                  <i class="ri-arrow-down-s-line"></i>
+                </div>
+              </button>
+              <div id="rating-dropdown" class="filter-dropdown p-4 mt-4 min-w-[170px]">
+                <div class="flex flex-col space-y-2">
+                  <label class="flex items-center">
+                    <input type="radio" name="rating" value="all" class="w-4 h-4 text-primary" checked />
+                    <span class="ml-2 text-sm">All Ratings</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="rating" value="5" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm flex items-center">
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                    </span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="rating" value="4" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm flex items-center">
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <span class="ml-1 text-gray-500">& up</span>
+                    </span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="rating" value="3" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm flex items-center">
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <span class="ml-1 text-gray-500">& up</span>
+                    </span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="rating" value="2" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm flex items-center">
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <span class="ml-1 text-gray-500">& up</span>
+                    </span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="rating" value="1" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm flex items-center">
+                      <i class="ri-star-fill text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <i class="ri-star-line text-yellow-400"></i>
+                      <span class="ml-1 text-gray-500">& up</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sort Filter -->
+            <div class="relative">
+              <button id="sort-filter-btn"
+                class="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition whitespace-nowrap">
+                <span>Sort By</span>
+                <div class="w-5 h-5 flex items-center justify-center ml-1">
+                  <i class="ri-arrow-down-s-line"></i>
+                </div>
+              </button>
+              <div id="sort-dropdown" class="filter-dropdown p-3 mt-1 w-full min-w-[160px]">
+                <div class="flex flex-col space-y-2">
+                  <label class="flex items-center">
+                    <input type="radio" name="sort" value="recent" class="w-4 h-4 text-primary" checked />
+                    <span class="ml-2 text-sm">Most Recent</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="sort" value="highest" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Highest Rated</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="sort" value="lowest" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Lowest Rated</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="radio" name="sort" value="helpful" class="w-4 h-4 text-primary" />
+                    <span class="ml-2 text-sm">Most Helpful</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="relative max-w-md w-full">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                <i class="ri-search-line"></i>
+              </div>
+            </div>
+            <input type="text"
+              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:border-primary text-sm"
+              placeholder="Search reviews by keyword or doctor name" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Main Content -->
+        <div class="lg:w-2/3">
+          <!-- Featured Reviews -->
+          <div class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">
+              Featured Patient Experiences
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Featured Review 1 -->
+              <div class="featured-review bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mr-4">
+                      <span class="text-lg font-semibold">EB</span>
+                    </div>
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="text-lg font-semibold text-gray-900">
+                          Emily Blackwell
+                        </h3>
+                        <div
+                          class="ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
+                          <div class="w-3 h-3 flex items-center justify-center mr-1">
+                            <i class="ri-check-line"></i>
+                          </div>
+                          Verified Patient
+                        </div>
+                      </div>
+                      <div class="flex items-center mt-1">
+                        <div class="flex">
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                        </div>
+                        <span class="ml-2 text-sm text-gray-500">April 25, 2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <span
+                      class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Cardiology</span>
+                  </div>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-2">
+                    Life-changing care after my heart attack
+                  </h4>
+                  <p class="text-gray-600 mb-4">
+                    The cardiology team at MEDora saved my life. After
+                    experiencing a sudden heart attack, I was rushed to their
+                    emergency department where Dr. Richardson and his team
+                    provided immediate, compassionate care. Their expertise
+                    and the advanced technology available made all the
+                    difference in my recovery. The follow-up care has been
+                    exceptional, with clear explanations and a personalized
+                    rehabilitation plan.
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <button class="flex items-center text-gray-500 hover:text-primary transition">
+                      <div class="w-5 h-5 flex items-center justify-center mr-1">
+                        <i class="ri-thumb-up-line"></i>
+                      </div>
+                      <span class="text-sm">Helpful (42)</span>
+                    </button>
+                    <div class="flex space-x-2">
+                      <button
+                        class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">
+                        <i class="ri-facebook-fill text-gray-600"></i>
+                      </button>
+                      <button
+                        class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">
+                        <i class="ri-twitter-x-fill text-gray-600"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Featured Review 2 -->
+              <div class="featured-review bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-center mb-4">
+                    <div
+                      class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-500 mr-4">
+                      <span class="text-lg font-semibold">JL</span>
+                    </div>
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="text-lg font-semibold text-gray-900">
+                          James Livingston
+                        </h3>
+                        <div
+                          class="ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
+                          <div class="w-3 h-3 flex items-center justify-center mr-1">
+                            <i class="ri-check-line"></i>
+                          </div>
+                          Verified Patient
+                        </div>
+                      </div>
+                      <div class="flex items-center mt-1">
+                        <div class="flex">
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                        </div>
+                        <span class="ml-2 text-sm text-gray-500">April 18, 2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <span
+                      class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">Orthopedics</span>
+                  </div>
+                  <h4 class="text-lg font-semibold text-gray-900 mb-2">
+                    Exceptional care for my knee replacement
+                  </h4>
+                  <p class="text-gray-600 mb-4">
+                    I had been suffering from severe knee pain for years and
+                    finally decided to have a total knee replacement at
+                    MEDora. Dr. Martinez and the orthopedic team were
+                    outstanding from consultation through surgery and
+                    rehabilitation. They took the time to explain everything,
+                    answer all my questions, and create a recovery plan
+                    tailored to my needs. The physical therapy team was
+                    equally impressive, helping me regain mobility faster than
+                    I expected.
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <button class="flex items-center text-gray-500 hover:text-primary transition">
+                      <div class="w-5 h-5 flex items-center justify-center mr-1">
+                        <i class="ri-thumb-up-line"></i>
+                      </div>
+                      <span class="text-sm">Helpful (38)</span>
+                    </button>
+                    <div class="flex space-x-2">
+                      <button
+                        class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">
+                        <i class="ri-facebook-fill text-gray-600"></i>
+                      </button>
+                      <button
+                        class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">
+                        <i class="ri-twitter-x-fill text-gray-600"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- All Reviews -->
+          <div>
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold text-gray-900">
+                Patient Reviews
+              </h2>
+              <button id="write-review-btn"
+                class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                  <i class="ri-edit-line"></i>
+                </div>
+                Write a Review
+              </button>
+            </div>
+
+            <div class="space-y-6">
+              <!-- Review 1 -->
+              <div class="review-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 mr-4 flex-shrink-0">
+                      <span class="text-sm font-semibold">SM</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <h3 class="text-base font-semibold text-gray-900">
+                            Sophia Mitchell
+                          </h3>
+                          <div class="flex items-center mt-1">
+                            <div class="flex">
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-xs text-gray-500">April 28, 2025</span>
+                          </div>
+                        </div>
+                        <span class="inline-block px-3 py-1 bg-pink-100 text-pink-800 text-xs rounded-full">Obstetrics &
+                          Gynecology</span>
+                      </div>
+                      <p class="text-gray-600 mt-3">
+                        My prenatal care experience at MEDora was exceptional.
+                        Dr. Chen was attentive, knowledgeable, and made me
+                        feel completely at ease throughout my pregnancy. The
+                        nursing staff was equally amazing, always responsive
+                        to my questions and concerns. The birthing facilities
+                        are modern and comfortable, and the postpartum support
+                        was invaluable for a first-time mom.
+                      </p>
+                      <div class="flex justify-between items-center mt-4">
+                        <button class="flex items-center text-gray-500 hover:text-primary transition">
+                          <div class="w-5 h-5 flex items-center justify-center mr-1">
+                            <i class="ri-thumb-up-line"></i>
+                          </div>
+                          <span class="text-sm">Helpful (24)</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Review 2 -->
+              <div class="review-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-500 mr-4 flex-shrink-0">
+                      <span class="text-sm font-semibold">RJ</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <h3 class="text-base font-semibold text-gray-900">
+                            Robert Johnson
+                          </h3>
+                          <div class="flex items-center mt-1">
+                            <div class="flex">
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-line text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-xs text-gray-500">April 26, 2025</span>
+                          </div>
+                        </div>
+                        <span
+                          class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Neurology</span>
+                      </div>
+                      <p class="text-gray-600 mt-3">
+                        After suffering from chronic migraines for years, I
+                        finally found relief thanks to Dr. Williams at
+                        MEDora's Neurology Department. He took a comprehensive
+                        approach to my treatment, considering lifestyle
+                        factors and trying different medication combinations
+                        until we found what worked. The facilities are
+                        state-of-the-art, and the staff is professional and
+                        caring. My only suggestion would be to improve the
+                        wait times for appointments.
+                      </p>
+                      <div class="flex justify-between items-center mt-4">
+                        <button class="flex items-center text-gray-500 hover:text-primary transition">
+                          <div class="w-5 h-5 flex items-center justify-center mr-1">
+                            <i class="ri-thumb-up-line"></i>
+                          </div>
+                          <span class="text-sm">Helpful (19)</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Review 3 with Doctor Response -->
+              <div class="review-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500 mr-4 flex-shrink-0">
+                      <span class="text-sm font-semibold">AP</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <h3 class="text-base font-semibold text-gray-900">
+                            Aiden Parker
+                          </h3>
+                          <div class="flex items-center mt-1">
+                            <div class="flex">
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-line text-yellow-400"></i>
+                              <i class="ri-star-line text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-xs text-gray-500">April 22, 2025</span>
+                          </div>
+                        </div>
+                        <span
+                          class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">Pediatrics</span>
+                      </div>
+                      <p class="text-gray-600 mt-3">
+                        My son's experience with the pediatric department was
+                        mixed. Dr. Thompson was excellent and really connected
+                        with my 5-year-old, making him feel comfortable during
+                        his check-up. However, the scheduling process was
+                        frustrating, with long hold times on the phone and
+                        limited availability. The waiting area could also use
+                        more child-friendly activities.
+                      </p>
+                      <div class="flex justify-between items-center mt-4">
+                        <button class="flex items-center text-gray-500 hover:text-primary transition">
+                          <div class="w-5 h-5 flex items-center justify-center mr-1">
+                            <i class="ri-thumb-up-line"></i>
+                          </div>
+                          <span class="text-sm">Helpful (12)</span>
+                        </button>
+                      </div>
+
+                      <!-- Doctor Response -->
+                      <div class="mt-4 pt-4 border-t border-gray-200">
+                        <div class="flex items-start">
+                          <div
+                            class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mr-4 flex-shrink-0">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                              <i class="ri-user-3-line"></i>
+                            </div>
+                          </div>
+                          <div>
+                            <h4 class="text-sm font-semibold text-gray-900">
+                              Dr. Sarah Thompson, Pediatrics Department
+                            </h4>
+                            <p class="text-gray-600 text-sm mt-2">
+                              Thank you for your feedback, Mr. Parker. I'm
+                              glad your son felt comfortable during his visit.
+                              We apologize for the scheduling difficulties you
+                              experienced. We're currently implementing a new
+                              online scheduling system to reduce phone wait
+                              times and improve appointment availability.
+                              We're also updating our waiting area with new
+                              activities for children. We value your input and
+                              hope to provide a better experience during your
+                              next visit.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Review 4 -->
+              <div class="review-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500 mr-4 flex-shrink-0">
+                      <span class="text-sm font-semibold">MR</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <h3 class="text-base font-semibold text-gray-900">
+                            Maria Rodriguez
+                          </h3>
+                          <div class="flex items-center mt-1">
+                            <div class="flex">
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-xs text-gray-500">April 20, 2025</span>
+                          </div>
+                        </div>
+                        <span
+                          class="inline-block px-3 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">Oncology</span>
+                      </div>
+                      <p class="text-gray-600 mt-3">
+                        The oncology team at MEDora has been my lifeline
+                        during my cancer treatment. Dr. Patel developed a
+                        personalized treatment plan and took the time to
+                        explain every step of the process. The nurses are
+                        compassionate and skilled, making my chemotherapy
+                        sessions as comfortable as possible. The support
+                        services, including nutrition counseling and support
+                        groups, have been invaluable. I'm grateful for the
+                        holistic approach to cancer care at this facility.
+                      </p>
+                      <div class="flex justify-between items-center mt-4">
+                        <button class="flex items-center text-gray-500 hover:text-primary transition">
+                          <div class="w-5 h-5 flex items-center justify-center mr-1">
+                            <i class="ri-thumb-up-line"></i>
+                          </div>
+                          <span class="text-sm">Helpful (31)</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Review 5 -->
+              <div class="review-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-500 mr-4 flex-shrink-0">
+                      <span class="text-sm font-semibold">DT</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <h3 class="text-base font-semibold text-gray-900">
+                            Daniel Thompson
+                          </h3>
+                          <div class="flex items-center mt-1">
+                            <div class="flex">
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-half-fill text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-xs text-gray-500">April 18, 2025</span>
+                          </div>
+                        </div>
+                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Emergency
+                          Care</span>
+                      </div>
+                      <p class="text-gray-600 mt-3">
+                        I had to visit the emergency department after a
+                        bicycle accident, and I was impressed with the
+                        efficiency and quality of care. The triage process was
+                        quick, and I was seen by Dr. Harris within 15 minutes
+                        of arrival. The staff was professional and thorough,
+                        taking X-rays and providing treatment for my injuries.
+                        The follow-up instructions were clear, and they even
+                        helped coordinate with my primary care physician for
+                        follow-up care.
+                      </p>
+                      <div class="flex justify-between items-center mt-4">
+                        <button class="flex items-center text-gray-500 hover:text-primary transition">
+                          <div class="w-5 h-5 flex items-center justify-center mr-1">
+                            <i class="ri-thumb-up-line"></i>
+                          </div>
+                          <span class="text-sm">Helpful (16)</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Review 6 -->
+              <div class="review-card bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6">
+                  <div class="flex items-start">
+                    <div
+                      class="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-500 mr-4 flex-shrink-0">
+                      <span class="text-sm font-semibold">LW</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                          <h3 class="text-base font-semibold text-gray-900">
+                            Laura Wilson
+                          </h3>
+                          <div class="flex items-center mt-1">
+                            <div class="flex">
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-fill text-yellow-400"></i>
+                              <i class="ri-star-line text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-xs text-gray-500">April 15, 2025</span>
+                          </div>
+                        </div>
+                        <span
+                          class="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">Dermatology</span>
+                      </div>
+                      <p class="text-gray-600 mt-3">
+                        I've been seeing Dr. Nguyen in the dermatology
+                        department for my psoriasis treatment, and the
+                        improvement has been remarkable. She took the time to
+                        explain different treatment options and worked with me
+                        to find the most effective approach. The clinic is
+                        clean and modern, and the staff is friendly. My only
+                        suggestion would be to expand evening appointment
+                        options for those who work traditional hours.
+                      </p>
+                      <div class="flex justify-between items-center mt-4">
+                        <button class="flex items-center text-gray-500 hover:text-primary transition">
+                          <div class="w-5 h-5 flex items-center justify-center mr-1">
+                            <i class="ri-thumb-up-line"></i>
+                          </div>
+                          <span class="text-sm">Helpful (9)</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-12">
+              <nav class="flex items-center space-x-2">
+                <a href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50">
+                  <i class="ri-arrow-left-s-line"></i>
+                </a>
+                <a href="#"
+                  class="pagination-item active w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50">1</a>
+                <a href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50">2</a>
+                <a href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50">3</a>
+                <span class="w-10 h-10 flex items-center justify-center text-gray-600">...</span>
+                <a href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50">12</a>
+                <a href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50">
+                  <i class="ri-arrow-right-s-line"></i>
+                </a>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:w-1/3">
+          <!-- Rating Summary -->
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+              Overall Rating
+            </h3>
+            <div class="flex items-center mb-6">
+              <div class="text-4xl font-bold text-gray-900 mr-4">4.8</div>
+              <div class="flex-1">
+                <div class="flex mb-1">
+                  <i class="ri-star-fill text-yellow-400 text-xl"></i>
+                  <i class="ri-star-fill text-yellow-400 text-xl"></i>
+                  <i class="ri-star-fill text-yellow-400 text-xl"></i>
+                  <i class="ri-star-fill text-yellow-400 text-xl"></i>
+                  <i class="ri-star-half-fill text-yellow-400 text-xl"></i>
+                </div>
+                <div class="text-sm text-gray-500">
+                  Based on 2,547 reviews
+                </div>
+              </div>
+            </div>
+
+            <!-- Rating Distribution -->
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center">
+                <div class="w-12 text-sm text-gray-600">5 stars</div>
+                <div class="flex-1 mx-3">
+                  <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-yellow-400 rounded-full" style="width: 78%"></div>
+                  </div>
+                </div>
+                <div class="w-10 text-sm text-gray-600 text-right">78%</div>
+              </div>
+              <div class="flex items-center">
+                <div class="w-12 text-sm text-gray-600">4 stars</div>
+                <div class="flex-1 mx-3">
+                  <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-yellow-400 rounded-full" style="width: 15%"></div>
+                  </div>
+                </div>
+                <div class="w-10 text-sm text-gray-600 text-right">15%</div>
+              </div>
+              <div class="flex items-center">
+                <div class="w-12 text-sm text-gray-600">3 stars</div>
+                <div class="flex-1 mx-3">
+                  <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-yellow-400 rounded-full" style="width: 5%"></div>
+                  </div>
+                </div>
+                <div class="w-10 text-sm text-gray-600 text-right">5%</div>
+              </div>
+              <div class="flex items-center">
+                <div class="w-12 text-sm text-gray-600">2 stars</div>
+                <div class="flex-1 mx-3">
+                  <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-yellow-400 rounded-full" style="width: 1%"></div>
+                  </div>
+                </div>
+                <div class="w-10 text-sm text-gray-600 text-right">1%</div>
+              </div>
+              <div class="flex items-center">
+                <div class="w-12 text-sm text-gray-600">1 star</div>
+                <div class="flex-1 mx-3">
+                  <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-yellow-400 rounded-full" style="width: 1%"></div>
+                  </div>
+                </div>
+                <div class="w-10 text-sm text-gray-600 text-right">1%</div>
+              </div>
+            </div>
+
+            <!-- Department Rating Chart -->
+            <h4 class="text-base font-medium text-gray-900 mb-3">
+              Department Ratings
+            </h4>
+            <div id="department-chart" class="h-64 mb-4"></div>
+          </div>
+
+          <!-- Most Helpful Reviews -->
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+              Most Helpful Reviews
+            </h3>
+            <div class="space-y-4">
+              <div class="pb-4 border-b border-gray-200">
+                <div class="flex">
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                </div>
+                <p class="text-gray-600 text-sm mt-2 line-clamp-3">
+                  "The cardiology team at MEDora saved my life. After
+                  experiencing a sudden heart attack, I was rushed to their
+                  emergency department where Dr. Richardson and his team
+                  provided immediate, compassionate care..."
+                </p>
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-xs text-gray-500">Emily B. - Cardiology</span>
+                  <span class="text-xs text-gray-500">42 found helpful</span>
+                </div>
+              </div>
+              <div class="pb-4 border-b border-gray-200">
+                <div class="flex">
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                </div>
+                <p class="text-gray-600 text-sm mt-2 line-clamp-3">
+                  "I had been suffering from severe knee pain for years and
+                  finally decided to have a total knee replacement at MEDora.
+                  Dr. Martinez and the orthopedic team were outstanding from
+                  consultation through surgery and rehabilitation..."
+                </p>
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-xs text-gray-500">James L. - Orthopedics</span>
+                  <span class="text-xs text-gray-500">38 found helpful</span>
+                </div>
+              </div>
+              <div>
+                <div class="flex">
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                  <i class="ri-star-fill text-yellow-400"></i>
+                </div>
+                <p class="text-gray-600 text-sm mt-2 line-clamp-3">
+                  "The oncology team at MEDora has been my lifeline during my
+                  cancer treatment. Dr. Patel developed a personalized
+                  treatment plan and took the time to explain every step of
+                  the process. The nurses are compassionate and skilled..."
+                </p>
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-xs text-gray-500">Maria R. - Oncology</span>
+                  <span class="text-xs text-gray-500">31 found helpful</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review Guidelines -->
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+              Review Guidelines
+            </h3>
+            <ul class="space-y-3 text-sm text-gray-600">
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2 flex-shrink-0">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span>Share your personal experience with our healthcare
+                  services</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2 flex-shrink-0">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span>Be specific about the department, services, and healthcare
+                  providers</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2 flex-shrink-0">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span>Include both positive aspects and areas for
+                  improvement</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2 flex-shrink-0">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span>Keep your review respectful and constructive</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-red-500 mt-0.5 mr-2 flex-shrink-0">
+                  <i class="ri-close-line"></i>
+                </div>
+                <span>Do not include personal health information or details that
+                  could identify other patients</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-red-500 mt-0.5 mr-2 flex-shrink-0">
+                  <i class="ri-close-line"></i>
+                </div>
+                <span>Avoid offensive language or making false claims</span>
+              </li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <p class="text-sm text-gray-600">
+                All reviews are moderated before being published to ensure
+                they meet our community guidelines.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Review Form Modal -->
+  <div id="review-form-modal" class="review-form-modal">
+    <div class="max-w-2xl w-full bg-white rounded-lg shadow-xl mx-4 h-[calc(100vh-10rem)] overflow-y-auto" style="scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #1cb5bd #f1f5f9; scrollbar-track-color: #f1f5f9; border-radius: 10px;">
+      <div class="p-6 border-b border-gray-200 sticky top-0 bg-white z-50 shadow-md shadow-gray-200">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xl font-bold text-gray-900">Write Your Review</h3>
+          <button id="close-review-modal"
+            class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-full hover:bg-gray-100">
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-6">
+        <form id="review-form">
+          <div class="mb-6">
+            <label class="block text-gray-700 font-medium mb-2">Overall Rating</label>
+            <div class="star-rating flex text-2xl">
+              <input type="radio" id="star5" name="rating" value="5" />
+              <label for="star5" class="cursor-pointer">
+                <i class="ri-star-fill"></i>
+              </label>
+              <input type="radio" id="star4" name="rating" value="4" />
+              <label for="star4" class="cursor-pointer">
+                <i class="ri-star-fill"></i>
+              </label>
+              <input type="radio" id="star3" name="rating" value="3" />
+              <label for="star3" class="cursor-pointer">
+                <i class="ri-star-fill"></i>
+              </label>
+              <input type="radio" id="star2" name="rating" value="2" />
+              <label for="star2" class="cursor-pointer">
+                <i class="ri-star-fill"></i>
+              </label>
+              <input type="radio" id="star1" name="rating" value="1" />
+              <label for="star1" class="cursor-pointer">
+                <i class="ri-star-fill"></i>
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label for="department" class="block text-gray-700 font-medium mb-2">Department/Service</label>
+            <div class="relative">
+              <select id="department" name="department"
+                class="w-full px-4 py-2 border border-gray-300 rounded appearance-none focus:border-primary pr-8">
+                <option value="" disabled selected>
+                  Select a department
+                </option>
+                <option value="cardiology">Cardiology</option>
+                <option value="dermatology">Dermatology</option>
+                <option value="emergency">Emergency Care</option>
+                <option value="neurology">Neurology</option>
+                <option value="obstetrics">Obstetrics & Gynecology</option>
+                <option value="oncology">Oncology</option>
+                <option value="orthopedics">Orthopedics</option>
+                <option value="pediatrics">Pediatrics</option>
+                <option value="primary">Primary Care</option>
+                <option value="surgery">Surgery</option>
+                <option value="other">Other</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <i class="ri-arrow-down-s-line text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label for="review-title" class="block text-gray-700 font-medium mb-2">Review Title</label>
+            <input type="text" id="review-title" name="title"
+              class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
+              placeholder="Summarize your experience" />
+          </div>
+
+          <div class="mb-6">
+            <label for="review-content" class="block text-gray-700 font-medium mb-2">Your Review</label>
+            <textarea id="review-content" name="content" rows="5"
+              class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
+              placeholder="Share details of your experience at MEDora"></textarea>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-gray-700 font-medium mb-2">Add Photos (Optional)</label>
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+              <div
+                class="w-12 h-12 mx-auto mb-3 flex items-center justify-center bg-gray-100 rounded-full text-gray-500">
+                <i class="ri-image-add-line ri-xl"></i>
+              </div>
+              <p class="text-sm text-gray-500 mb-2">
+                Drag and drop files here, or click to browse
+              </p>
+              <p class="text-xs text-gray-400">
+                Maximum 3 images (JPG, PNG, 5MB each)
+              </p>
+              <input type="file" multiple accept="image/*" class="hidden" id="photo-upload" />
+              <button type="button" id="browse-photos"
+                class="mt-3 px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition duration-300 whitespace-nowrap text-sm">
+                Browse Files
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="flex items-start">
+              <input type="checkbox" id="terms-checkbox" class="custom-checkbox" />
+              <label for="terms-checkbox" class="text-sm text-gray-600">I confirm that this review is based on my own
+                experience and
+                is my genuine opinion. I understand that MEDora has a
+                zero-tolerance policy for fake reviews.</label>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button type="button" id="cancel-review"
+              class="px-6 py-2 border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 transition duration-300 whitespace-nowrap mr-3">
+              Cancel
+            </button>
+            <button type="submit"
+              class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap">
+              Submit Review
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div>
+          <a href="#" class="text-2xl font-['Pacifico'] text-white mb-4 inline-block">MEDora</a>
+          <p class="text-gray-400 mb-6">
+            Providing advanced healthcare solutions with compassion and
+            excellence since 2010.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#"
+              class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+              <i class="ri-facebook-fill"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+              <i class="ri-twitter-x-fill"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+              <i class="ri-instagram-fill"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+              <i class="ri-linkedin-fill"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-3">
+            <li>
+              <a href="home.html" class="text-gray-400 hover:text-white transition duration-300">Home</a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">Our Services</a>
+            </li>
+            <li>
+              <a href="find-doctor.html" class="text-gray-400 hover:text-white transition duration-300">Find a Doctor</a>
+            </li>
+            <li>
+              <a href="blog.html" class="text-gray-400 hover:text-white transition duration-300">Blog</a>
+            </li>
+            <li>
+              <a href="contact.html" class="text-gray-400 hover:text-white transition duration-300">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Our Services</h3>
+          <ul class="space-y-3">
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">Emergency Care</a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">Primary Care</a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">Surgical Services</a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">Mental Health</a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">Maternity Care</a>
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition duration-300">Diagnostic Services</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact Information</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <div class="w-5 h-5 flex items-center justify-center text-primary mt-1 mr-3">
+                  <i class="ri-map-pin-line"></i>
+              </div>
+            <a href="https://www.google.com/maps/search/123+Healthcare+Avenue,+Medical+District,+New+York,+NY+10001" 
+              class="text-gray-400 hover:text-white transition duration-300" 
+              id="address" 
+              name="address"
+              target="_blank">123 Healthcare Avenue, Medical District, New York, NY 10001</a>
+            </li>
+
+            <li class="flex items-center">
+              <div class="w-5 h-5 flex items-center justify-center text-primary mr-3">
+                  <i class="ri-phone-line"></i>
+              </div>
+              <a href="tel:+15551234567" class="text-gray-400 hover:text-white transition duration-300" id="phone-number" name="phone-number">+1 (555) 123-4567</a>
+            </li>
+
+            <li class="flex items-center">
+              <div class="w-5 h-5 flex items-center justify-center text-primary mr-3">
+                  <i class="ri-mail-line"></i>
+              </div>
+              <a href="mailto:info@medora.com" class="text-gray-400 hover:text-white transition duration-300" id="email-address" name="email-address">info@medora.com</a>
+            </li>
+            <li class="flex items-center">
+              <div
+                class="w-5 h-5 flex items-center justify-center text-primary mr-3"
+              >
+                <i class="ri-time-line"></i>
+              </div>
+              <span class="text-gray-400">24/7 Emergency Services</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">
+            © 2025 MEDora Healthcare. All rights reserved.
+          </p>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot Icon -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <a href="chat-bot.html" class="group relative chatbot-icon">
+      <button
+        class="w-16 h-16 flex items-center justify-center bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition duration-300">
+        <div class="w-8 h-8 flex items-center justify-center">
+          <i class="ri-customer-service-2-line ri-2x"></i>
+        </div>
+      </button>
+      <div class="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-gradient-to-r from-primary/90 to-primary text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg">
+        <div class="flex items-center">
+          <div class="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
+          <span class="typing-text">AI Chat Bot Helper</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Add mobile menu structure -->
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="home.html" class="flex items-center">
+        <i class="ri-home-line mr-2 text-primary"></i>
+        Home
+    </a>
+    <div class="dropdown2">
+        <a href="#" class="flex items-center justify-between" id="mobile-services-menu">
+            <div class="flex items-center">
+              <div class="flex items-center">
+                <i class="ri-service-line mr-2 text-primary"></i>
+                Our Services
+              </div>
+              <i id="services-mobile-arrow" class="ri-arrow-down-s-line ml-2 transition-transform duration-300"></i>
+            </div>
+        </a>
+        <div class="dropdown-content2">
+            <a href="#" class="flex items-center">
+                <i class="ri-heart-pulse-line mr-2 text-red-500"></i>
+                Emergency & Critical Care
+            </a>
+            <a href="#" class="flex items-center">
+                <i class="ri-medicine-bottle-line mr-2 text-blue-500"></i>
+                Support Services
+            </a>
+            <a href="#" class="flex items-center">
+                <i class="ri-hospital-line mr-2 text-purple-500"></i>
+                Specialized Units
+            </a>
+            <a href="#" class="flex items-center">
+                <i class="ri-parent-line mr-2 text-green-500"></i>
+                Maternity & Childcare
+            </a>
+            <a href="#" class="flex items-center">
+                <i class="ri-stethoscope-line mr-2 text-yellow-500"></i>
+                Outpatient Services
+            </a>
+            <a href="#" class="flex items-center">
+                <i class="ri-surgical-mask-line mr-2 text-indigo-500"></i>
+                Surgical Services
+            </a>
+        </div>
+    </div>
+    <a href="find-doctor.html" class="flex items-center">
+        <i class="ri-user-search-line mr-2 text-primary"></i>
+        Find Doctor
+    </a>
+    <a href="blog.html" class="flex items-center">
+        <i class="ri-article-line mr-2 text-primary"></i>
+        Blog
+    </a>
+    <a href="reviews.html" class="flex items-center">
+        <i class="ri-star-line mr-2 text-primary"></i>
+        Reviews
+    </a>
+    <a href="contact.html" class="flex items-center">
+        <i class="ri-contacts-line mr-2 text-primary"></i>
+        Contact
+    </a>
+    <div class="mt-4 space-y-2">
+        <a href="log-in.html" class="block text-center px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300">
+            <i class="ri-login-box-line mr-2"></i>
+            Sign In
+        </a>
+        <a href="sign_up.html" class="block text-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300">
+            <i class="ri-user-add-line mr-2"></i>
+            Sign Up
+        </a>
+    </div>
+</div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Mobile menu functionality
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileServicesMenu = document.getElementById("mobile-services-menu");
+      const mobileDropdownContent = document.querySelector(".dropdown-content2");
+      const mobileIcon = document.getElementById("mobile-icon");
+      const servicesMobileArrow = document.getElementById("services-mobile-arrow");
+
+      // Services dropdown functionality
+      const servicesMenu = document.getElementById("services-menu");
+      const servicesDropdown = document.getElementById("services-dropdown");
+      const servicesArrow = document.getElementById("services-arrow");
+
+      // Function to check screen size and handle mobile menu
+      function handleScreenSize() {
+        if (window.innerWidth >= 767) { // md breakpoint
+          mobileMenu.classList.remove("active");
+          mobileDropdownContent.classList.remove("active");
+        }
+      }
+
+      // Initial check
+      handleScreenSize();
+
+      // Add resize event listener
+      window.addEventListener("resize", handleScreenSize);
+
+      // Mobile menu event listeners
+      mobileMenuButton.addEventListener("click", function (e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle("active");
+        mobileIcon.classList.toggle("rotate-90");
+      });
+
+      mobileServicesMenu.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        mobileDropdownContent.classList.toggle("active");
+        servicesMobileArrow.classList.toggle("rotate-180");
+      });
+
+      // Services dropdown event listeners
+      servicesMenu.addEventListener("click", function (e) {
+        e.preventDefault();
+        servicesDropdown.classList.toggle("hidden");
+        servicesDropdown.classList.toggle("show");
+        servicesArrow.classList.toggle("rotate-180");
+      });
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", function (e) {
+        // Close mobile menu
+        if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+          mobileMenu.classList.remove("active");
+          mobileIcon.classList.remove("rotate-90");
+          mobileDropdownContent.classList.remove("active");
+          servicesMobileArrow.classList.remove("rotate-180");
+        }
+
+        // Close services dropdown
+        if (!servicesMenu.contains(e.target) && !servicesDropdown.contains(e.target)) {
+          servicesDropdown.classList.add("hidden");
+          servicesDropdown.classList.remove("show");
+          servicesArrow.classList.remove("rotate-180");
+        }
+      });
+
+      // Department chart
+      const departmentChart = echarts.init(
+        document.getElementById("department-chart")
+      );
+      const departmentOption = {
+        animation: false,
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow",
+          },
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          borderColor: "#eee",
+          borderWidth: 1,
+          textStyle: {
+            color: "#1f2937",
+          },
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          top: "3%",
+          containLabel: true,
+        },
+        xAxis: {
+          type: "value",
+          max: 5,
+          axisLabel: {
+            formatter: "{value} ★",
+            color: "#1f2937",
+          },
+          splitLine: {
+            lineStyle: {
+              color: "#eee",
+            },
+          },
+        },
+        yAxis: {
+          type: "category",
+          data: [
+            "Pediatrics",
+            "Cardiology",
+            "Oncology",
+            "Neurology",
+            "Orthopedics",
+            "Emergency",
+            "OB/GYN",
+          ],
+          axisLabel: {
+            color: "#1f2937",
+          },
+        },
+        series: [
+          {
+            name: "Average Rating",
+            type: "bar",
+            data: [4.7, 4.9, 4.8, 4.6, 4.8, 4.5, 4.9],
+            itemStyle: {
+              color: "rgba(87, 181, 231, 1)",
+              borderRadius: 4,
+            },
+            label: {
+              show: true,
+              position: "right",
+              formatter: "{c} ★",
+              color: "#1f2937",
+            },
+          },
+        ],
+      };
+      departmentChart.setOption(departmentOption);
+
+      // Handle window resize
+      window.addEventListener("resize", function () {
+        departmentChart.resize();
+      });
+
+      // Filter dropdowns
+      const departmentBtn = document.getElementById("department-filter-btn");
+      const departmentDropdown = document.getElementById("department-dropdown");
+      const ratingBtn = document.getElementById("rating-filter-btn");
+      const ratingDropdown = document.getElementById("rating-dropdown");
+      const sortBtn = document.getElementById("sort-filter-btn");
+      const sortDropdown = document.getElementById("sort-dropdown");
+
+      // Department filter dropdown
+      departmentBtn.addEventListener("click", function () {
+        departmentDropdown.classList.toggle("active");
+        ratingDropdown.classList.remove("active");
+        sortDropdown.classList.remove("active");
+      });
+
+      // Rating filter dropdown
+      ratingBtn.addEventListener("click", function () {
+        ratingDropdown.classList.toggle("active");
+        departmentDropdown.classList.remove("active");
+        sortDropdown.classList.remove("active");
+      });
+
+      // Sort filter dropdown
+      sortBtn.addEventListener("click", function () {
+        sortDropdown.classList.toggle("active");
+        departmentDropdown.classList.remove("active");
+        ratingDropdown.classList.remove("active");
+      });
+
+      // Close filter dropdowns when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!departmentBtn.contains(e.target) && !departmentDropdown.contains(e.target)) {
+          departmentDropdown.classList.remove("active");
+        }
+        if (!ratingBtn.contains(e.target) && !ratingDropdown.contains(e.target)) {
+          ratingDropdown.classList.remove("active");
+        }
+        if (!sortBtn.contains(e.target) && !sortDropdown.contains(e.target)) {
+          sortDropdown.classList.remove("active");
+        }
+      });
+
+      // Review form modal
+      const writeReviewBtn = document.getElementById("write-review-btn");
+      const reviewFormModal = document.getElementById("review-form-modal");
+      const closeReviewModal = document.getElementById("close-review-modal");
+      const cancelReview = document.getElementById("cancel-review");
+      const browsePhotos = document.getElementById("browse-photos");
+      const photoUpload = document.getElementById("photo-upload");
+
+      writeReviewBtn.addEventListener("click", function () {
+        reviewFormModal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      });
+
+      function closeModal() {
+        reviewFormModal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      closeReviewModal.addEventListener("click", closeModal);
+      cancelReview.addEventListener("click", closeModal);
+
+      browsePhotos.addEventListener("click", function () {
+        photoUpload.click();
+      });
+
+      // Close modal when clicking outside
+      reviewFormModal.addEventListener("click", function (e) {
+        if (e.target === reviewFormModal) {
+          closeModal();
+        }
+      });
+
+      // Form submission
+      const reviewForm = document.getElementById("review-form");
+      reviewForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        // Here you would normally send the form data to the server
+        alert("Thank you for your review! It has been submitted for moderation.");
+        closeModal();
+      });
+    });
+  </script>
+</body>
+
+</html>

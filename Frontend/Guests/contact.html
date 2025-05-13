@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="MEDora, healthcare, modern, solutions, services, health, active, modern healthcare solutions provider, stay healthy and active">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="google-site-verification" content="your-verification-code">
+    <meta name="google-site-verification" content="your-verification-code">
+    <title>Contact - MEDora</title>
+    <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16">
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: "#1CB5BD", secondary: "#64b5f6" },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8+1z4x2e5c5e5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+<style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .bg-primary {
+            background-color: #1CB5BD;
+        }
+        .bg-primary {
+            background-color: rgba(28, 181, 189, 0.05);
+        }
+        .text-primary {
+            color: #1CB5BD;
+        }
+        .rounded-button {
+            border-radius: 8px;
+        }
+        .rounded-button:hover {
+            background-color: rgba(28, 181, 189, 0.1);
+        }
+        .dropdown-container {
+            position: relative;
+        }
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        .dropdown-item {
+            padding: 12px 16px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .dropdown-item:hover {
+            background-color: rgba(28, 181, 189, 0.1);
+        }
+        .dropdown-item i {
+            margin-right: 8px;
+        }
+        .dropdown-item span {
+            font-size: 14px;
+        }
+        .dropdown-item:hover span {
+            color: #1CB5BD;
+        }
+        .dropdown-item:hover i {
+            color: #1CB5BD;
+        }
+
+        .chatbot-icon {
+            animation: pulse 2s infinite;
+        }
+
+        .chatbot-icon:hover {
+            animation: none;
+        }
+
+        .typing-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid white;
+            animation: typing 1.5s steps(20, end), blink-caret 0.75s step-end infinite;
+            animation-play-state: paused;
+        }
+
+        .group:hover .typing-text {
+            animation: typing 1.5s steps(20, end), blink-caret 0.75s step-end infinite;
+            animation-iteration-count: infinite;
+        }
+
+        /* Chatbot Icon Animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            
+            50% {
+                transform: scale(1.05);
+            }
+            
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Chatbot Typing Animation */
+        @keyframes typing {
+        0% { width: 0 }
+        100% { width: 100% }
+        }
+
+        @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: white }
+        }
+
+        /* Add mobile menu styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 0;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #1CB5BD;
+        }
+
+        .mobile-menu div:last-of-type a:hover {
+            color: white;
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu .dropdown-content {
+            display: none;
+            padding-left: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .mobile-menu .dropdown-content.active {
+            display: block;
+        }
+
+        .mobile-menu .dropdown-content a {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .mobile-menu .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        #mobile-menu-button {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu-button:hover {
+            color: #1CB5BD;
+        }
+
+        /* Dropdown2 specific styles */
+        .dropdown2 {
+            position: relative;
+        }
+
+        .dropdown-content2 {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            min-width: 200px;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            z-index: 50;
+        }
+
+        .dropdown-content2.active {
+            display: block;
+        }
+
+        .dropdown-content2 a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-content2 a:hover {
+            background-color: #f3f4f6;
+            color: #1CB5BD;
+        }
+
+        .dropdown-content2 a i {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Mobile menu dropdown2 styles */
+        .mobile-menu .dropdown2 {
+            position: static;
+        }
+
+        .mobile-menu .dropdown-content2 {
+            position: static;
+            display: none;
+            padding-left: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            box-shadow: none;
+        }
+
+        .mobile-menu .dropdown-content2.active {
+            display: block;
+        }
+
+        .mobile-menu .dropdown-content2 a {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .mobile-menu .dropdown-content2 a:last-child {
+            border-bottom: none;
+        }
+
+        .rotate-90 {
+            transform: rotate(90deg);
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+        @media (min-width: 1075px) {
+          html { font-size: 14px; }
+        }
+        @media (max-width: 1075px) {
+          html { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+          html { font-size: 10px; }
+        }
+
+</style>
+</head>
+<body class="bg-gray-50">
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center md:space-x-4 lg:space-x-8 xl:space-x-10">
+                <div>
+                    <a href="#" class="flex-shrink-0 flex items-center">
+                        <i class="ri-stethoscope-line ri-2x text-primary mr-2"></i>
+                        <span class="text-primary text-2xl font-['Pacifico']">MEDora</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center md:space-x-1 lg:space-x-4 xl:space-x-8">
+                    <a href="home.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Home</a>
+                    <div class="dropdown-container relative">
+                        <a href="#" id="services-menu"
+                            class="text-gray-700 hover:text-primary px-1 pt-1 font-medium flex items-center sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                            Our Services
+                            <div class="w-5 h-5 flex items-center justify-center ml-1">
+                                <i id="services-arrow" class="ri-arrow-down-s-line transition-transform duration-300"></i>
+                            </div>
+                        </a>
+                        <div id="services-dropdown"
+                            class="hidden absolute left-0 mt-2 w-80 bg-white rounded shadow-lg p-4 z-50">
+                            <div class="grid grid-cols-2 gap-3">
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full text-red-500">
+                                        <i class="ri-heart-pulse-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Emergency & Critical Care</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full text-blue-500">
+                                        <i class="ri-medicine-bottle-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Support Services</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full text-purple-500">
+                                        <i class="ri-hospital-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Specialized Units</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full text-green-500">
+                                        <i class="ri-parent-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Maternity & Childcare</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500">
+                                        <i class="ri-stethoscope-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Outpatient Services</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-50">
+                                    <div
+                                        class="w-8 h-8 flex items-center justify-center bg-indigo-100 rounded-full text-indigo-500">
+                                        <i class="ri-surgical-mask-line"></i>
+                                    </div>
+                                    <span class="ml-2 text-sm">Surgical Services</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="find-doctor.html" data-readdy="true"
+                        class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">Find Doctor</a>
+                    <a href="blog.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Blog</a>
+                    <a href="reviews.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Reviews</a>
+                    <a href="contact.html" class="text-primary border-b-2 border-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Contact</a>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8">
+                <button
+                    class="px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                    <a href="log-in.html">Sign
+                    In</a></button>
+                <button
+                    class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                    <a href="sign-up.html">Sign
+                    Up</a></button>
+            </div>
+            <div class="flex md:hidden items-center">
+                <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i id="mobile-icon" class="ri-menu-line ri-lg transition-transform duration-300"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <!-- Breadcrumb -->
+        <div class="bg-white border-b">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center text-sm text-gray-500">
+              <a
+                href="home.html"
+                class="hover:text-primary"
+                >Home</a
+              >
+              <div class="w-4 h-4 flex items-center justify-center mx-1">
+                <i class="ri-arrow-right-s-line"></i>
+              </div>
+              <span class="text-primary font-medium">Contact Us</span>
+            </div>
+          </div>
+        </div>
+
+    <!-- Hero Banner -->
+    <div class="relative h-[400px] bg-gradient-to-r from-primary/10 to-primary/5 overflow-hidden">
+        <img
+        src="../assets/images/Contact Hero.jpg"
+        alt="Contact Hero"
+        class="absolute inset-0 w-full h-full object-cover mix-blend-overlay"/>
+        <div class="absolute inset-0 bg-gradient-to-r from-white/90 to-white/50"></div>
+        <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center">
+            <h1 class="text-5xl font-bold text-gray-900 mb-6"> Contact Us </h1>
+            <div class="w-24 h-1 bg-primary rounded-full mb-6"></div>
+            <p class="text-xl text-gray-600 max-w-2xl mb-8">
+                We are here to help you with any questions or concerns.
+            </p>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="py-28 bg-gray-50">
+        <div class ="bg-white box-shadow rounded-lg p-8">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mt-4 mb-10">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Contact Us</h2>
+                    <p class="text-xl font-bold text-primary mb-2">We would love to hear from you!</p>
+                    <p class="text-lg text-gray-600">Have a question or concern? Our team is here to help.</p>
+                </div>
+                <for id="contact-form">
+
+
+                <div class="mb-6">
+                    <label
+                    for="name"
+                    class="block text-gray-700 font-medium mb-2">Name</label>
+                    <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
+                    placeholder=" Enter your name"/>
+                </div>
+
+                <div class="mb-6">
+                    <label
+                    for="email"
+                    class="block text-gray-700 font-medium mb-2">Email</label>
+                    <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
+                    placeholder=" Enter your email"/>
+                </div>
+
+                <div class="mb-6">
+                    <label
+                    for="subject"
+                    class="block text-gray-700 font-medium mb-2">Subject</label>
+                    <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
+                    placeholder=" Enter your subject"/>
+                </div>
+
+                <div class="mb-6">
+                    <label
+                    for="message-content"
+                    class="block text-gray-700 font-medium mb-2"
+                    >Your Message</label
+                    >
+                    <textarea
+                    id="message-content"
+                    name="content"
+                    rows="5"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
+                    placeholder=" Enter your message here... "></textarea>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2"
+                    >Add Photos (Optional)</label>
+                    <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                        <div
+                            class="w-12 h-12 mx-auto mb-3 flex items-center justify-center bg-gray-100 rounded-full text-gray-500">
+                            <i class="ri-image-add-line ri-xl"></i>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-2">
+                            Drag and drop files here, or click to browse
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            Maximum 3 images (JPG, PNG, 5MB each)
+                        </p>
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            class="hidden"
+                            id="photo-upload"/>
+                        <button
+                            type="button"
+                            id="browse-photos"
+                            class="mt-3 px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 transition duration-300 whitespace-nowrap text-sm">
+                            Browse Files
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex items-start">
+                    <input
+                        type="checkbox"
+                        id="terms-checkbox"
+                        class="custom-checkbox"
+                        style=" width: 20px; height: 20px;"/>
+                    <label for="terms-checkbox" class="ml-2 text-gray-700 font-medium">
+                        I have read and agree to the <a href="#" class="text-primary underline">terms and conditions</a>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button
+                    type="submit"
+                    class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap">
+                    Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <a
+                href="#"
+                class="text-2xl font-['Pacifico'] text-white mb-4 inline-block"
+                >MEDora</a
+              >
+              <p class="text-gray-400 mb-6">
+                Providing advanced healthcare solutions with compassion and
+                excellence since 2010.
+              </p>
+              <div class="flex space-x-4">
+                <a
+                  href="#"
+                  class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+                >
+                  <i class="ri-facebook-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+                >
+                  <i class="ri-twitter-x-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+                >
+                  <i class="ri-instagram-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+                >
+                  <i class="ri-linkedin-fill"></i>
+                </a>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul class="space-y-3">
+                <li>
+                  <a
+                    href="home.html"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Home</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >About Us</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Our Services</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="find-doctor.html"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Find a Doctor</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="blog.html"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Blog</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Contact Us</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Our Services</h3>
+              <ul class="space-y-3">
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Emergency Care</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Primary Care</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Surgical Services</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Mental Health</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Maternity Care</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-gray-400 hover:text-white transition duration-300"
+                    >Diagnostic Services</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Contact Information</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <div class="w-5 h-5 flex items-center justify-center text-primary mt-1 mr-3">
+                      <i class="ri-map-pin-line"></i>
+                  </div>
+                <a href="https://www.google.com/maps/search/123+Healthcare+Avenue,+Medical+District,+New+York,+NY+10001" 
+                  class="text-gray-400 hover:text-white transition duration-300" 
+                  id="address" 
+                  name="address"
+                  target="_blank">123 Healthcare Avenue, Medical District, New York, NY 10001</a>
+                </li>
+  
+                <li class="flex items-center">
+                  <div class="w-5 h-5 flex items-center justify-center text-primary mr-3">
+                      <i class="ri-phone-line"></i>
+                  </div>
+                  <a href="tel:+15551234567" class="text-gray-400 hover:text-white transition duration-300" id="phone-number" name="phone-number">+1 (555) 123-4567</a>
+                </li>
+  
+                <li class="flex items-center">
+                  <div class="w-5 h-5 flex items-center justify-center text-primary mr-3">
+                      <i class="ri-mail-line"></i>
+                  </div>
+                  <a href="mailto:info@medora.com" class="text-gray-400 hover:text-white transition duration-300" id="email-address" name="email-address">info@medora.com</a>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-primary mr-3"
+                  >
+                    <i class="ri-time-line"></i>
+                  </div>
+                  <span class="text-gray-400">24/7 Emergency Services</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="border-t border-gray-800 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+              <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                © 2025 MEDora Healthcare. All rights reserved.
+              </p>
+              <div class="flex space-x-6">
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white text-sm transition duration-300"
+                  >Privacy Policy</a
+                >
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white text-sm transition duration-300"
+                  >Terms of Service</a
+                >
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white text-sm transition duration-300"
+                  >Cookie Policy</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+  
+      <!-- Chatbot Icon -->
+      <div class="fixed bottom-6 right-6 z-50">
+        <a href="chat-bot.html" class="group relative chatbot-icon">
+          <button
+            class="w-16 h-16 flex items-center justify-center bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition duration-300">
+            <div class="w-8 h-8 flex items-center justify-center">
+              <i class="ri-customer-service-2-line ri-2x"></i>
+            </div>
+          </button>
+          <div class="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-gradient-to-r from-primary/90 to-primary text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg">
+            <div class="flex items-center">
+              <div class="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
+              <span class="typing-text">AI Chat Bot Helper</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Add mobile menu structure -->
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="home.html" class="flex items-center">
+          <i class="ri-home-line mr-2 text-primary"></i>
+          Home
+      </a>
+      <div class="dropdown2">
+          <a href="#" class="flex items-center justify-between" id="mobile-services-menu">
+              <div class="flex items-center">
+                <div class="flex items-center">
+                  <i class="ri-service-line mr-2 text-primary"></i>
+                  Our Services
+                </div>
+                <i id="services-mobile-arrow" class="ri-arrow-down-s-line ml-2 transition-transform duration-300"></i>
+              </div>
+          </a>
+          <div class="dropdown-content2">
+              <a href="#" class="flex items-center">
+                  <i class="ri-heart-pulse-line mr-2 text-red-500"></i>
+                  Emergency & Critical Care
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-medicine-bottle-line mr-2 text-blue-500"></i>
+                  Support Services
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-hospital-line mr-2 text-purple-500"></i>
+                  Specialized Units
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-parent-line mr-2 text-green-500"></i>
+                  Maternity & Childcare
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-stethoscope-line mr-2 text-yellow-500"></i>
+                  Outpatient Services
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-surgical-mask-line mr-2 text-indigo-500"></i>
+                  Surgical Services
+              </a>
+          </div>
+      </div>
+      <a href="find-doctor.html" class="flex items-center">
+          <i class="ri-user-search-line mr-2 text-primary"></i>
+          Find Doctor
+      </a>
+      <a href="blog.html" class="flex items-center">
+          <i class="ri-article-line mr-2 text-primary"></i>
+          Blog
+      </a>
+      <a href="reviews.html" class="flex items-center">
+          <i class="ri-star-line mr-2 text-primary"></i>
+          Reviews
+      </a>
+      <a href="contact.html" class="flex items-center">
+          <i class="ri-contacts-line mr-2 text-primary"></i>
+          Contact
+      </a>
+      <div class="mt-4 space-y-2">
+          <a href="log-in.html" class="block text-center px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300">
+              <i class="ri-login-box-line mr-2"></i>
+              Sign In
+          </a>
+          <a href="sign_up.html" class="block text-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300">
+              <i class="ri-user-add-line mr-2"></i>
+              Sign Up
+          </a>
+      </div>
+  </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Mobile menu functionality
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileServicesMenu = document.getElementById("mobile-services-menu");
+      const mobileDropdownContent = document.querySelector(".dropdown-content2");
+      const mobileIcon = document.getElementById("mobile-icon");
+      const servicesMobileArrow = document.getElementById("services-mobile-arrow");
+
+      // Services dropdown functionality
+      const servicesMenu = document.getElementById("services-menu");
+      const servicesDropdown = document.getElementById("services-dropdown");
+      const servicesArrow = document.getElementById("services-arrow");
+
+      // Function to check screen size and handle mobile menu
+      function handleScreenSize() {
+        if (window.innerWidth >= 767) { // md breakpoint
+          mobileMenu.classList.remove("active");
+          mobileDropdownContent.classList.remove("active");
+        }
+      }
+
+      // Initial check
+      handleScreenSize();
+
+      // Add resize event listener
+      window.addEventListener("resize", handleScreenSize);
+
+      // Mobile menu event listeners
+      mobileMenuButton.addEventListener("click", function (e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle("active");
+        mobileIcon.classList.toggle("rotate-90");
+      });
+
+      mobileServicesMenu.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        mobileDropdownContent.classList.toggle("active");
+        servicesMobileArrow.classList.toggle("rotate-180");
+      });
+
+      // Services dropdown event listeners
+      servicesMenu.addEventListener("click", function (e) {
+        e.preventDefault();
+        servicesDropdown.classList.toggle("hidden");
+        servicesDropdown.classList.toggle("show");
+        servicesArrow.classList.toggle("rotate-180");
+      });
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", function (e) {
+        // Close mobile menu
+        if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+          mobileMenu.classList.remove("active");
+          mobileIcon.classList.remove("rotate-90");
+          mobileDropdownContent.classList.remove("active");
+          servicesMobileArrow.classList.remove("rotate-180");
+        }
+
+        // Close services dropdown
+        if (!servicesMenu.contains(e.target) && !servicesDropdown.contains(e.target)) {
+          servicesDropdown.classList.add("hidden");
+          servicesDropdown.classList.remove("show");
+          servicesArrow.classList.remove("rotate-180");
+        }
+      });
+    });
+    </script>
+</body>
+</html>

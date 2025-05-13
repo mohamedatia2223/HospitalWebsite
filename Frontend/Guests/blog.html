@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - MEDora</title>
+    <meta name="keywords" content="MEDora, healthcare, modern, solutions, services, health, active, modern healthcare solutions provider, stay healthy and active">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="google-site-verification" content="your-verification-code">
+    <meta name="google-site-verification" content="your-verification-code">
+    <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#1CB5BD", secondary: "#64b5f6" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before {
+        content: "\f3c2";
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      .dropdown {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      }
+      .dropdown-container:hover .dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+      }
+      .category-pill {
+        transition: all 0.3s ease;
+      }
+      .category-pill.active {
+        background-color: #1cb5bd;
+        color: white;
+      }
+      .article-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .featured-post {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .featured-post:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .tag {
+        transition: all 0.3s ease;
+      }
+      .tag:hover {
+        background-color: #1cb5bd;
+        color: white;
+      }
+      .newsletter-input:focus {
+        border-color: #1cb5bd;
+      }
+      .pagination-item {
+        transition: all 0.3s ease;
+      }
+      .pagination-item.active {
+        background-color: #1cb5bd;
+        color: white;
+      }
+      .social-share-btn {
+        transition: all 0.3s ease;
+      }
+      .social-share-btn:hover {
+        transform: translateY(-2px);
+      }
+      .custom-checkbox {
+        display: none;
+      }
+      .custom-checkbox + label {
+        position: relative;
+        padding-left: 28px;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .custom-checkbox + label:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #d1d5db;
+        background: #fff;
+        border-radius: 4px;
+      }
+      .custom-checkbox:checked + label:before {
+        background: #1cb5bd;
+        border-color: #1cb5bd;
+      }
+      .custom-checkbox:checked + label:after {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 3px;
+        width: 6px;
+        height: 11px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
+      .chatbot-icon {
+        animation: pulse 2s infinite;
+      }
+
+      .chatbot-icon:hover {
+        animation: none;
+      }
+
+      .typing-text {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 2px solid white;
+        animation: typing 1.5s steps(20, end),
+          blink-caret 0.75s step-end infinite;
+        animation-play-state: paused;
+      }
+
+      .group:hover .typing-text {
+        animation: typing 1.5s steps(20, end),
+          blink-caret 0.75s step-end infinite;
+        animation-iteration-count: infinite;
+      }
+
+      /* Chatbot Icon Animation */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.05);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Chatbot Typing Animation */
+      @keyframes typing {
+        0% {
+          width: 0;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: white;
+        }
+      }
+
+      /* Add mobile menu styles */
+      .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 0;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #1CB5BD;
+        }
+
+        .mobile-menu div:last-of-type a:hover {
+            color: white;
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu .dropdown-content {
+            display: none;
+            padding-left: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .mobile-menu .dropdown-content.active {
+            display: block;
+        }
+
+        .mobile-menu .dropdown-content a {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .mobile-menu .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        #mobile-menu-button {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu-button:hover {
+            color: #1CB5BD;
+        }
+
+        /* Dropdown2 specific styles */
+        .dropdown2 {
+            position: relative;
+        }
+
+        .dropdown-content2 {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            min-width: 200px;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            z-index: 50;
+        }
+
+        .dropdown-content2.active {
+            display: block;
+        }
+
+        .dropdown-content2 a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-content2 a:hover {
+            background-color: #f3f4f6;
+            color: #1CB5BD;
+        }
+
+        .dropdown-content2 a i {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Mobile menu dropdown2 styles */
+        .mobile-menu .dropdown2 {
+            position: static;
+        }
+
+        .mobile-menu .dropdown-content2 {
+            position: static;
+            display: none;
+            padding-left: 1rem;
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            box-shadow: none;
+        }
+
+        .mobile-menu .dropdown-content2.active {
+            display: block;
+        }
+
+        .mobile-menu .dropdown-content2 a {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .mobile-menu .dropdown-content2 a:last-child {
+            border-bottom: none;
+        }
+
+        .rotate-90 {
+            transform: rotate(90deg);
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        @media (min-width: 1075px) {
+          html { font-size: 14px; }
+        }
+        @media (max-width: 1075px) {
+          html { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+          html { font-size: 10px; }
+        }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div
+            class="flex items-center md:space-x-4 lg:space-x-8 xl:space-x-10"
+          >
+            <div>
+              <a href="#" class="flex-shrink-0 flex items-center">
+                <i class="ri-stethoscope-line ri-2x text-primary mr-2"></i>
+                <span class="text-primary text-2xl font-['Pacifico']"
+                  >MEDora</span
+                >
+              </a>
+            </div>
+            <div
+              class="hidden md:flex items-center md:space-x-1 lg:space-x-4 xl:space-x-8"
+            >
+              <a
+                href="home.html"
+                class="text-gray-700 hover:text-primary px-1 pt-1 font-medium flex items-center sm:text-xs md:text-sm lg:text-base xl:text-lg"
+                >Home</a
+              >
+              <div class="dropdown-container relative">
+                <a
+                  href="#"
+                  id="services-menu"
+                  class="text-gray-700 hover:text-primary px-1 pt-1 font-medium flex items-center sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
+                >
+                  Our Services
+                  <div class="w-5 h-5 flex items-center justify-center ml-1">
+                    <i id="services-arrow" class="ri-arrow-down-s-line transition-transform duration-300"></i>
+                  </div>
+                </a>
+                <div
+                  id="services-dropdown"
+                  class="hidden absolute left-0 mt-2 w-80 bg-white rounded shadow-lg p-4 z-50"
+                >
+                  <div class="grid grid-cols-2 gap-3">
+                    <a
+                      href="#"
+                      class="flex items-center p-2 rounded hover:bg-gray-50"
+                    >
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full text-red-500"
+                      >
+                        <i class="ri-heart-pulse-line"></i>
+                      </div>
+                      <span class="ml-2 text-sm"
+                        >Emergency & Critical Care</span
+                      >
+                    </a>
+                    <a
+                      href="#"
+                      class="flex items-center p-2 rounded hover:bg-gray-50"
+                    >
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full text-blue-500"
+                      >
+                        <i class="ri-medicine-bottle-line"></i>
+                      </div>
+                      <span class="ml-2 text-sm">Support Services</span>
+                    </a>
+                    <a
+                      href="#"
+                      class="flex items-center p-2 rounded hover:bg-gray-50"
+                    >
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full text-purple-500"
+                      >
+                        <i class="ri-hospital-line"></i>
+                      </div>
+                      <span class="ml-2 text-sm">Specialized Units</span>
+                    </a>
+                    <a
+                      href="#"
+                      class="flex items-center p-2 rounded hover:bg-gray-50"
+                    >
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full text-green-500"
+                      >
+                        <i class="ri-parent-line"></i>
+                      </div>
+                      <span class="ml-2 text-sm">Maternity & Childcare</span>
+                    </a>
+                    <a
+                      href="#"
+                      class="flex items-center p-2 rounded hover:bg-gray-50"
+                    >
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500"
+                      >
+                        <i class="ri-stethoscope-line"></i>
+                      </div>
+                      <span class="ml-2 text-sm">Outpatient Services</span>
+                    </a>
+                    <a
+                      href="#"
+                      class="flex items-center p-2 rounded hover:bg-gray-50"
+                    >
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-indigo-100 rounded-full text-indigo-500"
+                      >
+                        <i class="ri-surgical-mask-line"></i>
+                      </div>
+                      <span class="ml-2 text-sm">Surgical Services</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <a
+                href="find-doctor.html"
+                data-readdy="true"
+                class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
+                >Find Doctor</a
+              >
+              <a
+                href="blog.html"
+                class="text-primary border-b-2 border-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg"
+                >Blog</a
+              >
+              <a
+                href="reviews.html"
+                class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg"
+                >Reviews</a
+              >
+              <a
+                href="contact.html"
+                class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div
+            class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8"
+          >
+            <button
+              class="px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
+            >
+              <a href="log-in.html">Sign In</a>
+            </button>
+            <button
+              class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
+            >
+              <a href="sign-up.html">Sign Up</a>
+            </button>
+          </div>
+          <div class="flex md:hidden items-center">
+            <button
+              id="mobile-menu-button"
+              class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none"
+            >
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i id="mobile-icon" class="ri-menu-line ri-lg transition-transform duration-300"></i>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content -->
+    <main class="pt-16">
+      <!-- Breadcrumb -->
+      <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div class="flex items-center text-sm text-gray-500">
+            <a href="home.html" class="hover:text-primary">Home</a>
+            <div class="w-4 h-4 flex items-center justify-center mx-1">
+              <i class="ri-arrow-right-s-line"></i>
+            </div>
+            <span class="text-primary font-medium">Blog</span>
+          </div>
+        </div>
+      </div>
+      <!-- Hero Banner -->
+      <div
+        class="relative h-[400px] bg-gradient-to-r from-primary/10 to-primary/5 overflow-hidden"
+      >
+        <img
+          src="../assets/images/Blog Hero.jpg"
+          alt="Blog Hero"
+          class="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-white/90 to-white/50"
+        ></div>
+        <div
+          class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center"
+        >
+          <h1 class="text-5xl font-bold text-gray-900 mb-6">Our Blog</h1>
+          <div class="w-24 h-1 bg-primary rounded-full mb-6"></div>
+          <p class="text-xl text-gray-600 max-w-2xl">
+            Stay informed with the latest healthcare insights, medical
+            breakthroughs, and wellness tips from our expert team.
+          </p>
+        </div>
+      </div>
+      <!-- Blog Content Section -->
+      <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div class="text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">
+              Healthcare Insights & Updates
+            </h2>
+            <p class="text-lg text-gray-600 mb-8">
+              Discover the latest medical research, health tips, and patient
+              stories from our expert healthcare professionals.
+            </p>
+            <!-- Search Bar -->
+            <div class="relative max-w-xl mx-auto mb-10">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+              >
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-400"
+                >
+                  <i class="ri-search-line"></i>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:border-primary text-sm"
+                placeholder="Search articles by keyword, topic, or author"
+              />
+              <button
+                class="absolute right-2 top-2 px-4 py-1 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap text-sm"
+              >
+                Search
+              </button>
+            </div>
+            <!-- Category Pills -->
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+              <button
+                class="category-pill active px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition"
+              >
+                All Topics
+              </button>
+              <button
+                class="category-pill px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition"
+              >
+                Wellness
+              </button>
+              <button
+                class="category-pill px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition"
+              >
+                Medical News
+              </button>
+              <button
+                class="category-pill px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition"
+              >
+                Patient Stories
+              </button>
+              <button
+                class="category-pill px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition"
+              >
+                Health Tips
+              </button>
+              <button
+                class="category-pill px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition"
+              >
+                Research Updates
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Featured Posts -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">Featured Articles</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <!-- Featured Post 1 -->
+          <div
+            class="featured-post bg-white rounded-lg shadow-md overflow-hidden"
+          >
+            <div class="relative">
+              <img
+                src="../assets/images/The Future of Telemedicine.jpg"
+                alt="The Future of Telemedicine"
+                class="w-full h-64 object-cover"
+              />
+              <div class="absolute top-4 left-4">
+                <span
+                  class="bg-primary/90 text-white text-xs font-medium px-3 py-1 rounded-full"
+                  >Medical News</span
+                >
+              </div>
+            </div>
+            <div class="p-6">
+              <h3
+                class="text-xl font-bold text-gray-900 mb-2 hover:text-primary transition"
+              >
+                The Future of Telemedicine: How Virtual Care is Transforming
+                Healthcare
+              </h3>
+              <div class="flex items-center mb-3">
+                <img
+                  src="../assets/images/Dr. Elizabeth Chen.jpg"
+                  alt="Dr. Elizabeth Chen"
+                  class="w-8 h-8 rounded-full object-cover mr-3"
+                />
+                <span class="text-gray-600 text-sm">Dr. Elizabeth Chen</span>
+                <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                <span class="text-gray-500 text-sm">April 28, 2025</span>
+                <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                <span class="text-gray-500 text-sm">8 min read</span>
+              </div>
+              <p class="text-gray-600 mb-4">
+                Explore how telemedicine is revolutionizing patient care,
+                improving access to specialists, and creating new possibilities
+                for remote health monitoring. Learn about the latest
+                technologies and how they're being implemented in healthcare
+                systems worldwide.
+              </p>
+              <div class="flex justify-between items-center">
+                <a href="#" class="text-primary font-medium hover:underline"
+                  >Read More</a
+                >
+                <div class="flex space-x-2">
+                  <button
+                    class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
+                  >
+                    <i class="ri-facebook-fill text-gray-600"></i>
+                  </button>
+                  <button
+                    class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
+                  >
+                    <i class="ri-twitter-x-fill text-gray-600"></i>
+                  </button>
+                  <button
+                    class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
+                  >
+                    <i class="ri-linkedin-fill text-gray-600"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Featured Post 2 -->
+          <div
+            class="featured-post bg-white rounded-lg shadow-md overflow-hidden"
+          >
+            <div class="relative">
+              <img
+                src="../assets/images/Mindfulness and Mental Health.jpg"
+                alt="Mindfulness and Mental Health"
+                class="w-full h-64 object-cover"
+              />
+              <div class="absolute top-4 left-4">
+                <span
+                  class="bg-green-500/90 text-white text-xs font-medium px-3 py-1 rounded-full"
+                  >Wellness</span
+                >
+              </div>
+            </div>
+            <div class="p-6">
+              <h3
+                class="text-xl font-bold text-gray-900 mb-2 hover:text-primary transition"
+              >
+                Mindfulness and Mental Health: Practical Techniques for Daily
+                Wellbeing
+              </h3>
+              <div class="flex items-center mb-3">
+                <img
+                  src="../assets/images/Dr. Marcus Johnson.jpg"
+                  alt="Dr. Marcus Johnson"
+                  class="w-8 h-8 rounded-full object-cover mr-3"
+                />
+                <span class="text-gray-600 text-sm">Dr. Marcus Johnson</span>
+                <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                <span class="text-gray-500 text-sm">April 25, 2025</span>
+                <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                <span class="text-gray-500 text-sm">6 min read</span>
+              </div>
+              <p class="text-gray-600 mb-4">
+                Discover evidence-based mindfulness practices that can help
+                reduce stress, anxiety, and improve overall mental health. This
+                comprehensive guide offers simple techniques that can be
+                incorporated into your daily routine for better emotional
+                wellbeing.
+              </p>
+              <div class="flex justify-between items-center">
+                <a href="#" class="text-primary font-medium hover:underline"
+                  >Read More</a
+                >
+                <div class="flex space-x-2">
+                  <button
+                    class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
+                  >
+                    <i class="ri-facebook-fill text-gray-600"></i>
+                  </button>
+                  <button
+                    class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
+                  >
+                    <i class="ri-twitter-x-fill text-gray-600"></i>
+                  </button>
+                  <button
+                    class="social-share-btn w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
+                  >
+                    <i class="ri-linkedin-fill text-gray-600"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Latest Articles Grid -->
+        <div class="flex flex-col lg:flex-row gap-8">
+          <!-- Main Content -->
+          <div class="lg:w-2/3">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">
+              Latest Articles
+            </h2>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"
+            >
+              <!-- Article Card 1 -->
+              <div
+                class="article-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <div class="relative">
+                  <img
+                    src="../assets/images/Nutrition Guide.jpg"
+                    alt="Nutrition Guide"
+                    class="w-full h-48 object-cover"
+                  />
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="bg-yellow-500/90 text-white text-xs font-medium px-2.5 py-0.5 rounded-full"
+                      >Health Tips</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-primary transition line-clamp-2"
+                  >
+                    Nutrition Guide: Building a Balanced Diet for Optimal Health
+                  </h3>
+                  <div class="flex items-center mb-3">
+                    <span class="text-gray-600 text-xs"
+                      >Sarah Williams, RD</span
+                    >
+                    <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                    <span class="text-gray-500 text-xs">April 20, 2025</span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+                    Learn how to create a balanced diet that provides all the
+                    essential nutrients your body needs. This comprehensive
+                    guide covers macronutrients, micronutrients, and practical
+                    meal planning tips.
+                  </p>
+                  <a
+                    href="#"
+                    class="text-primary text-sm font-medium hover:underline"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+              <!-- Article Card 2 -->
+              <div
+                class="article-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <div class="relative">
+                  <img
+                    src="../assets/images/Patient Story.jpg"
+                    alt="Patient Story"
+                    class="w-full h-48 object-cover"
+                  />
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="bg-purple-500/90 text-white text-xs font-medium px-2.5 py-0.5 rounded-full"
+                      >Patient Stories</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-primary transition line-clamp-2"
+                  >
+                    My Journey Through Heart Surgery: A Patient's Perspective
+                  </h3>
+                  <div class="flex items-center mb-3">
+                    <span class="text-gray-600 text-xs">Robert Anderson</span>
+                    <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                    <span class="text-gray-500 text-xs">April 18, 2025</span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+                    Robert shares his personal experience with open-heart
+                    surgery, from diagnosis to recovery. His story offers
+                    insights and hope for others facing similar health
+                    challenges.
+                  </p>
+                  <a
+                    href="#"
+                    class="text-primary text-sm font-medium hover:underline"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+              <!-- Article Card 3 -->
+              <div
+                class="article-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <div class="relative">
+                  <img
+                    src="../assets/images/Cancer Research.jpg"
+                    alt="Cancer Research"
+                    class="w-full h-48 object-cover"
+                  />
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="bg-blue-500/90 text-white text-xs font-medium px-2.5 py-0.5 rounded-full"
+                      >Research Updates</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-primary transition line-clamp-2"
+                  >
+                    Breakthrough in Cancer Research: New Treatment Shows Promise
+                  </h3>
+                  <div class="flex items-center mb-3">
+                    <span class="text-gray-600 text-xs">Dr. James Wilson</span>
+                    <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                    <span class="text-gray-500 text-xs">April 15, 2025</span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+                    A recent clinical trial has shown promising results for a
+                    new immunotherapy treatment for specific types of cancer.
+                    Learn about the research and what it means for future cancer
+                    treatment.
+                  </p>
+                  <a
+                    href="#"
+                    class="text-primary text-sm font-medium hover:underline"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+              <!-- Article Card 4 -->
+              <div
+                class="article-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <div class="relative">
+                  <img
+                    src="../assets/images/Sleep Health.jpg"
+                    alt="Sleep Health"
+                    class="w-full h-48 object-cover"
+                  />
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="bg-green-500/90 text-white text-xs font-medium px-2.5 py-0.5 rounded-full"
+                      >Wellness</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-primary transition line-clamp-2"
+                  >
+                    The Science of Sleep: How Quality Rest Impacts Your Health
+                  </h3>
+                  <div class="flex items-center mb-3">
+                    <span class="text-gray-600 text-xs">Dr. Michelle Park</span>
+                    <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                    <span class="text-gray-500 text-xs">April 12, 2025</span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+                    Discover the latest research on sleep and its profound
+                    effects on physical and mental health. This article provides
+                    practical tips for improving sleep quality and establishing
+                    healthy sleep habits.
+                  </p>
+                  <a
+                    href="#"
+                    class="text-primary text-sm font-medium hover:underline"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+              <!-- Article Card 5 -->
+              <div
+                class="article-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <div class="relative">
+                  <img
+                    src="../assets/images/Preventive Healthcare.jpg"
+                    alt="Preventive Healthcare"
+                    class="w-full h-48 object-cover"
+                  />
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="bg-primary/90 text-white text-xs font-medium px-2.5 py-0.5 rounded-full"
+                      >Medical News</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-primary transition line-clamp-2"
+                  >
+                    Preventive Healthcare: The Key Screenings You Shouldn't Skip
+                  </h3>
+                  <div class="flex items-center mb-3">
+                    <span class="text-gray-600 text-xs"
+                      >Dr. Thomas Reynolds</span
+                    >
+                    <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                    <span class="text-gray-500 text-xs">April 10, 2025</span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+                    Regular health screenings are essential for early detection
+                    and prevention of serious conditions. Learn which screenings
+                    are recommended at different ages and why they're important.
+                  </p>
+                  <a
+                    href="#"
+                    class="text-primary text-sm font-medium hover:underline"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+              <!-- Article Card 6 -->
+              <div
+                class="article-card bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <div class="relative">
+                  <img
+                    src="../assets/images/Fitness Technology.jpg"
+                    alt="Fitness Technology"
+                    class="w-full h-48 object-cover"
+                  />
+                  <div class="absolute top-3 left-3">
+                    <span
+                      class="bg-yellow-500/90 text-white text-xs font-medium px-2.5 py-0.5 rounded-full"
+                      >Health Tips</span
+                    >
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 mb-2 hover:text-primary transition line-clamp-2"
+                  >
+                    Fitness Technology: Using Wearables to Optimize Your Workout
+                  </h3>
+                  <div class="flex items-center mb-3">
+                    <span class="text-gray-600 text-xs"
+                      >Michael Thompson, PT</span
+                    >
+                    <div class="w-1 h-1 bg-gray-300 rounded-full mx-2"></div>
+                    <span class="text-gray-500 text-xs">April 8, 2025</span>
+                  </div>
+                  <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+                    Modern fitness trackers and wearables can provide valuable
+                    insights to improve your workout efficiency. This guide
+                    explains how to interpret the data and use it to achieve
+                    your fitness goals.
+                  </p>
+                  <a
+                    href="#"
+                    class="text-primary text-sm font-medium hover:underline"
+                    >Read More</a
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Pagination -->
+            <div class="flex justify-center mt-12 mb-6">
+              <nav class="flex items-center space-x-2">
+                <a
+                  href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="ri-arrow-left-s-line"></i>
+                </a>
+                <a
+                  href="#"
+                  class="pagination-item active w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
+                  >1</a
+                >
+                <a
+                  href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
+                  >2</a
+                >
+                <a
+                  href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
+                  >3</a
+                >
+                <span
+                  class="w-10 h-10 flex items-center justify-center text-gray-600"
+                  >...</span
+                >
+                <a
+                  href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
+                  >8</a
+                >
+                <a
+                  href="#"
+                  class="pagination-item w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="ri-arrow-right-s-line"></i>
+                </a>
+              </nav>
+            </div>
+          </div>
+          <!-- Sidebar -->
+          <div class="lg:w-1/3">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                Popular Posts
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <img
+                    src="../assets/images/Telemedicine Article.jpg"
+                    alt="Telemedicine Article"
+                    class="w-16 h-16 rounded object-cover mr-3"
+                  />
+                  <div>
+                    <h4
+                      class="text-sm font-medium text-gray-900 hover:text-primary transition line-clamp-2"
+                    >
+                      The Future of Telemedicine: How Virtual Care is
+                      Transforming Healthcare
+                    </h4>
+                    <p class="text-xs text-gray-500 mt-1">April 28, 2025</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <img
+                    src="../assets/images/Mindfulness Article.jpg"
+                    alt="Mindfulness Article"
+                    class="w-16 h-16 rounded object-cover mr-3"
+                  />
+                  <div>
+                    <h4
+                      class="text-sm font-medium text-gray-900 hover:text-primary transition line-clamp-2"
+                    >
+                      Mindfulness and Mental Health: Practical Techniques for
+                      Daily Wellbeing
+                    </h4>
+                    <p class="text-xs text-gray-500 mt-1">April 25, 2025</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <img
+                    src="../assets/images/Nutrition Article.jpg"
+                    alt="Nutrition Article"
+                    class="w-16 h-16 rounded object-cover mr-3"
+                  />
+                  <div>
+                    <h4
+                      class="text-sm font-medium text-gray-900 hover:text-primary transition line-clamp-2"
+                    >
+                      Nutrition Guide: Building a Balanced Diet for Optimal
+                      Health
+                    </h4>
+                    <p class="text-xs text-gray-500 mt-1">April 20, 2025</p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <img
+                    src="../assets/images/Sleep Article.jpg"
+                    alt="Sleep Article"
+                    class="w-16 h-16 rounded object-cover mr-3"
+                  />
+                  <div>
+                    <h4
+                      class="text-sm font-medium text-gray-900 hover:text-primary transition line-clamp-2"
+                    >
+                      The Science of Sleep: How Quality Rest Impacts Your Health
+                    </h4>
+                    <p class="text-xs text-gray-500 mt-1">April 12, 2025</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                Categories
+              </h3>
+              <ul class="space-y-2">
+                <li class="flex justify-between items-center">
+                  <a
+                    href="#"
+                    class="text-gray-600 hover:text-primary transition"
+                    >Wellness</a
+                  >
+                  <span
+                    class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                    >24</span
+                  >
+                </li>
+                <li class="flex justify-between items-center">
+                  <a
+                    href="#"
+                    class="text-gray-600 hover:text-primary transition"
+                    >Medical News</a
+                  >
+                  <span
+                    class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                    >18</span
+                  >
+                </li>
+                <li class="flex justify-between items-center">
+                  <a
+                    href="#"
+                    class="text-gray-600 hover:text-primary transition"
+                    >Patient Stories</a
+                  >
+                  <span
+                    class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                    >12</span
+                  >
+                </li>
+                <li class="flex justify-between items-center">
+                  <a
+                    href="#"
+                    class="text-gray-600 hover:text-primary transition"
+                    >Health Tips</a
+                  >
+                  <span
+                    class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                    >32</span
+                  >
+                </li>
+                <li class="flex justify-between items-center">
+                  <a
+                    href="#"
+                    class="text-gray-600 hover:text-primary transition"
+                    >Research Updates</a
+                  >
+                  <span
+                    class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded-full"
+                    >15</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                Subscribe to Our Newsletter
+              </h3>
+              <p class="text-gray-600 text-sm mb-4">
+                Stay updated with our latest health articles, tips, and medical
+                news.
+              </p>
+              <form>
+                <div class="mb-3">
+                  <input
+                    type="email"
+                    class="newsletter-input w-full px-4 py-2 border border-gray-300 rounded focus:border-primary text-sm"
+                    placeholder="Your email address"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="w-full px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap text-sm"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
+              <div class="flex flex-wrap gap-2">
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Nutrition</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Mental Health</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Exercise</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Sleep</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Preventive Care</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Chronic Disease</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Women's Health</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Men's Health</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Children's Health</a
+                >
+                <a
+                  href="#"
+                  class="tag bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-gray-200"
+                  >Aging</a
+                >
+              </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                Related Resources
+              </h3>
+              <ul class="space-y-2">
+                <li>
+                  <a
+                    href="find_a_doctor.html"
+                    class="flex items-center text-gray-600 hover:text-primary transition"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center mr-2 text-primary"
+                    >
+                      <i class="ri-user-search-line"></i>
+                    </div>
+                    Find a Doctor
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="flex items-center text-gray-600 hover:text-primary transition"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center mr-2 text-primary"
+                    >
+                      <i class="ri-calendar-check-line"></i>
+                    </div>
+                    Book an Appointment
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="flex items-center text-gray-600 hover:text-primary transition"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center mr-2 text-primary"
+                    >
+                      <i class="ri-hospital-line"></i>
+                    </div>
+                    Our Services
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="flex items-center text-gray-600 hover:text-primary transition"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center mr-2 text-primary"
+                    >
+                      <i class="ri-question-answer-line"></i>
+                    </div>
+                    Health FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div>
+            <a
+              href="#"
+              class="text-2xl font-['Pacifico'] text-white mb-4 inline-block"
+              >MEDora</a
+            >
+            <p class="text-gray-400 mb-6">
+              Providing advanced healthcare solutions with compassion and
+              excellence since 2010.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+              >
+                <i class="ri-twitter-x-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300"
+              >
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="home.html"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Our Services</a
+                >
+              </li>
+              <li>
+                <a
+                  href="find_a_doctor.html"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Find a Doctor</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="contact.html"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Our Services</h3>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Emergency Care</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Primary Care</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Surgical Services</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Mental Health</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Maternity Care</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  >Diagnostic Services</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Contact Information</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-primary mt-1 mr-3"
+                >
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/123+Healthcare+Avenue,+Medical+District,+New+York,+NY+10001"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  id="address"
+                  name="address"
+                  target="_blank"
+                  >123 Healthcare Avenue, Medical District, New York, NY
+                  10001</a
+                >
+              </li>
+
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-primary mr-3"
+                >
+                  <i class="ri-phone-line"></i>
+                </div>
+                <a
+                  href="tel:+15551234567"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  id="phone-number"
+                  name="phone-number"
+                  >+1 (555) 123-4567</a
+                >
+              </li>
+
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-primary mr-3"
+                >
+                  <i class="ri-mail-line"></i>
+                </div>
+                <a
+                  href="mailto:info@medora.com"
+                  class="text-gray-400 hover:text-white transition duration-300"
+                  id="email-address"
+                  name="email-address"
+                  >info@medora.com</a
+                >
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-primary mr-3"
+                >
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="text-gray-400">24/7 Emergency Services</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm mb-4 md:mb-0">
+              © 2025 MEDora Healthcare. All rights reserved.
+            </p>
+            <div class="flex space-x-6">
+              <a
+                href="#"
+                class="text-gray-400 hover:text-white text-sm transition duration-300"
+                >Privacy Policy</a
+              >
+              <a
+                href="#"
+                class="text-gray-400 hover:text-white text-sm transition duration-300"
+                >Terms of Service</a
+              >
+              <a
+                href="#"
+                class="text-gray-400 hover:text-white text-sm transition duration-300"
+                >Cookie Policy</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Chatbot Icon -->
+    <div class="fixed bottom-6 right-6 z-50">
+      <a href="chat-bot.html" class="group relative chatbot-icon">
+        <button
+          class="w-16 h-16 flex items-center justify-center bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition duration-300"
+        >
+          <div class="w-8 h-8 flex items-center justify-center">
+            <i class="ri-customer-service-2-line ri-2x"></i>
+          </div>
+        </button>
+        <div
+          class="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-gradient-to-r from-primary/90 to-primary text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap shadow-lg"
+        >
+          <div class="flex items-center">
+            <div class="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
+            <span class="typing-text">AI Chat Bot Helper</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Add mobile menu structure -->
+    <div id="mobile-menu" class="mobile-menu">
+      <a href="home.html" class="flex items-center">
+          <i class="ri-home-line mr-2 text-primary"></i>
+          Home
+      </a>
+      <div class="dropdown2">
+          <a href="#" class="flex items-center justify-between" id="mobile-services-menu">
+              <div class="flex items-center">
+                <div class="flex items-center">
+                  <i class="ri-service-line mr-2 text-primary"></i>
+                  Our Services
+                </div>
+                <i id="services-mobile-arrow" class="ri-arrow-down-s-line ml-2 transition-transform duration-300"></i>
+              </div>
+          </a>
+          <div class="dropdown-content2">
+              <a href="#" class="flex items-center">
+                  <i class="ri-heart-pulse-line mr-2 text-red-500"></i>
+                  Emergency & Critical Care
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-medicine-bottle-line mr-2 text-blue-500"></i>
+                  Support Services
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-hospital-line mr-2 text-purple-500"></i>
+                  Specialized Units
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-parent-line mr-2 text-green-500"></i>
+                  Maternity & Childcare
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-stethoscope-line mr-2 text-yellow-500"></i>
+                  Outpatient Services
+              </a>
+              <a href="#" class="flex items-center">
+                  <i class="ri-surgical-mask-line mr-2 text-indigo-500"></i>
+                  Surgical Services
+              </a>
+          </div>
+      </div>
+      <a href="find-doctor.html" class="flex items-center">
+          <i class="ri-user-search-line mr-2 text-primary"></i>
+          Find Doctor
+      </a>
+      <a href="blog.html" class="flex items-center">
+          <i class="ri-article-line mr-2 text-primary"></i>
+          Blog
+      </a>
+      <a href="reviews.html" class="flex items-center">
+          <i class="ri-star-line mr-2 text-primary"></i>
+          Reviews
+      </a>
+      <a href="contact.html" class="flex items-center">
+          <i class="ri-contacts-line mr-2 text-primary"></i>
+          Contact
+      </a>
+      <div class="mt-4 space-y-2">
+          <a href="log-in.html" class="block text-center px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300">
+              <i class="ri-login-box-line mr-2"></i>
+              Sign In
+          </a>
+          <a href="sign_up.html" class="block text-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300">
+              <i class="ri-user-add-line mr-2"></i>
+              Sign Up
+          </a>
+      </div>
+  </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const mobileServicesMenu = document.getElementById("mobile-services-menu");
+        const mobileDropdownContent = document.querySelector(".dropdown-content2");
+        const mobileIcon = document.getElementById("mobile-icon");
+        const servicesMobileArrow = document.getElementById("services-mobile-arrow");
+
+        const servicesMenu = document.getElementById("services-menu");
+        const servicesDropdown = document.getElementById("services-dropdown");
+        const servicesArrow = document.getElementById("services-arrow");
+
+        // Function to check screen size and handle mobile menu
+        function handleScreenSize() {
+            if (window.innerWidth >= 767) { // md breakpoint
+                mobileMenu.classList.remove("active");
+                mobileDropdownContent.classList.remove("active");
+            }
+        }
+
+        // Initial check
+        handleScreenSize();
+
+        // Add resize event listener
+        window.addEventListener("resize", handleScreenSize);
+
+        // Mobile menu button click handler
+        mobileMenuButton.addEventListener("click", function (e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle("active");
+            mobileIcon.classList.toggle("rotate-90");
+        });
+
+        // Mobile services menu click handler
+        mobileServicesMenu.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            mobileDropdownContent.classList.toggle("active");
+            servicesMobileArrow.classList.toggle("rotate-180");
+        });
+
+        // Services menu click handler
+        servicesMenu.addEventListener("click", function (e) {
+            e.preventDefault();
+            servicesDropdown.classList.toggle("hidden");
+            servicesDropdown.classList.toggle("show");
+            servicesArrow.classList.toggle("rotate-180");
+        });
+
+        // Close menus when clicking outside
+        document.addEventListener("click", function (e) {
+            // Close mobile menu
+            if (!mobileMenu.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                mobileMenu.classList.remove("active");
+                mobileIcon.classList.remove("rotate-90");
+                mobileDropdownContent.classList.remove("active");
+                servicesMobileArrow.classList.remove("rotate-180");
+            }
+            
+            // Close services dropdown
+            if (!servicesMenu.contains(e.target) && !servicesDropdown.contains(e.target)) {
+                servicesDropdown.classList.add("hidden");
+                servicesDropdown.classList.remove("show");
+                servicesArrow.classList.remove("rotate-180");
+            }
+        });
+
+        // Category pills toggle
+        const categoryPills = document.querySelectorAll(".category-pill");
+        categoryPills.forEach((pill) => {
+            pill.addEventListener("click", function () {
+                categoryPills.forEach((p) => p.classList.remove("active"));
+                this.classList.add("active");
+            });
+        });
+      });
+    </script>
+  </body>
+</html>

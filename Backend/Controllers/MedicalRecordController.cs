@@ -36,7 +36,7 @@
             }
         }
         [Authorize(Roles = "Doctor,Admin")]        
-        [HttpPost("AddMedicalRecord")]
+        [HttpPost]
         public async Task<IActionResult> AddMedicalRecord([FromBody] MedicalRecordDTOUpdate dto)
         {
             if (!ModelState.IsValid)
