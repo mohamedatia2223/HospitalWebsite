@@ -58,7 +58,13 @@
 			return await _context.Patients.AnyAsync(p => p.PatientId == patientId);
 		}
 
-		public async Task SaveChanges()
+        public async Task RateDoctor(DoctorPatient doctorPatient)
+        {
+           await _context.DoctorPatients.AddAsync(doctorPatient);
+           await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveChanges()
 		{
 			await _context.SaveChangesAsync();
 		}

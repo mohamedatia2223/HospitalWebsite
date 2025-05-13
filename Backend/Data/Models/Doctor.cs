@@ -23,5 +23,6 @@
 		public List<Appointment>? Appointments { get; set; }
 		public List<DoctorPatient>? DoctorPatients { get; set; }
 
-	}
+
+    }
 }

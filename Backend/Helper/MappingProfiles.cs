@@ -26,6 +26,15 @@ namespace HospitalApp.Helper
             CreateMap<MedicalRecord, MedicalRecordDTOGet>();
             CreateMap<MedicalRecordDTOGet, MedicalRecord>();
 
+
+            CreateMap<ReviewDTOGet, ReviewForHospital>();
+            CreateMap<ReviewForHospital, ReviewDTOGet>();
+            CreateMap<ReviewDTOUpdate, ReviewForHospital>();
+            CreateMap<ReviewForHospital, ReviewDTOUpdate>();
+
+            CreateMap<DoctorPatient, DoctorPatientDTO>();
+            CreateMap<DoctorPatientDTO, DoctorPatient>();
+
         }
     }
 }

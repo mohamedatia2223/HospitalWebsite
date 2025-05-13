@@ -109,20 +109,11 @@ namespace Hospital.Services
 			return await _patientRepo.PatientExists(patientId);	
 		}
 
-		public async Task RateDoctor(Guid patientId, Guid doctorId, int rating)
+		public async Task RateDoctor(DoctorPatientDTO doctorPatientDTO)
 		{
-			var doctorPatient = (await _patientRepo.GetPatientWithNavProp(patientId)).DoctorPatients;
-			if (doctorPatient == null)
-			{
-				doctorPatient = [];
-			}
-			var docpatient = doctorPatient.FirstOrDefault(dp => dp.DoctorId ==  doctorId);
-
-			if (docpatient != null) {
-				docpatient.Rating = rating;
-			}
-			await _patientRepo.SaveChanges();
-		}
+			var doctorPatient = _mapper.Map<DoctorPatient>(doctorPatientDTO);
+            await _patientRepo.RateDoctor(doctorPatient);
+        }
 
 		public async Task UpdatePatientById(Guid patientId, PatientDTOUpdate patient)
 		{

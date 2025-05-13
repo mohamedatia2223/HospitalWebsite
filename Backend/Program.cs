@@ -9,7 +9,7 @@ namespace Hospital
             // Add services to the container.
             builder.Services.AddDbContext<HospitalContext>(
                 options => options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection")));
+                    builder.Configuration.GetConnectionString("constr")));
             builder.Services.AddScoped<IDoctorRepo,DoctorRepo>();
             builder.Services.AddScoped<IDoctorService,DoctorService>();
             builder.Services.AddScoped<IPatientRepo,PatientRepo>();
@@ -18,6 +18,8 @@ namespace Hospital
             builder.Services.AddScoped<IMedicalRecordService,MedicalRecordService>();
             builder.Services.AddScoped<IAppointmentRepo,AppointmentRepo>();
             builder.Services.AddScoped<IAppointmentService,AppointmentService>();
+            builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+            builder.Services.AddScoped<IReviewService, ReviewService>();
 
             builder.Services.AddScoped<AuthService>();
             

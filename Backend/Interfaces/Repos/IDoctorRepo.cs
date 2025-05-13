@@ -11,5 +11,6 @@
 		public Task<List<Doctor>> GetDoctorsWithNavProp();
 		public Task<Doctor> GetDoctorWithNavProp(Guid doctorId);
         public Task<bool> IsAvailableAt(Guid doctorId, DateTime startTime , DateTime endTime , Guid? excludeAppId = null);
+		public Task<List<DoctorPatient>> GetAllReviewsForDoctorById(Guid doctorId);
     }
 }

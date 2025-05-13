@@ -2,7 +2,7 @@
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize]
+
 	public class PatientController : ControllerBase
 	{
 		private readonly IPatientService _patientService;
@@ -59,7 +59,7 @@
 			return Ok(appointments);
 		}
 		[HttpGet("filter")]
-		public async Task<IActionResult> FilterPatients([FromQuery]string name)
+		public async Task<IActionResult> FilterPatients(string name)
 		{	
 			if (name.Length < 1) {
 				return BadRequest("name input not Valid");
@@ -84,8 +84,8 @@
 			return NoContent();
 		}
 		[HttpPost]
-		[AllowAnonymous]
-		public async Task<IActionResult> AddPatient([FromBody] PatientDTOUpdate patient)
+
+		public async Task<IActionResult> AddPatient([FromForm] PatientDTOUpdate patient)
 		{
 
 			if (!ModelState.IsValid) 
@@ -140,20 +140,20 @@
 
 			return Ok(docs);
 		}
-		[HttpPost("{patientId}/rateDoctor/{doctorId}")]
-		public async Task<IActionResult> RateDoctor(Guid patientId,Guid doctorId,[FromQuery] int rating)
+		[HttpPost("[action]")]
+		public async Task<IActionResult> RateDoctor([FromForm]DoctorPatientDTO doctorPatientDTO)
 		{
 
-			if (!await _patientService.PatientExists(patientId))
+			if (!await _patientService.PatientExists(doctorPatientDTO.PatientId))
 			{
 				return NotFound("Patient Not Found");
 			}
-			if (!await _docService.DoctorExists(doctorId))
+			if (!await _docService.DoctorExists(doctorPatientDTO.DoctorId))
 			{
 				return NotFound("Doctor Not Found");
 			}
 
-			await _patientService.RateDoctor(patientId,doctorId,rating);
+			await _patientService.RateDoctor(doctorPatientDTO);
 
 			return NoContent();
 		}
