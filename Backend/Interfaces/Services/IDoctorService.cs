@@ -1,4 +1,6 @@
-﻿namespace Hospital.Interfaces.Services
+﻿using Finance_Project.Helper;
+
+namespace Hospital.Interfaces.Services
 {
 	public interface IDoctorService
 	{
@@ -9,7 +11,7 @@
 		public Task UpdateDoctorById(Guid doctorId, DoctorDTOUpdate doctor);
 		public Task DeleteDoctorById(Guid doctorId);
 		public Task<List<PatientDTOGet>> GetAllPatientsByDoctorId(Guid doctorId);
-		public Task<List<DoctorDTOGet>> FilterDoctors(string specialty , int yearsOfExp,string name);
+		public Task<List<DoctorDTOGet>> FilterDoctors(QueryObject query);
 		public Task<List<AppointmentDTOGet>> GetAllAppointmentsByDoctorId(Guid doctorId);
 		public Task<int?> GetDoctorRatingByPatientId(Guid doctorId, Guid patientId);
 		public Task<float?> GetAverageDoctorRating(Guid doctorId);
