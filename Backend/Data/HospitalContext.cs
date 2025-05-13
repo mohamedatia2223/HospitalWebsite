@@ -10,12 +10,14 @@
 		public DbSet<Admin> Admins { get; set; }
 		public DbSet<MedicalRecord> MedicalRecords { get; set; }
 		public DbSet<Appointment> Appointments { get; set; }
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<ReviewForHospital> Reviews { get; set; }
+		public DbSet<DoctorPatient> DoctorPatients { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 
 			modelBuilder.Entity<DoctorPatient>()
-				.HasKey(dp => new { dp.DoctorId, dp.PatientId });
+				.HasKey(dp =>dp.DoctorPatientId);
 
 			modelBuilder.Entity<DoctorPatient>()
 				.HasOne(dp => dp.Doctor)

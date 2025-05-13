@@ -1,4 +1,5 @@
-﻿namespace Hospital.Repos
+﻿
+namespace Hospital.Repos
 {
 	public class DoctorRepo : IDoctorRepo
 	{	
@@ -88,6 +89,13 @@
                 return false ;
             }
 			return true ; 
+        }
+
+        public async Task<List<DoctorPatient>> GetAllReviewsForDoctorById(Guid doctorId)
+        {
+            return await _context.DoctorPatients
+                .Where(db => db.DoctorId == doctorId)
+                .ToListAsync();
         }
     }
 }

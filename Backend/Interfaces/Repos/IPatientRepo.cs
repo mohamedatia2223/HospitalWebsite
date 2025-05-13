@@ -11,5 +11,6 @@
 		public Task SaveChanges();
 		public Task<List<Patient>> GetPatientsWithNavProp();
 		public Task<Patient> GetPatientWithNavProp(Guid patientId);
-	}
+		public Task RateDoctor(DoctorPatient doctorPatient);
+    }
 }
