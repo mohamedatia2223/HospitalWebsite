@@ -13,8 +13,8 @@
         [HttpGet]
         public async Task<IActionResult> GetAllAppointments()
         {
-           var apps = await _appointmentService.GetAllAppointments();
-            
+            var apps = await _appointmentService.GetAllAppointments();
+
             return Ok(apps);
         }
         [HttpGet("Today")]
@@ -28,7 +28,7 @@
             return Ok(apps);
         }
         [HttpPost]
-        public async Task<IActionResult> AddAppointment([FromBody]AppointmentDTOUpdate appointment)
+        public async Task<IActionResult> AddAppointment([FromBody] AppointmentDTOUpdate appointment)
         {
             await _appointmentService.AddAppointment(appointment);
             if (!ModelState.IsValid)
@@ -39,14 +39,15 @@
 
         }
         [HttpPut("{appointmentId}")]
-        public async Task<IActionResult> UpdateAppointmentById(Guid appointmentId,[FromBody] AppointmentDTOUpdate appointment)
-        {  
+        public async Task<IActionResult> UpdateAppointmentById(Guid appointmentId, [FromBody] AppointmentDTOUpdate appointment)
+        {
             await _appointmentService.UpdateAppointmentById(appointmentId, appointment);
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid Input");
             }
-            if (! await _appointmentService.AppointmentExists(appointmentId)){
+            if (!await _appointmentService.AppointmentExists(appointmentId))
+            {
                 return NotFound("Appointment NOT FOUND 404");
             }
             return Ok();
@@ -55,8 +56,9 @@
         public async Task<IActionResult> DeleteAppointment(Guid appointmentId)
         {
             await _appointmentService.DeleteAppointmentById(appointmentId);
-            
-            if (! await _appointmentService.AppointmentExists(appointmentId)){
+
+            if (!await _appointmentService.AppointmentExists(appointmentId))
+            {
                 return NotFound("Appointment NOT FOUND 404");
             }
             return Ok();
@@ -69,23 +71,26 @@
             {
                 return BadRequest("Invalid Input");
             }
-            if (! await _appointmentService.AppointmentExists(appointmentId)){
+            if (!await _appointmentService.AppointmentExists(appointmentId))
+            {
                 return NotFound("Appointment NOT FOUND 404");
             }
             return Ok(app);
         }
         [HttpPut("{appointmentId}/Reschedule")]
-        public async Task<IActionResult> RescheduleAppointment(Guid appointmentId,[FromQuery] DateTime startTime,[FromQuery]int Duration)
+        public async Task<IActionResult> RescheduleAppointment(Guid appointmentId, [FromQuery] DateTime startTime, [FromQuery] int Duration)
         {
-            await _appointmentService.RescheduleAppointment(appointmentId, startTime,Duration);
+            await _appointmentService.RescheduleAppointment(appointmentId, startTime, Duration);
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid Input");
             }
-            if (! await _appointmentService.AppointmentExists(appointmentId)){
+            if (!await _appointmentService.AppointmentExists(appointmentId))
+            {
                 return NotFound("Appointment NOT FOUND 404");
             }
-            if (startTime < DateTime.Now) {
+            if (startTime < DateTime.Now)
+            {
                 return BadRequest("You can't set the date in the past");
             }
             return NoContent();
