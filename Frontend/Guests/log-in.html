@@ -167,7 +167,7 @@
 
         <div class="flex items-center justify-between text-sm w-full">
           <label class="flex items-center">
-            <input type="checkbox" class="mr-2"> Remember me
+            <input type="checkbox" id="rememberMe" class="mr-2"> Remember me
           </label>
           <a href="forgot-password.html" class="text-blue-500 hover:underline">Forgot password?</a>
         </div>
@@ -254,6 +254,7 @@
   
   <script type="module">
     import {authUser} from '../assets/js/api/auth.js'
+    import {logIn} from '../assets/js/utils/jwt.js'
 
     // Get the eye icon and password field
     const togglePassword = document.getElementById('togglePassword');
@@ -298,20 +299,22 @@
 
     form.onsubmit = async (e) => {
       e.preventDefault();
+      const rememberMe = document.querySelector("#rememberMe").checked;
       const email = document.querySelector("#email").value ; 
       const password = document.querySelector("#password").value ; 
 
-        const jwt = await authUser({
-          email,
-          password
-        })
-
-      localStorage.setItem("jwt",jwt.token)
-
-      // console.log(
-      //   localStorage.getItem("jwt")
-      // )
-      window.location.href = "home.html"
+      const jwt = await authUser({
+        email,
+        password
+      })
+      
+      if (jwt) {
+        if (logIn(jwt.token,rememberMe)) window.location.href = "home.html"
+      }
+       else {
+        alert("Login failed 🗿🗿");
+      }
+      
     }
 
   </script>
