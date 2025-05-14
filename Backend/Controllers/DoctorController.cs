@@ -2,6 +2,8 @@
 {
 	[Route("api/[controller]")]
 	[ApiController]
+   	[Authorize]
+
 	public class DoctorController : ControllerBase
 	{
 		private readonly IDoctorService _docService;
@@ -28,6 +30,8 @@
 			return Ok(doc);
 		}
 		[HttpPost]
+        	[Authorize(Roles = "Admin")]
+
 		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
