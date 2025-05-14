@@ -9,7 +9,7 @@ namespace Hospital
             // Add services to the container.
             builder.Services.AddDbContext<HospitalContext>(
                 options => options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("constr")));
+                    builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<IDoctorRepo,DoctorRepo>();
             builder.Services.AddScoped<IDoctorService,DoctorService>();
             builder.Services.AddScoped<IPatientRepo,PatientRepo>();
@@ -40,6 +40,14 @@ namespace Hospital
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
             };
             });
+            // add CORs 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowCORs",
+                    builder => builder.AllowAnyOrigin()
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod());
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -59,7 +67,7 @@ namespace Hospital
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors("AllowCORs");
 
             app.MapControllers();
 
