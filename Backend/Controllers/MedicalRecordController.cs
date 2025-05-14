@@ -2,6 +2,8 @@
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
+
 
     public class MedicalRecordController : ControllerBase
     {
