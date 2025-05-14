@@ -2,7 +2,8 @@
 {
     [Route("api/[controller]")]
     [ApiController]
-   
+    [Authorize]
+
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
