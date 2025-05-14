@@ -113,7 +113,7 @@
 
 			return Ok(appointments);
 		}
-		[HttpGet("[action]")]
+		[HttpGet("{doctorId}/rating")]
 		public async Task<IActionResult> GetAverageDoctorRating(Guid doctorId)
 		{
 

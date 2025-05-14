@@ -669,7 +669,7 @@
                         
                         <div class="carousel-first">
                             
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                            <!-- <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
                                 <div class="h-48 overflow-hidden">
                                     <img src="../assets/images/Dr. Sarah Johnson.jpg"
                                         alt="Dr. Sarah Johnson" class="w-full h-full object-cover object-top">
@@ -787,12 +787,12 @@
                                         class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
                                         Appointment</button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="carousel-second">
                             
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                            <!-- <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
                                 <div class="h-48 overflow-hidden">
                                     <img src="../assets/images/Dr. Sarah Johnson.jpg"
                                         alt="Dr. Sarah Johnson" class="w-full h-full object-cover object-top">
@@ -910,7 +910,7 @@
                                         class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
                                         Appointment</button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -1260,9 +1260,15 @@
             </a>
         </div>
     </div>
+    <script type="module">
+        import {getAllDoctors ,getDoctorAverageRating} from '../assets/js/api/doctors.js'
+        import {setupUser} from '../assets/js/authSetup.js'
+        import {getToken} from '../assets/js/utils/jwt.js'
 
-    <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // setup authentication 
+            setupUser();
+
             // Mobile menu functionality
             const mobileMenuButton = document.getElementById("mobile-menu-button");
             const mobileMenu = document.getElementById("mobile-menu");
@@ -1341,6 +1347,63 @@
                 carousel1.style.animationPlayState = 'running';
                 carousel2.style.animationPlayState = 'running';
             });
+            
+            // dynamically assign doctors to divs 
+
+            let doctors = [];
+            async function getDoctors() {
+                const token = getToken();
+                doctors =  await getAllDoctors(token);
+                // console.log(doctors);
+            }
+            
+            // make divs when get doctors finishes (callbacks duh)
+            getDoctors().then(makeDivs);
+
+            async function makeDivs() {
+                function getStars(rating) {
+                    let output = "";
+                    for (let i = 0; i < rating; i++) {
+                        output += '<i class="ri-star-fill"></i>\n'  
+                    } 
+                    return output;
+                }
+                const first = document.querySelector(".carousel-first")
+                const second = document.querySelector(".carousel-second")
+                const token = getToken();
+
+                for (let i = 0; i < Math.min(doctors.length,5); i++) {
+                    const avgRating = await getDoctorAverageRating(doctors[i].doctorId,token);
+                    console.log(avgRating);
+
+                    const template = `<div data-id="${doctors[i].doctorId}" class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                                        <div class="h-48 overflow-hidden">
+                                            <img src="../assets/images/Dr. Sarah Johnson.jpg"
+                                                alt="Dr. ${doctors[i].doctorName}" class="w-full h-full object-cover object-top">
+                                        </div>
+                                        <div class="p-4">
+                                            <h4 class="text-lg font-semibold text-gray-900">Dr. ${doctors[i].doctorName}</h4>
+                                            <p class="text-primary font-medium">${doctors[i].specialty}</p>
+                                            <div class="flex items-center mt-2">
+                                                <div class="flex text-yellow-400">
+                                                    ${getStars(Math.round(avgRating))}
+                                                </div>
+                                                <span class="text-gray-600 text-sm ml-1">${avgRating}</span>
+                                            </div>
+                                            <button
+                                                class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
+                                                Appointment</button>
+                                        </div>
+                                    </div>`
+                    
+                    const div1 = document.createElement("div");
+                    const div2 = document.createElement("div");
+                    div1.innerHTML = template;
+                    div2.innerHTML = template;
+                    first.appendChild(div1)              
+                    second.appendChild(div2)              
+                }
+            }
         });
     </script>
 </body>
