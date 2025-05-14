@@ -647,7 +647,8 @@
       </div>
     </div>
 
-    <script>
+    <script type="module">
+      import {addPatient} from '../assets/js/api/patients.js'
       document.addEventListener("DOMContentLoaded", async function () {
         // Custom Country Dropdown Logic
         const countryDropdown = document.getElementById(
@@ -751,7 +752,7 @@
           isCountryOpen = false;
           updateCountryLabel();
         }
-        function selectCountry(code, name, li) {
+        function selectCountry(code, name, li,fromPhone = false) {
           countrySelected.textContent = name;
           countryInput.value = code;
           Array.from(countryOptions.children).forEach((opt) =>
@@ -768,7 +769,9 @@
           stateField.classList.remove("opacity-50", "pointer-events-none");
           stateSelected.textContent = "Select State";
           stateInput.value = "";
+          //----------------------1---------------------- 
           const countryObj = countryList.find((c) => c.iso2 === code);
+          //----------------------2---------------------- 
           if (countryObj && countryObj.states && countryObj.states.length) {
             renderStateOptions(
               countryObj.states.map((s) => ({
@@ -779,11 +782,14 @@
           } else {
             renderStateOptions([]);
           }
-
-          // Sync with phone country code
-          const phoneCountry = phoneCountryList.find((c) => c.cca2 === code);
-          if (phoneCountry) {
-            selectPhoneCountry(phoneCountry);
+          if (!fromPhone){
+            // Sync with phone country code
+            //----------------------3---------------------- 
+            const phoneCountry = phoneCountryList.find((c) => c.cca2 === code);
+            //----------------------4---------------------- 
+            if (phoneCountry) {
+              selectPhoneCountry(phoneCountry);
+            }
           }
         }
         function updateCountryLabel() {
@@ -1229,7 +1235,7 @@
               (li) => li.textContent === countryObj.name
             );
             if (countryOption) {
-              selectCountry(countryObj.iso2, countryObj.name, countryOption);
+              selectCountry(countryObj.iso2, countryObj.name, countryOption,true);
             }
           }
         }
@@ -1324,6 +1330,30 @@
             icon.classList.remove("opacity-100");
           }
         }
+        // add functionality to signup button to sign up 
+        form.onsubmit = async (e) => {
+          
+          e.preventDefault();
+          const patientName = `${document.getElementById("firstName").value} ${document.getElementById("lastName").value}`
+          const email =  document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const contactInfo = document.getElementById("phoneCountryCode").value + " " + document.getElementById("phone").value; 
+          const address = document.querySelector("#countrySelected").textContent + " " + document.querySelector("#stateSelected").textContent; 
+          const dateOfBirth = document.querySelector("#dateOfBirth").value;
+          // const gender = document.querySelector("#genderInput").value;
+
+          console.log(await addPatient({
+            patientName,
+            email,
+            password,
+            contactInfo,
+            address,
+            dateOfBirth
+          })
+          )
+
+         window.location.href = "log-in.html";
+        } 
 
         // Add event listeners to the eye icons
         togglePassword.addEventListener("click", () =>

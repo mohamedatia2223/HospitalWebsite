@@ -87,7 +87,7 @@
 		[HttpPost]
 		[AllowAnonymous]
 
-		public async Task<IActionResult> AddPatient([FromForm] PatientDTOUpdate patient)
+		public async Task<IActionResult> AddPatient([FromBody] PatientDTOUpdate patient)
 		{
 
 			if (!ModelState.IsValid) 
