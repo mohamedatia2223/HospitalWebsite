@@ -5,6 +5,8 @@ namespace Hospital.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ReviewController : ControllerBase
     {
         public readonly IReviewService _reviewService;
@@ -79,6 +81,8 @@ namespace Hospital.Controllers
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
+        [Authorize(Roles = "Patient,Admin")]        
+
         public async Task<IActionResult> AddReviewByPatientId([FromForm] ReviewDTOGet reviewDTOGet)
         {
             if (!ModelState.IsValid)
@@ -103,6 +107,8 @@ namespace Hospital.Controllers
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
+        [Authorize(Roles = "Admin")]        
+
         public async Task<IActionResult> EditReview(Guid ReviewId, [FromForm] ReviewDTOUpdate reviewDTOUpdate)
         {
             if (!ModelState.IsValid)
@@ -127,6 +133,8 @@ namespace Hospital.Controllers
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
+        [Authorize(Roles = "Admin")]        
+
         public async Task<IActionResult> DeleteReviewByReviewId(Guid ReviewId)
         {
             if (ReviewId == Guid.Empty)
