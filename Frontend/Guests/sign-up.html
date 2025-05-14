@@ -1334,7 +1334,6 @@
         form.onsubmit = async (e) => {
           
           e.preventDefault();
-          console.log("hi");
           const patientName = `${document.getElementById("firstName").value} ${document.getElementById("lastName").value}`
           const email =  document.getElementById("email").value;
           const password = document.getElementById("password").value;
@@ -1351,7 +1350,9 @@
             address,
             dateOfBirth
           })
-        )
+          )
+
+         window.location.href = "log-in.html";
         } 
 
         // Add event listeners to the eye icons

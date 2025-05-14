@@ -252,7 +252,8 @@
   </div>
 
   
-  <script>
+  <script type="module">
+    import {authUser} from '../assets/js/api/auth.js'
 
     // Get the eye icon and password field
     const togglePassword = document.getElementById('togglePassword');
@@ -293,6 +294,25 @@
     window.addEventListener('DOMContentLoaded', () => {
       updateEyeVisibility(passwordField, togglePassword);
     });
+    const form = document.querySelector("form");
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const email = document.querySelector("#email").value ; 
+      const password = document.querySelector("#password").value ; 
+
+        const jwt = await authUser({
+          email,
+          password
+        })
+
+      localStorage.setItem("jwt",jwt.token)
+
+      // console.log(
+      //   localStorage.getItem("jwt")
+      // )
+      window.location.href = "home.html"
+    }
 
   </script>
 </body>
