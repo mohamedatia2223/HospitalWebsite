@@ -2,6 +2,7 @@
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 
 	public class PatientController : ControllerBase
 	{
@@ -84,6 +85,7 @@
 			return NoContent();
 		}
 		[HttpPost]
+		[AllowAnonymous]
 
 		public async Task<IActionResult> AddPatient([FromForm] PatientDTOUpdate patient)
 		{
