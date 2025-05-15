@@ -1,4 +1,4 @@
-import { request, TOKEN } from "./shared.js";
+import { request } from "./shared.js";
 
 /*
 {

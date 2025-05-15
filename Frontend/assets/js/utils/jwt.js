@@ -40,10 +40,10 @@ export const cleanToken = (parsedToken) => {
 		parsedToken[
 			"http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
 		];
-	const expires = parsedToken["exp"];
+	const exp = parsedToken["exp"];
 
-	return { id, name, email, role, expires };
+	return { id, name, email, role, exp };
 };
 export const isTokenValid = (parsedToken) => {
-	return Date.now() / 1000 < parsedToken["expires"];
+	return Date.now() / 1000 < parsedToken["exp"];
 };

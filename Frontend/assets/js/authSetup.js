@@ -13,7 +13,7 @@ export const setupUser = () => {
 
 	const parsedToken = parseJwt(rawToken);
 
-	if (!parsedToken || isTokenValid(parsedToken)) {
+	if (!parsedToken || !isTokenValid(parsedToken)) {
 		logOut();
 		redirectToLogin();
 	}
