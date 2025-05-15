@@ -30,7 +30,7 @@
 			return Ok(doc);
 		}
 		[HttpPost]
-        	[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
 
 		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTOUpdate doctor)
 		{
@@ -76,22 +76,15 @@
 			var patients = await _docService.GetAllPatientsByDoctorId(doctorId);
 			return Ok(patients);
 		}
-		[HttpGet("filter")]
-		public async Task<IActionResult> FilterDoctors(string specialty,int minYears,string name)
-		{
-			if (minYears < 1 ) {
-				return BadRequest("MinYears has to be atleast 1 ");
-			}
-			if (string.IsNullOrEmpty(specialty)) {
-				return BadRequest("specialty input not valid");
-			}
-			if (string.IsNullOrEmpty(name)) {
-				return BadRequest("name input not valid");
-			}
-			var docs = await _docService.FilterDoctors(specialty,minYears,name);
-			return Ok(docs);
-		}
-		[HttpGet("{doctorId}/appointments")]
+        [HttpGet("filter")]
+        public async Task<IActionResult> FilterDoctors([FromQuery] QueryObject query)
+        {
+            var docs = await _docService.FilterDoctors(query);
+
+            return Ok(docs);
+        }
+
+        [HttpGet("{doctorId}/appointments")]
 		public async Task<IActionResult> GetAppointmentsByDoctorId(Guid doctorId)
 		{
 			

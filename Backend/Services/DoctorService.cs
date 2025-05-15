@@ -1,4 +1,6 @@
-﻿namespace Hospital.Services
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace Hospital.Services
 {
     public class DoctorService : IDoctorService
     {
@@ -28,17 +30,48 @@
             await _docRepo.DeleteDoctorById(doctorId);
         }
 
-        public async Task<List<DoctorDTOGet>> FilterDoctors(string specialty, int yearsOfExp, string name)
+        public async Task<List<DoctorDTOGet>> FilterDoctors(QueryObject query)
         {
-            var docs = await _docRepo.GetAllDoctors();
-            var filtered = docs
-                .Where(d => d.Specialty == specialty
-                            && d.YearsOfExperience >= yearsOfExp
-                            && d.DoctorName == name)
-                .ToList();
+            var filteredDocs = await _docRepo.GetDoctorsWithNavProp();
+            var docs = filteredDocs.AsQueryable();
 
-            return _mapper.Map<List<DoctorDTOGet>>(filtered);
+            if (!string.IsNullOrWhiteSpace(query.DoctorName))
+            {
+                docs = docs.Where(s => s.DoctorName.Contains(query.DoctorName));
+            }
+            if (!string.IsNullOrWhiteSpace(query.Specialty))
+            {
+                docs = docs.Where(s => s.Specialty.Contains(query.Specialty));
+            }
+            if (query.YearsOfExperience.HasValue)
+            {
+                docs = docs.Where(s => s.YearsOfExperience >= query.YearsOfExperience);
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.SortBy) &&
+                query.SortBy.Equals("Rating", StringComparison.OrdinalIgnoreCase))
+            {
+                var doctorsWithAvgRating = docs
+                    .Select(d => new
+                    {
+                        Doctor = d,
+                        AverageRating = d.DoctorPatients.Any() ?
+                            d.DoctorPatients.Average(r => r.Rating) : 0
+                    });
+
+                doctorsWithAvgRating = query.IsDescending
+                    ? doctorsWithAvgRating.OrderByDescending(s => s.AverageRating)
+                    : doctorsWithAvgRating.OrderBy(s => s.AverageRating);
+
+                docs = doctorsWithAvgRating.Select(x => x.Doctor).AsQueryable();
+            }
+
+            var skipNumber = (query.PageNumber - 1) * query.PageSize;
+            var newDocs = docs.Skip(skipNumber).Take(query.PageSize).ToList();
+
+            return _mapper.Map<List<DoctorDTOGet>>(newDocs);
         }
+
 
         public async Task<List<AppointmentDTOGet>> GetAllAppointmentsByDoctorId(Guid doctorId)
         {
