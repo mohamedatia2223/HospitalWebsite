@@ -23,7 +23,7 @@ export async function updateReview(id, review, TOKEN) {
 		body: review,
 	});
 }
-export async function updateReview(id, TOKEN) {
+export async function deleteReview(id, TOKEN) {
 	return await request(`/api/Review/DeleteReviewByReviewId/${id}`, TOKEN, {
 		method: "DELETE",
 	});
