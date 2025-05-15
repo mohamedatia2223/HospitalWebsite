@@ -3,7 +3,7 @@
     public interface IReviewService
     {
         Task<List<ReviewDTOGet>> GetAllReviews();
-        Task AddReviewByPatientId(ReviewDTOGet review);
+        Task AddReviewByPatientId(ReviewDTOUpdate review);
         Task<ReviewDTOGet> EditReviewByPatientId(Guid patientId,ReviewDTOUpdate reviewDtoUpdate);
         Task DeleteReviewByReviewId(Guid reviewId);
         Task<bool> ReviewExists(Guid reviewId);

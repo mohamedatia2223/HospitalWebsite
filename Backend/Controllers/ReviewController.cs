@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Hospital.Controllers
+﻿namespace Hospital.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,52 +16,32 @@ namespace Hospital.Controllers
 
         [HttpGet]
         [ProducesResponseType((StatusCodes.Status200OK))]
-        [ProducesResponseType((StatusCodes.Status400BadRequest))]
         public async Task<IActionResult> GetAllReviews()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var reviews = await _reviewService.GetAllReviews();
+            List<ReviewDTOGet>? reviews = await _reviewService.GetAllReviews();
             return Ok(reviews);
         }
 
         [HttpGet("[action]")]
         [ProducesResponseType((StatusCodes.Status200OK))]
-        [ProducesResponseType((StatusCodes.Status400BadRequest))]
         public async Task<IActionResult> GetAverageofRating()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var averageRating = await _reviewService.GetAverageofRating();
             return Ok(averageRating);
         }
 
         [HttpGet("[action]")]
         [ProducesResponseType((StatusCodes.Status200OK))]
-        [ProducesResponseType((StatusCodes.Status400BadRequest))]
         public async Task<IActionResult> GetCountOfAllReviews()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var countOfAllReviews = await _reviewService.GetCountOfAllReviews();
             return Ok(countOfAllReviews);
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("[action]/{patientId}")]
         [ProducesResponseType((StatusCodes.Status200OK))]
-        [ProducesResponseType((StatusCodes.Status400BadRequest))]
         public async Task<IActionResult> GetAllReviewsForPatient(Guid patientId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             if (patientId == Guid.Empty)
             {
                 return BadRequest("Patient ID cannot be empty");
@@ -83,33 +60,33 @@ namespace Hospital.Controllers
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
         [Authorize(Roles = "Patient,Admin")]        
 
-        public async Task<IActionResult> AddReviewByPatientId([FromForm] ReviewDTOGet reviewDTOGet)
+        public async Task<IActionResult> AddReviewByPatientId([FromBody] ReviewDTOUpdate reviewDTOUpdate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (reviewDTOGet.PatientId == Guid.Empty)
+            if (reviewDTOUpdate.PatientId == Guid.Empty)
             {
                 return BadRequest("Patient ID cannot be null or empty");
             }
 
-            var patientExist = await _patientService.PatientExists(reviewDTOGet.PatientId);
+            var patientExist = await _patientService.PatientExists(reviewDTOUpdate.PatientId);
             if (!patientExist)
             {
                 return NotFound("Patient not found");
             }
-            await _reviewService.AddReviewByPatientId(reviewDTOGet);
+            await _reviewService.AddReviewByPatientId(reviewDTOUpdate);
             return Ok("Review added successfully");
         }
 
-        [HttpPut("[action]")]
+        [HttpPut("[action]/{ReviewId}")]
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
         [Authorize(Roles = "Admin")]        
 
-        public async Task<IActionResult> EditReview(Guid ReviewId, [FromForm] ReviewDTOUpdate reviewDTOUpdate)
+        public async Task<IActionResult> EditReview(Guid ReviewId, [FromBody] ReviewDTOUpdate reviewDTOUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -129,7 +106,7 @@ namespace Hospital.Controllers
             return Ok(patientReview);
         }
 
-        [HttpDelete("[action]")]
+        [HttpDelete("[action]/{ReviewId}")]
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
@@ -140,10 +117,6 @@ namespace Hospital.Controllers
             if (ReviewId == Guid.Empty)
             {
                 return BadRequest("Review ID cannot be null or empty");
-            }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
             }
             var reviewExist = await _reviewService.ReviewExists(ReviewId);
             if (!reviewExist)

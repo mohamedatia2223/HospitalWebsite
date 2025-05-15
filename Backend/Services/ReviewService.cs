@@ -19,7 +19,7 @@ namespace Hospital.Services
 
         }
 
-        public async Task AddReviewByPatientId(ReviewDTOGet review)
+        public async Task AddReviewByPatientId(ReviewDTOUpdate review)
         {
             var reviewToAdd = _mapper.Map<ReviewForHospital>(review);
             await _reviewRepo.AddReview(reviewToAdd);

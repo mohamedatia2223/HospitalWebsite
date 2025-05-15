@@ -11,7 +11,7 @@
         [Required]
         public DateTime ReviewDate { get; set; } = DateTime.Now;
         [Required]
-        public Guid PatientId { get; set; } = Guid.NewGuid();
+        public Guid PatientId { get; set; }
         public Patient? Patient { get; set; }
     
       
