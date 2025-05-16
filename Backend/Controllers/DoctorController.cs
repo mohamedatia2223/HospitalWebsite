@@ -152,7 +152,7 @@ namespace Hospital.Controllers
 		//	var rating = await _docService.GetDoctorRatingByPatientId(doctorId,patientId);
 		//	return Ok(rating);
 		//}
-		[HttpGet("[action]")]
+		[HttpGet("[action]/{doctorId}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllReviewsForDoctorById(Guid doctorId)
 		{

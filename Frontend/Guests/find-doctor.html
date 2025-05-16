@@ -600,10 +600,10 @@
                     <i class="ri-search-line"></i>
                   </div>
                 </div>
-                <input
+                <input id="doctorName"
                   type="text"
                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:border-primary text-sm"
-                  placeholder="Search by doctor name, specialty, or keyword"
+                  placeholder="Search by doctor name"
                 />
               </div>
             </div>
@@ -620,7 +620,7 @@
                     <i class="ri-medicine-bottle-line"></i>
                   </div>
                 </div>
-                <select
+                <select id ="Specialty"
                   class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded focus:border-primary appearance-none text-sm"
                 >
                   <option value="">All Specialties</option>
@@ -704,7 +704,7 @@
             </div>
 
             <div class="md:col-span-3">
-              <button
+              <button id="Search-Btn"
                 class="w-full bg-primary text-white py-3 px-6 rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap text-sm"
               >
                 Apply Filters
@@ -932,7 +932,7 @@
                         type="radio"
                         id="rating-any"
                         name="rating"
-                        value="any"
+                        value=""
                         class="custom-radio"
                         checked
                       />
@@ -945,7 +945,7 @@
                         type="radio"
                         id="rating-4plus"
                         name="rating"
-                        value="4plus"
+                        value="4"
                         class="custom-radio"
                       />
                       <label for="rating-4plus" class="text-sm text-gray-600"
@@ -957,7 +957,7 @@
                         type="radio"
                         id="rating-3plus"
                         name="rating"
-                        value="3plus"
+                        value="3"
                         class="custom-radio"
                       />
                       <label for="rating-3plus" class="text-sm text-gray-600"
@@ -978,7 +978,7 @@
                         type="radio"
                         id="exp-any"
                         name="experience"
-                        value="any"
+                        value="0"
                         class="custom-radio"
                         checked
                       />
@@ -991,7 +991,7 @@
                         type="radio"
                         id="exp-5plus"
                         name="experience"
-                        value="5plus"
+                        value="5"
                         class="custom-radio"
                       />
                       <label for="exp-5plus" class="text-sm text-gray-600"
@@ -1003,7 +1003,7 @@
                         type="radio"
                         id="exp-10plus"
                         name="experience"
-                        value="10plus"
+                        value="10"
                         class="custom-radio"
                       />
                       <label for="exp-10plus" class="text-sm text-gray-600"
@@ -1015,7 +1015,7 @@
                         type="radio"
                         id="exp-20plus"
                         name="experience"
-                        value="20plus"
+                        value="20"
                         class="custom-radio"
                       />
                       <label for="exp-20plus" class="text-sm text-gray-600"
@@ -1032,7 +1032,7 @@
                 >
                   Reset Filters
                 </button>
-                <button
+                <button id="Search-Btn2"
                   class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap text-sm"
                 >
                   Apply Filters
@@ -1123,7 +1123,7 @@
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"
         >
           <!-- Doctor Card 1 -->
-          <div
+          <!-- <div
             class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg"
           >
             <div class="relative">
@@ -1215,10 +1215,10 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Doctor Card 2 -->
-          <div
+          <!-- <div
             class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg"
           >
             <div class="relative">
@@ -1308,10 +1308,10 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Doctor Card 3 -->
-          <div
+          <!-- <div
             class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg"
           >
             <div class="relative">
@@ -1403,10 +1403,10 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Doctor Card 4 -->
-          <div
+          <!-- <div
             class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg"
           >
             <div class="relative">
@@ -1498,10 +1498,10 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Doctor Card 5 -->
-          <div
+          <!-- <div
             class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg"
           >
             <div class="relative">
@@ -1591,10 +1591,10 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Doctor Card 6 -->
-          <div
+          <!-- <div
             class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg"
           >
             <div class="relative">
@@ -1685,7 +1685,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- Map View (Hidden by default) -->
         <div id="map-view" class="hidden mb-10">
@@ -1981,49 +1981,49 @@
           </div>
         </div>
 
-        <!-- Pagination -->
-        <div class="flex justify-between items-center mb-16">
-          <div class="text-gray-600 text-sm">
-            Showing <span class="font-medium">1-6</span> of
-            <span class="font-medium">42</span> results
-          </div>
-          <div class="flex space-x-2">
-            <button
-              class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled
-            >
-              <div class="w-5 h-5 flex items-center justify-center">
-                <i class="ri-arrow-left-s-line"></i>
-              </div>
-            </button>
-            <button
-              class="px-3 py-2 border border-gray-300 rounded bg-primary text-white"
-            >
-              1
-            </button>
-            <button
-              class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
-            >
-              2
-            </button>
-            <button
-              class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
-            >
-              3
-            </button>
-            <button
-              class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
-            >
-              4
-            </button>
-            <button
-              class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
-            >
-              <div class="w-5 h-5 flex items-center justify-center">
-                <i class="ri-arrow-right-s-line"></i>
-              </div>
-            </button>
-          </div>
+      </div>
+      <!-- Pagination -->
+      <div class="flex justify-between items-center mb-16">
+        <div class="text-gray-600 text-sm">
+          Showing <span class="font-medium">1-6</span> of
+          <span class="font-medium">42</span> results
+        </div>
+        <div class="flex space-x-2">
+          <button
+            class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            <div class="w-5 h-5 flex items-center justify-center">
+              <i class="ri-arrow-left-s-line"></i>
+            </div>
+          </button>
+          <button
+            class="px-3 py-2 border border-gray-300 rounded bg-primary text-white"
+          >
+            1
+          </button>
+          <button
+            class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
+          >
+            2
+          </button>
+          <button
+            class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
+          >
+            3
+          </button>
+          <button
+            class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
+          >
+            4
+          </button>
+          <button
+            class="px-3 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-50"
+          >
+            <div class="w-5 h-5 flex items-center justify-center">
+              <i class="ri-arrow-right-s-line"></i>
+            </div>
+          </button>
         </div>
       </div>
     </main>
@@ -2317,7 +2317,12 @@
       </div>
   </div>
 
-    <script>
+    <script type="module">
+      import {setupUser} from '../assets/js/authSetup.js'
+      import {filterDoctors,getDoctorAverageRating} from '../assets/js/api/doctors.js'
+      import {getToken} from '../assets/js/utils/jwt.js'
+      setupUser();
+
       document.addEventListener("DOMContentLoaded", function () {
         // Mobile menu functionality
         const mobileMenuButton = document.getElementById("mobile-menu-button");
@@ -2434,6 +2439,159 @@
             });
         });
       });
+
+      
+      const findExp = () => {
+        const inputs = document.querySelectorAll("input[name='experience']");
+        for (const element of inputs) {
+          if (element.checked) {
+            return element.value;
+          }
+        }
+        return null;
+      };
+
+      const findRating = () => {
+        const inputs = document.querySelectorAll("input[name='rating']");
+        
+        inputs.forEach((element) => {
+          if (element.checked === true) { 
+            return element.value;
+          }
+        })
+      }
+      
+
+      async function renderDoctors() {
+        const Specialty = document.querySelector("#Specialty").value;
+        const DoctorName = document.querySelector("#doctorName").value;
+        const listView = document.querySelector("#list-view");     
+        
+        // delete any element inside the last view to prevent repeating doctors
+        listView.innerHTML = "";
+
+        const queryObject = {
+          DoctorName,
+          Specialty,
+          YearsOfExperience : findExp(),
+        }
+        const doctors = await filterDoctors(queryObject,getToken());
+        
+        for (const i in doctors) {
+          const avgRating = await getDoctorAverageRating(doctors[i].doctorId,getToken());
+          
+          const doctorDiv = createHTMLdiv(doctors[i],avgRating);
+          
+          listView.appendChild(doctorDiv);
+
+
+        }
+
+
+        function createHTMLdiv(doctor,rating) {
+          const template = `<div data-id="${doctor.doctorId}"
+              class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg"
+            >
+              <div class="relative">
+                <img
+                  src="../assets/images/Dr. Sarah Johnson.jpg"
+                  alt="Dr. Sarah Johnson"
+                  class="w-full h-48 object-cover object-top"
+                />
+                <div
+                  class="absolute top-3 right-3 bg-white rounded-full p-1.5 shadow-md"
+                >
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-primary cursor-pointer"
+                  >
+                    <i class="ri-heart-line"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="p-5">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-900">
+                      ${doctor.doctorName}
+                    </h3>
+                    <p class="text-primary font-medium">${doctor.specialty}</p>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="availability-indicator bg-green-500"></span>
+                    <span class="text-green-600 text-sm font-medium"
+                      >Available Today</span
+                    >
+                  </div>
+                </div>
+  
+                <div class="mt-3 flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-500 mr-1"
+                  >
+                    <i class="ri-map-pin-line"></i>
+                  </div>
+                  <span class="text-gray-600 text-sm"
+                    >MEDora Medical Center - 2.4 miles away</span
+                  >
+                </div>
+  
+                <div class="mt-2 flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-500 mr-1"
+                  >
+                    <i class="ri-shield-check-line"></i>
+                  </div>
+                  <span class="text-gray-600 text-sm"
+                    >Accepts most insurance plans</span
+                  >
+                </div>
+  
+                <div class="mt-2 flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-500 mr-1"
+                  >
+                    <i class="ri-time-line"></i>
+                  </div>
+                  <span class="text-gray-600 text-sm">${doctor.yearsOfExperience}+ years experience</span>
+                </div>
+  
+                <div class="mt-3 flex items-center">
+                  <div class="star-rating">  
+                    ${`<i class="ri-star-fill"></i>`.repeat(Math.round(rating))}
+                  </div>
+                  <span class="text-gray-600 text-sm ml-2"
+                    >${rating} (124 reviews)</span
+                  >
+                </div>
+  
+                <div class="mt-4 flex items-center justify-between">
+                  <a
+                    href="#"
+                    class="text-primary font-medium text-sm hover:underline"
+                    >View Profile</a
+                  >
+                  <button
+                    class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap text-sm"
+                  >
+                    Book Appointment
+                  </button>
+                </div>
+              </div>
+            </div>`
+            
+            const div = document.createElement("div");
+            div.innerHTML = template ;
+
+            return div.firstChild ;
+          }
+
+      
+      }
+      const searchBtn = document.getElementById("Search-Btn");
+      const searchBtn2 = document.getElementById("Search-Btn2");
+      searchBtn.onclick = renderDoctors;
+      searchBtn2.onclick = renderDoctors;
+
     </script>
   </body>
 </html>

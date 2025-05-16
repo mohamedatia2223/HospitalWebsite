@@ -1374,7 +1374,7 @@
 
                 for (let i = 0; i < Math.min(doctors.length,5); i++) {
                     const avgRating = await getDoctorAverageRating(doctors[i].doctorId,token);
-                    console.log(avgRating);
+                    // console.log(avgRating);
 
                     const template = `<div data-id="${doctors[i].doctorId}" class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
                                         <div class="h-48 overflow-hidden">
