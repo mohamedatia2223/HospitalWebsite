@@ -17,6 +17,8 @@ namespace Hospital.Interfaces.Services
 		public Task AssignDoctorToPatient(Guid patientId,Guid doctorId);
 		public Task RateDoctor(DoctorPatientDTO doctorPatientDTO);
 		public Task<List<DoctorDTOGet>> GetAllDoctorsByPatientId(Guid patientId);
-	}
+		public Task<bool> IsDoctorAssignedToPatient(Guid doctorId, Guid patientId);
+
+    }
 }
 

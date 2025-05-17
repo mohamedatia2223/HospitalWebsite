@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hospital.Data.Models;
 
 namespace Hospital.Services
 {
@@ -19,32 +20,21 @@ namespace Hospital.Services
 			await _patientRepo.AddPatient(pat);
 		}
 
-		// ليه الخره ده مش شغال انا حتجنن 😤😤😤😤😤😤😤😤
-		public async Task AssignDoctorToPatient(Guid patientId, Guid doctorId)
-		{
-			var patient = await _patientRepo.GetPatientWithNavProp(patientId);
+        // ليه الخره ده مش شغال انا حتجنن 😤😤😤😤😤😤😤😤
+        public async Task AssignDoctorToPatient(Guid patientId, Guid doctorId)
+        {
+            var doctorpatient = new DoctorPatient
+            {
+                DoctorId = doctorId,
+                PatientId = patientId
+            };
+            await _patientRepo.AssignDoctorToPatient(doctorpatient);
 
+            await _patientRepo.SaveChanges();
 
-			if (patient.DoctorPatients == null)
-				patient.DoctorPatients = new List<DoctorPatient>();
+        }
 
-
-			if (!patient.DoctorPatients.Any(dp => dp.DoctorId == doctorId))
-			{
-
-				patient.DoctorPatients.Add(
-					new DoctorPatient
-					{
-						DoctorId = doctorId,
-						PatientId = patientId
-					}
-					);
-
-				await _patientRepo.SaveChanges();
-			}
-		}
-
-		public async Task DeletePatientById(Guid patientId)
+        public async Task DeletePatientById(Guid patientId)
 		{
 			await _patientRepo.DeletePatientById(patientId);
 		}
@@ -120,5 +110,16 @@ namespace Hospital.Services
 			var pat = _mapper.Map<Patient>(patient);
 			await _patientRepo.UpdatePatientById(patientId, pat);
 		}
-	}
+       public async Task<bool> IsDoctorAssignedToPatient(Guid doctorId,Guid patientId)
+	   {
+            var doctorPatient = await _patientRepo.GetDoctorPatientById(doctorId, patientId);
+            if (doctorPatient == null)
+            {
+                return false;
+            }
+            return true;
+       }
+
+
+    }
 }

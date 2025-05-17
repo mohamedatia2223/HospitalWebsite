@@ -79,8 +79,12 @@
 			{
 				return NotFound("Doctor Not Found");
 			}
+            if (await _patientService.IsDoctorAssignedToPatient(doctorId,patientId))
+            {
+                return BadRequest("Doctor Already Assigned To Patient");
+            }
 
-			await _patientService.AssignDoctorToPatient(patientId,doctorId);
+            await _patientService.AssignDoctorToPatient(patientId,doctorId);
 
 			return NoContent();
 		}

@@ -1,7 +1,7 @@
 ﻿namespace Hospital.Repos
 {
 	public class PatientRepo : IPatientRepo
-	{	
+	{
 		private readonly HospitalContext _context;
 		public PatientRepo(HospitalContext context)
 		{
@@ -50,7 +50,7 @@
 				.Include(p => p.MedicalRecords)
 				.Include(p => p.Appointments)
 				.FirstOrDefaultAsync(p => p.PatientId == patientId);
-				
+
 		}
 
 		public async Task<bool> PatientExists(Guid patientId)
@@ -58,13 +58,13 @@
 			return await _context.Patients.AnyAsync(p => p.PatientId == patientId);
 		}
 
-        public async Task RateDoctor(DoctorPatient doctorPatient)
-        {
-           await _context.DoctorPatients.AddAsync(doctorPatient);
-           await _context.SaveChangesAsync();
-        }
+		public async Task RateDoctor(DoctorPatient doctorPatient)
+		{
+			await _context.DoctorPatients.AddAsync(doctorPatient);
+			await _context.SaveChangesAsync();
+		}
 
-        public async Task SaveChanges()
+		public async Task SaveChanges()
 		{
 			await _context.SaveChangesAsync();
 		}
@@ -85,5 +85,15 @@
 			await _context.SaveChangesAsync();
 
 		}
+		public async Task AssignDoctorToPatient(DoctorPatient doctorpatient)
+		{
+			await _context.DoctorPatients.AddAsync(doctorpatient);
+		}
+		public async Task<DoctorPatient?> GetDoctorPatientById(Guid doctorId, Guid patientId)
+        {
+			return await _context.DoctorPatients
+                .FirstOrDefaultAsync(dp => dp.DoctorId == doctorId && dp.PatientId == patientId);
+
+        }
 	}
 }
