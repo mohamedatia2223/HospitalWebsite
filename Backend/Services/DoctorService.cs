@@ -48,23 +48,26 @@ namespace Hospital.Services
                 docs = docs.Where(s => s.YearsOfExperience >= query.YearsOfExperience);
             }
 
+            var doctorsWithAvgRating = docs
+                .Select(d => new
+                {
+                    Doctor = d,
+                    AverageRating = d.DoctorPatients.Any() ?
+                        d.DoctorPatients.Average(r => r.Rating) : 0
+                });
+
+            doctorsWithAvgRating = doctorsWithAvgRating.Where(da => da.AverageRating >= query.minRating);
+            
             if (!string.IsNullOrWhiteSpace(query.SortBy) &&
                 query.SortBy.Equals("Rating", StringComparison.OrdinalIgnoreCase))
             {
-                var doctorsWithAvgRating = docs
-                    .Select(d => new
-                    {
-                        Doctor = d,
-                        AverageRating = d.DoctorPatients.Any() ?
-                            d.DoctorPatients.Average(r => r.Rating) : 0
-                    });
 
                 doctorsWithAvgRating = query.IsDescending
                     ? doctorsWithAvgRating.OrderByDescending(s => s.AverageRating)
                     : doctorsWithAvgRating.OrderBy(s => s.AverageRating);
 
-                docs = doctorsWithAvgRating.Select(x => x.Doctor).AsQueryable();
             }
+            docs = doctorsWithAvgRating.Select(x => x.Doctor).AsQueryable();
 
             var skipNumber = (query.PageNumber - 1) * query.PageSize;
             var newDocs = docs.Skip(skipNumber).Take(query.PageSize).ToList();

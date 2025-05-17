@@ -932,7 +932,7 @@
                           type="radio"
                           id="rating-any"
                           name="rating"
-                          value=""
+                          value="0"
                           class="custom-radio"
                           checked
                         />
@@ -2454,11 +2454,12 @@
         const findRating = () => {
           const inputs = document.querySelectorAll("input[name='rating']");
           
-          inputs.forEach((element) => {
-            if (element.checked === true) { 
+          for (const element of inputs) {
+            if (element.checked) {
               return element.value;
             }
-          })
+          }
+          return null;
         }
         
 
@@ -2474,6 +2475,7 @@
             DoctorName,
             Specialty,
             YearsOfExperience : findExp(),
+            minRating : findRating()
           }
           const doctors = await filterDoctors(queryObject,getToken());
           
@@ -2560,7 +2562,7 @@
                       ${`<i class="ri-star-fill"></i>`.repeat(Math.round(rating))}
                     </div>
                     <span class="text-gray-600 text-sm ml-2"
-                      >${rating}</span
+                      >${rating.toFixed(2)}</span
                     >
                   </div>
     
