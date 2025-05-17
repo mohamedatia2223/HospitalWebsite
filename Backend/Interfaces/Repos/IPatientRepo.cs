@@ -12,5 +12,7 @@
 		public Task<List<Patient>> GetPatientsWithNavProp();
 		public Task<Patient> GetPatientWithNavProp(Guid patientId);
 		public Task RateDoctor(DoctorPatient doctorPatient);
+        public Task AssignDoctorToPatient(DoctorPatient doctorpatient);
+		public Task<DoctorPatient?> GetDoctorPatientById(Guid doctorId, Guid patientId);
     }
 }
