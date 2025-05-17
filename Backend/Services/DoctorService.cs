@@ -127,11 +127,12 @@ namespace Hospital.Services
             var doc = await _docRepo.GetDoctorWithNavProp(doctorId);
             var doctorPatients = doc.DoctorPatients;
 
+            // get all the rating if not zero 
             var rating = doctorPatients.Select(dp => dp.Rating).Where(r => r > 0).ToList();
 
             if (rating.Count == 0) return 0;
 
-            return rating.Sum() / rating.Count;
+            return rating.Average();
         }
         public async Task<double> GetProfit(Guid doctorId, DateTime date)
         {
