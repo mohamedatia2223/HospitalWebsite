@@ -58,7 +58,7 @@
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
-        [Authorize(Roles = "Patient,Admin")]        
+        [Authorize(Roles = "Patient,Admin")]
 
         public async Task<IActionResult> AddReviewByPatientId([FromBody] ReviewDTOUpdate reviewDTOUpdate)
         {
@@ -84,7 +84,7 @@
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
-        [Authorize(Roles = "Admin")]        
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> EditReview(Guid ReviewId, [FromBody] ReviewDTOUpdate reviewDTOUpdate)
         {
@@ -93,7 +93,7 @@
                 return BadRequest(ModelState);
             }
             var reviewExist = await _reviewService.ReviewExists(ReviewId);
-            if(ReviewId==Guid.Empty)
+            if (ReviewId == Guid.Empty)
             {
                 return BadRequest("Review ID cannot be null or empty");
             }
@@ -110,7 +110,7 @@
         [ProducesResponseType((StatusCodes.Status200OK))]
         [ProducesResponseType((StatusCodes.Status404NotFound))]
         [ProducesResponseType((StatusCodes.Status400BadRequest))]
-        [Authorize(Roles = "Admin")]        
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> DeleteReviewByReviewId(Guid ReviewId)
         {
@@ -125,6 +125,12 @@
             }
             await _reviewService.DeleteReviewByReviewId(ReviewId);
             return Ok("Review deleted successfully");
+        }
+        [HttpGet("filter")]
+        public async Task<IActionResult> DeleteReviewByReviewId(string keyword = "", string sortBy = "", float rating = 0, int page = 1, int pageSize = 20)
+        {
+            var reviews = await _reviewService.FilterReviews(keyword, sortBy, rating, page, pageSize);
+            return Ok(reviews);
         }
 
     }
