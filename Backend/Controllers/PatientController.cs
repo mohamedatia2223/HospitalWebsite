@@ -2,7 +2,7 @@
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize]
+
 
 	public class PatientController : ControllerBase
 	{

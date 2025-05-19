@@ -11,7 +11,7 @@ namespace Hospital
             // Add services to the container.
             builder.Services.AddDbContext<HospitalContext>(
                 options => options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection")));
+                    builder.Configuration.GetConnectionString("constr")));
             builder.Services.AddScoped<IDoctorRepo,DoctorRepo>();
             builder.Services.AddScoped<IDoctorService,DoctorService>();
             builder.Services.AddScoped<IPatientRepo,PatientRepo>();
@@ -28,20 +28,20 @@ namespace Hospital
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 
-            builder.Services.AddAuthentication(options => {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>  {
-                options.TokenValidationParameters = new TokenValidationParameters {
-                    ValidateIssuer = true , 
-                    ValidateAudience = false , 
-                    ValidateIssuerSigningKey = true ,
-                    ValidateLifetime = true ,
-                    ValidIssuer = builder.Configuration["JWT:Issuer"],
-                    ValidAudience = builder.Configuration["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
-            };
-            });
+            //builder.Services.AddAuthentication(options => {
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(options =>  {
+            //    options.TokenValidationParameters = new TokenValidationParameters {
+            //        ValidateIssuer = true , 
+            //        ValidateAudience = false , 
+            //        ValidateIssuerSigningKey = true ,
+            //        ValidateLifetime = true ,
+            //        ValidIssuer = builder.Configuration["JWT:Issuer"],
+            //        ValidAudience = builder.Configuration["JWT:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+            //};
+            //});
             // add CORs 
             builder.Services.AddCors(options =>
             {

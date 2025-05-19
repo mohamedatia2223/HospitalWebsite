@@ -2,7 +2,6 @@ namespace Hospital.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-   	[Authorize]
 
 	public class DoctorController : ControllerBase
 	{
