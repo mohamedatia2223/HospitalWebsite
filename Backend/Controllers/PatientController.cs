@@ -4,7 +4,7 @@
 	[ApiController]
 	[Authorize]
 
-    public class PatientController : ControllerBase
+	public class PatientController : ControllerBase
 	{
 		private readonly IPatientService _patientService;
 		private readonly IDoctorService _docService;
