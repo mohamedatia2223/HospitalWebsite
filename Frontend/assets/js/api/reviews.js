@@ -11,7 +11,7 @@ export async function getReviewCount(TOKEN) {
 export async function getAllReviewsForPatient(id, TOKEN) {
 	return await request(`/api/Review/GetAllReviewsForPatient/${id}`, TOKEN);
 }
-export async function AddReview(review, TOKEN) {
+export async function addReview(review, TOKEN) {
 	return await request(`/api/Review/AddReviewByPatientId`, TOKEN, {
 		method: "POST",
 		body: review,
