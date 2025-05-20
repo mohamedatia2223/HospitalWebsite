@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MEDora Admin Dashboard - Manage doctors and medical staff">
+    <meta name="keywords" content="MEDora, healthcare, admin, doctors, management">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>Doctors Management - MEDora</title>
+    <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: "#1CB5BD", 
+                        secondary: "#64b5f6",
+                        danger: "#ef4444",
+                        warning: "#f59e0b",
+                        success: "#10b981"
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body { font-family: 'Poppins', sans-serif; }
+        
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        /* Menu Links */
+        .mobile-menu > a {
+            display: block;
+            padding: 0.75rem 0;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu > a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu > a:hover {
+            color: #1CB5BD;
+        }
+
+        /* Mobile menu button styles */
+        #mobile-menu-button {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu-button:hover {
+            color: #1CB5BD;
+        }
+
+        @media (min-width: 1075px) {
+            html { font-size: 14px; }
+        }
+        @media (max-width: 1075px) {
+            html { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+            html { font-size: 10px; }
+        }
+
+        /* View Toggle Styles */
+        .view-toggle-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .view-toggle {
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: white;
+            color: #4b5563;
+        }
+        .view-toggle.active {
+            background-color: #1CB5BD;
+            color: white;
+        }
+        .view-toggle:not(.active):hover {
+            background-color: #f3f4f6;
+        }
+        
+        /* Sortable Headers */
+        .sortable-header {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .sortable-header .sort-icon {
+            margin-left: 4px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Keep table headers in a single row */
+        .data-table thead tr {
+            display: table-row;
+        }
+
+        .data-table th {
+            display: table-cell;
+            padding: 12px 16px; /* Adjust padding as needed */
+            text-align: left;
+            vertical-align: middle;
+        }
+        .sortable-header:hover {
+            background-color: #f3f4f6;
+        }
+        
+        /* Doctor Card Styles */
+        .doctor-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .doctor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Badge Styles */
+        .badge {
+            display: inline-flex;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .badge-warning {
+            background-color: #fef08a;
+            color: #854d0e;
+        }
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* Pagination Styles */
+        .pagination button {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+        .pagination button:hover {
+            background-color: #f3f4f6;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto; /* Enable scrolling if content is too tall */
+            padding: 20px 0; /* Add some padding at top and bottom */
+        }
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 90vh; /* Limit height to viewport */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-body {
+            padding: 20px;
+            padding-top: 0;
+            overflow-y: auto; /* Enable scrolling for content */
+            flex-grow: 1; /* Allow body to grow */
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            border-top: 1px solid #e5e7eb;
+            background-color: #f9fafb;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .modal:not(.hidden) {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Alert Animation */
+        .alert {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+        }
+
+        .alert:not(.hidden) {
+            display: flex;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Profile and notification dropdown styles */
+        #profile-dropdown, #notification-dropdown {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification badge pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        #notification-btn span {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-link:hover {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .sidebar-link.active {
+            background-color: #bae6fd;
+            color: #0369a1;
+            border-left: 4px solid #1CB5BD;
+        }
+        
+        /* Form Styles */
+        .form-input {
+            transition: all 0.3s ease;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #1CB5BD;
+            box-shadow: 0 0 0 3px rgba(28, 181, 189, 0.2);
+        }
+        
+        /* File Input Styles */
+        .file-input-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .file-input-section {
+            display: block;
+        }
+
+        .preview-section {
+            display: none;
+        }
+
+        .preview-section.hidden {
+            display: none;
+        }
+
+        .preview-section:not(.hidden) {
+            display: block;
+        }
+
+        .preview-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .doctor-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e5e7eb;
+        }
+
+        .change-photo-btn {
+            background: none;
+            border: none;
+            color: #1CB5BD;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .change-photo-btn:hover {
+            text-decoration: underline;
+        }
+
+        .file-input-button {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .file-input-button:hover {
+            border-color: #1CB5BD;
+            background-color: #f0fdfa;
+        }
+        .file-preview {
+            margin-top: 0.5rem;
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 0.25rem;
+            display: none;
+        }
+        .file-input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        /* Confirmation Modal Styles */
+        #confirmModal .modal-content {
+            width: 90%;
+            max-width: 400px; /* Optimal width for confirmation dialogs */
+            padding: 24px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Remove fixed height and let it grow with content */
+            max-height: 20rem;
+            height: calc(100% - 40px);
+            /* Prevent overflow scrolling for confirmation modals */
+            overflow: visible;
+        }
+
+        #confirmModal .modal-body {
+            text-align: center;
+            /* Let content determine height */
+            height: auto;
+            /* Ensure proper spacing */
+            margin-bottom: 16px;
+        }
+
+        #confirmModal .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Read-only field styling */
+        input[readonly], input[readonly]:focus {
+            background-color: #f3f4f6;
+            border-color: #e5e7eb;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        /* Disabled file input styling */
+        input[type="file"]:disabled {
+            cursor: not-allowed;
+        }
+
+        input[type="file"]:disabled + .file-input-button {
+            background-color: #f3f4f6;
+            border-color: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* Add mode styles */
+        .add-mode {
+            display: block;
+        }
+
+        /* Hide select in add mode */
+        .add-mode .hidden {
+            display: none;
+        }
+
+        /* Edit mode styles */
+        .edit-mode:not(.hidden) {
+            display: block;
+        }
+
+        /* Style for read-only text display */
+        .specialization-text {
+            padding: 0.5rem;
+            background-color: #f3f4f6;
+            border-radius: 0.375rem;
+            color: #374151;
+        }
+
+        /* New Add Doctor Modal Styles */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #addDoctorModal {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #addDoctorModal.active {
+            display: flex;
+            opacity: 1;
+            animation: fadeIn 0.3s ease;
+        }
+
+        #addDoctorModal .modal-content {
+            animation: slideIn 0.3s ease;
+        }
+
+        /* Floating label styles */
+        .peer:focus ~ label,
+        .peer:not(:placeholder-shown) ~ label {
+            opacity: 1;
+            transform: translateY(-2.5rem);
+            color: #1CB5BD;
+        }
+
+        .peer ~ label {
+            position: absolute;
+            left: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0 4px;
+            background-color: white;
+            color: #9CA3AF;
+            font-size: 0.875rem;
+            transition: all 0.2s ease-out;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .peer:focus ~ label,
+        .peer:not(:placeholder-shown) ~ label {
+            opacity: 1;
+            transform: translateY(-2.5rem);
+            font-size: 0.75rem;
+            color: #1CB5BD;
+        }
+
+        /* Gender button styles */
+        .gender-selected {
+            background-color: white !important;
+            color: #1CB5BD !important;
+            font-weight: 600;
+        }
+
+        /* CV upload progress styles */
+        #cvUploadProgressWrapper {
+            transition: all 0.3s ease;
+        }
+
+        #doctorEditPassword {
+            padding-right: 6rem; /* Make space for both buttons */
+        }
+
+        #toggleEditPassword, #enablePasswordEdit {
+            transition: all 0.2s ease;
+        }
+
+        #toggleEditPassword:hover, #enablePasswordEdit:hover {
+            transform: scale(1.1);
+        }
+
+        /* Pagination Styles */
+        #pageNumbers button {
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        #pageNumbers button:hover:not(.bg-primary) {
+            background-color: #f3f4f6;
+        }
+
+        #prevPage, #nextPage {
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-white border-r border-gray-200">
+                <div class="flex items-center justify-center h-16 px-4 bg-primary text-white">
+                    <i class="ri-stethoscope-line ri-2x text-white mr-2"></i>
+                    <span class="text-2xl font-['Pacifico']">MEDora</span>
+                </div>
+                <div class="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
+                    <div class="space-y-1">
+                        <a href="admin.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-dashboard-line mr-3"></i>Dashboard
+                        </a>
+                        <a href="doctorList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md active">
+                            <i class="ri-user-star-line mr-3"></i>Doctors
+                        </a>
+                        <a href="patientList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-group-line mr-3"></i>Patients
+                        </a>
+                        <a href="appointments.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-calendar-line mr-3"></i>Appointments
+                        </a>
+                        <a href="#departments" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-building-line mr-3"></i>Departments
+                        </a>
+                        <a href="#staff" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-team-line mr-3"></i>Staff
+                        </a>
+                        <a href="#reports" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-file-chart-line mr-3"></i>Reports
+                        </a>
+                        <a href="#settings" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-settings-3-line mr-3"></i>Settings
+                        </a>
+                    </div>
+                    
+                    <div class="mt-auto mb-4">
+                        <div class="p-4 bg-blue-50 rounded-lg mb-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="ri-question-line text-blue-500 text-xl"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-blue-800">Need help?</p>
+                                    <p class="text-xs text-blue-600">Contact our support team</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="logoutBtn" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <i class="ri-logout-box-r-line mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Navbar -->
+            <nav class="bg-white border-b border-gray-200 z-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- Mobile menu button -->
+                        <div class="flex md:hidden">
+                            <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+                                <div class="w-6 h-6 flex items-center justify-center">
+                                    <i id="menu-icon" class="ri-menu-line ri-lg transition-transform duration-300"></i>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <!-- Search and user area -->
+                        <div class="flex items-center ml-auto">
+                            <!-- Search -->
+                            <div class="relative ml-4 md:ml-6">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="ri-search-line text-gray-400"></i>
+                                </div>
+                                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search...">
+                            </div>
+                            
+                            <!-- Notifications -->
+                            <div class="relative ml-4">
+                                <button id="notification-btn" class="p-2 rounded-full hover:bg-gray-100 relative">
+                                    <i class="ri-notification-3-line w-6 h-6 text-gray-600 text-xl"></i>
+                                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+                                </button>
+                                <!-- Notification Dropdown -->
+                                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <h3 class="text-sm font-medium text-gray-700">Notifications</h3>
+                                    </div>
+                                    <div class="max-h-60 overflow-y-auto">
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-alarm-warning-line text-yellow-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">System Alert</p>
+                                                    <p class="text-xs text-gray-500">High patient volume in Cardiology today</p>
+                                                    <p class="text-xs text-gray-400 mt-1">10 mins ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-calendar-check-line text-blue-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Appointment</p>
+                                                    <p class="text-xs text-gray-500">Dr. Smith has a new appointment scheduled</p>
+                                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-user-add-line text-green-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Patient</p>
+                                                    <p class="text-xs text-gray-500">John Doe registered as a new patient</p>
+                                                    <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="px-4 py-2 border-t border-gray-200">
+                                        <a href="#" class="text-xs font-medium text-primary hover:text-primary-dark">View all notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Profile Dropdown -->
+                            <div class="relative ml-4">
+                                <button id="profile-btn" class="flex items-center text-sm rounded-full focus:outline-none">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="../assets/images/Admin pages/Doctors page/Milla Willow_Admin.jpg" alt="Admin profile">
+                                </button>
+                                <!-- Profile Dropdown Menu -->
+                                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <p class="text-sm font-medium text-gray-700">Milla Willow</p>
+                                        <p class="text-xs text-gray-500">Super Administrator</p>
+                                    </div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-user-line mr-2"></i> MY Profile
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-settings-3-line mr-2"></i> Settings
+                                    </a>
+                                    <div class="border-t border-gray-200"></div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-logout-box-r-line mr-2"></i> Sign out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Mobile Menu Structure -->
+            <div id="mobile-menu" class="mobile-menu">
+                <a href="#" class="flex items-center">
+                    <i class="ri-dashboard-line mr-2 text-primary"></i>
+                    Dashboard
+                </a>
+                <a href="#doctors" class="flex items-center">
+                    <i class="ri-user-star-line mr-2 text-primary"></i>
+                    Doctors
+                </a>
+                <a href="#patients" class="flex items-center">
+                    <i class="ri-group-line mr-2 text-primary"></i>
+                    Patients
+                </a>
+                <a href="#appointments" class="flex items-center">
+                    <i class="ri-calendar-line mr-2 text-primary"></i>
+                    Appointments
+                </a>
+                <a href="#departments" class="flex items-center">
+                    <i class="ri-building-line mr-2 text-primary"></i>
+                    Departments
+                </a>
+                <a href="#staff" class="flex items-center">
+                    <i class="ri-team-line mr-2 text-primary"></i>
+                    Staff
+                </a>
+                <a href="#reports" class="flex items-center">
+                    <i class="ri-file-chart-line mr-2 text-primary"></i>
+                    Reports
+                </a>
+                <a href="#settings" class="flex items-center">
+                    <i class="ri-settings-3-line mr-2 text-primary"></i>
+                    Settings
+                </a>
+                <button id="mobileLogoutBtn" class="w-full flex items-center justify-start px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 mt-4">
+                    <i class="ri-logout-box-r-line mr-2"></i> Logout
+                </button>
+            </div>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Doctors Management</h1>
+                    <div class="flex items-center gap-4">
+                        <div class="view-toggle-group">
+                            <button class="view-toggle active" data-view="card">
+                                <i class="ri-layout-grid-line"></i> Card
+                            </button>
+                            <button class="view-toggle" data-view="list">
+                                <i class="ri-list-check-2"></i> List
+                            </button>
+                        </div>
+                        <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark" id="addDoctorBtn">
+                            <i class="ri-user-add-line mr-1"></i> Add Doctor
+                        </button>
+                        <button class="px-4 py-2 bg-gray-200 rounded-button print-button" id="printAllBtn">
+                            <i class="ri-printer-line mr-1"></i> Print All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search doctors..." class="form-input">
+                        <i class="ri-search-line absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <select id="specializationFilter" class="form-input">
+                        <option value="">All Specializations</option>
+                        <option>Cardiology</option>
+                        <option>Neurology</option>
+                        <option>Pediatrics</option>
+                        <option>Orthopedics</option>
+                        <option>Dermatology</option>
+                    </select>
+                    <select id="statusFilter" class="form-input">
+                        <option value="">All Statuses</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                        <option>On Leave</option>
+                    </select>
+                    <select id="patientsFilter" class="form-input">
+                        <option value="">All Patient Counts</option>
+                        <option value="50+">50+ Patients</option>
+                        <option value="100+">100+ Patients</option>
+                    </select>
+                </div>
+
+                <!-- Card View -->
+                <div id="cardView" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be dynamically inserted here -->
+                </div>
+
+                <!-- List View -->
+                <div id="listView" class="hidden bg-white rounded-lg shadow-md overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 data-table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <div class="sortable-header" data-sort="name">
+                                        Doctor
+                                        <span class="sort-icon">
+                                            <i class="ri-arrow-up-down-line"></i>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <div class="sortable-header" data-sort="specialization">
+                                        Specialization
+                                        <span class="sort-icon">
+                                            <i class="ri-arrow-up-down-line"></i>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <div class="sortable-header" data-sort="patients">
+                                        Patients
+                                        <span class="sort-icon">
+                                            <i class="ri-arrow-up-down-line"></i>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200" id="listViewBody">
+                            <!-- Table rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="text-sm text-gray-600">
+                        Showing <span id="showingFrom">1</span>-<span id="showingTo">9</span> of <span id="totalItems">12</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="prevPage" class="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="ri-arrow-left-s-line"></i>
+                        </button>
+                        
+                        <div class="flex items-center gap-1" id="pageNumbers">
+                            <!-- Page numbers will be inserted here -->
+                        </div>
+                        
+                        <button id="nextPage" class="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="ri-arrow-right-s-line"></i>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Doctor Modal -->
+    <div id="addDoctorModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center hidden transition-all duration-300">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 relative animate-fadeIn">
+            <!-- Close Button -->
+            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-xl">
+                &times;
+            </button>
+
+            <h2 class="text-xl font-semibold mb-4">Add New Doctor</h2>
+
+            <!-- FORM -->
+            <form class="grid grid-cols-1 gap-6" id="newDoctorForm">
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Left Inputs -->
+                    <div class="col-span-2 flex flex-col gap-4">
+                        <!-- Floating Label Group -->
+
+                        <!-- Doctor ID Field -->
+                        <div class="relative w-full">
+                            <i
+                                class="fa-solid fa-tag absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
+                            ></i>
+                            <input
+                                type="text"
+                                id="doctorId"
+                                placeholder="Doctor ID"
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                                onfocus="this.placeholder='MED-001'"
+                                onblur="this.placeholder='Doctor ID'"
+                                required
+                            />
+                            <label
+                                for="doctorId"
+                                class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
+                            >Doctor ID</label
+                            >
+                        </div>
+
+                        <!-- Full Name Field -->
+                        <div class="relative w-full">
+                            <i
+                                class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
+                            ></i>
+                            <input
+                                type="text"
+                                id="fullName"
+                                placeholder="Full name"
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                                onfocus="this.placeholder='Dr. John Doe'"
+                                onblur="this.placeholder='Full name'"
+                                required
+                            />
+                            <label
+                                for="fullName"
+                                class="absolute left-4 -top-2.5 translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
+                            >Full Name</label
+                            >
+                        </div>
+
+                        <!-- Date of Birth / Gender Field -->
+                        <div
+                            class="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0"
+                        >
+                            <!-- Date of Birth -->
+                            <div class="relative w-full sm:w-1/2">
+                                <i
+                                class="fa-solid fa-calendar-days absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"
+                                style="transform: translateY(-50%)"
+                                ></i>
+                                <input
+                                type="date"
+                                id="dateOfBirth"
+                                placeholder="Select your date of birth"
+                                class="w-full pl-10 pr-4 py-3 text-sm text-gray-500 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                                onfocus="this.placeholder='MM/DD/YYYY'"
+                                onblur="this.placeholder='Select your date of birth'"
+                                required
+                                />
+                                <label
+                                for="dateOfBirth"
+                                class="absolute left-4 -top-2.5 translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
+                                >
+                                Date of Birth
+                                </label>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="w-full sm:w-1/2">
+                                <div class="relative h-full">
+                                <!-- Floating Label -->
+                                <label
+                                    id="genderLabel"
+                                    for="genderInput"
+                                    class="absolute left-5 -top-3 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 pointer-events-none"
+                                >
+                                    Gender
+                                </label>
+                                <!-- Icon and Button Container -->
+                                <div
+                                    class="gender-container flex items-center gap-3 bg-teal-400 rounded-lg overflow-hidden border border-teal-400 ring-1 ring-teal-500 w-full pl-4 pr-2 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary transition-all duration-200 mt-2"
+                                    tabindex="0"
+                                >
+                                    <!-- Icon -->
+                                    <i class="fa-solid fa-venus-mars text-white text-lg"></i>
+                                    <!-- Buttons -->
+                                    <div class="flex w-full bg-gray-100">
+                                    <button
+                                        type="button"
+                                        id="btnMale"
+                                        class="w-1/2 py-2 text-sm font-medium text-gray-600 focus:outline-none border-r border-gray-300 flex items-center justify-center gap-2"
+                                    >
+                                        <i class="fa-solid fa-mars text-blue-500"></i> <span class="text-sm sm:hidden">Male</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        id="btnFemale"
+                                        class="w-1/2 py-2 text-sm font-medium text-gray-600 focus:outline-none flex items-center justify-center gap-2"
+                                    >
+                                        <i class="fa-solid fa-venus text-pink-500"></i> <span class="text-sm sm:hidden">Female</span>
+                                    </button>
+                                    </div>
+                                </div>
+                                <!-- Hidden Input -->
+                                <input type="hidden" name="gender" id="genderInput" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phone Number Field (country code + number) -->
+                        <div class="relative w-full mb-3">
+                            <!-- Input container (flag + code + phone input) -->
+                            <div
+                            class="flex items-center w-full border border-gray-300 rounded-lg bg-white focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all duration-200"
+                            >
+                                <!-- Country Code Dropdown -->
+                                <div
+                                    id="phoneCountryDropdown"
+                                    class="relative flex items-center cursor-pointer px-2 select-none border-r border-gray-300"
+                                    style="
+                                    min-width: 10px;
+                                    scrollbar-width: thin;
+                                    scrollbar-color: #1cb5bd #f1f5f9;
+                                    scrollbar-track-color: #f1f5f9;
+                                    "
+                                >
+                                    <span id="phoneCountryFlag" class="mr-2"></span>
+                                    <input
+                                        id="phoneCountryCode"
+                                        type="text"
+                                        class="w-12 bg-transparent outline-none text-gray-900 text-sm px-0 border-0 mr-4 focus:ring-0 text-center"
+                                        placeholder="+1"
+                                        autocomplete="off"
+                                    />
+                                    <svg
+                                        id="phoneCountryArrow"
+                                        class="ml-1 w-4 h-4 text-[#1CB5BD] transition-transform duration-200"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                    >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M19 9l-7 7-7-7"
+                                    />
+                                    </svg>
+            
+                                    <!-- Country code options -->
+                                    <ul
+                                        id="phoneCountryOptions"
+                                        class="w-48 absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto z-50 hidden transition-all duration-300 text-sm"
+                                    ></ul>
+                                </div>
+            
+                                <!-- Phone Number Input -->
+                                <input
+                                    type="text"
+                                    id="phone"
+                                    placeholder="Phone number"
+                                    class="peer flex-1 pl-3 pr-4 py-2 sm:py-3 bg-transparent border-0 focus:ring-0 focus:outline-none text-gray-900 text-sm"
+                                    onfocus="this.placeholder='1234567890'"
+                                    onblur="this.placeholder='Phone number'"
+                                    required
+                                />
+            
+                                <!-- Phone Label ABOVE the full container -->
+                                <label
+                                    for="phone"
+                                    class="absolute left-4 -top-2.5 -translate-y-1/2 text-sm text-gray-500 bg-white px-1 transition-all duration-200 opacity-0 scale-95 pointer-events-none peer-focus:opacity-100 peer-focus:scale-100 peer-focus:-top-1 peer-focus:text-primary"
+                                >
+                                    Phone Number
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Photo Upload -->
+                    <div class="flex flex-col items-center justify-center">
+                        <label
+                        class="w-full h-full flex flex-col items-center justify-center bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer transition hover:border-primary">
+                        <span class="text-gray-500 text-sm mb-2">Upload Photo</span>
+                        <input type="file" id="doctorPhoto" accept="image/*" class="hidden" />
+                        <div
+                            class="w-24 h-24 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+                            <img id="doctorPreview" class="w-full h-full object-cover hidden" />
+                            <i class="ri-image-line text-3xl text-gray-400" id="photoPlaceholder"></i>
+                        </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Additional Fields -->
+                <div class="grid grid-cols-2 gap-4">
+
+                    <!-- Email Field -->
+                    <div class="relative">
+                        <i
+                            class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
+                        ></i>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                            onfocus="this.placeholder='example@medora.com'"
+                            onblur="this.placeholder='Enter your email'"
+                            required
+                        />
+                        <label
+                        for="email"
+                        class="absolute left-4 -top-2.5 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
+                        >Email</label
+                        >
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="relative">
+                        <i
+                            class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"
+                            style="transform: translateY(-50%)"
+                        ></i>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            class="w-full pl-10 pr-10 py-2 sm:py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                            onfocus="this.placeholder='Str0ngP@ssw0rd'"
+                            onblur="this.placeholder='Enter your password'"
+                            required
+                        />
+                        <label
+                            for="password"
+                            class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
+                        >Password</label
+                        >
+                        <!-- Eye Icon for Password -->
+                        <i
+                            id="togglePassword"
+                            class="fa-solid fa-eye absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[#1CB5FF] hover:text-[#1CB5BD] opacity-0"
+                        ></i>
+                    </div>
+
+
+                    <!-- Location Field -->
+                    <div class="relative">
+                        <i
+                        class="fa-solid fa-location-dot absolute left-4 top-1/4 -translate-y-1/4 text-[#1CB5BD]"
+                        ></i>
+                        <input
+                        type="location"
+                        id="location"
+                        placeholder="Enter your location"
+                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        onfocus="this.placeholder='1234 Main St, Anytown, USA'"
+                        onblur="this.placeholder='Enter your location'"
+                        required
+                        />
+                        <label
+                        for="location"
+                        class="absolute left-10 top-1/4 transform -translate-y-1/4 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary peer-focus:top-1 peer-focus:-translate-y-1/2"
+                        >Location</label
+                        >
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <select id="specialistSelect" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <option value="" disabled selected>Select Specialty</option>
+                        <option>Cardiologist</option>
+                        <option>Neurologist</option>
+                        <option>Psychiatrist</option>
+                        </select>
+                        <input type="text" placeholder="Or enter new specialty" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" />
+                    </div>
+                </div>
+
+                <!-- CV Upload -->
+                <label
+                class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer transition hover:border-primary mt-2">
+                <span class="text-gray-500 text-sm mb-2">Upload CV (PDF, DOC, DOCX)</span>
+                <input type="file" id="doctorCV" accept=".pdf,.doc,.docx" class="hidden" />
+
+                <!-- Add these inside the label after the input and before the div -->
+                <div class="w-full mt-4 hidden" id="cvUploadProgressWrapper">
+                    <div class="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                        <div id="cvUploadProgress" class="absolute h-full bg-primary w-0 transition-all duration-200 ease-in-out"></div>
+                    </div>
+                    <div class="flex items-center mt-2 text-sm text-gray-600">
+                        <i id="cvUploadCheck" class="ri-check-line text-green-500 text-lg mr-2 hidden"></i>
+                        <span id="cvUploadStatus">Uploading...</span>
+                    </div>
+                </div>
+
+                <div class="w-full flex items-center justify-center">
+                    <i class="ri-upload-cloud-2-line text-2xl text-primary mr-2"></i>
+                    <span class="text-primary font-medium">Choose file</span>
+                </div>
+                </label>
+                
+                <div class="flex justify-end">
+                  <button type="button" id="cancelDoctor"
+                    class="px-6 py-2 border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 transition duration-300 whitespace-nowrap mr-3">
+                    Cancel
+                  </button>
+                  <button type="submit"
+                    class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap">
+                    Submit
+                  </button>
+                </div>
+              </form>
+          </div>
+    </div>
+
+    <!-- Edit Doctor Modal -->
+    <div id="doctorModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
+        <div class="modal-content">
+            <div class="modal-header flex justify-between items-center p-4">
+                <h3 class="text-lg font-semibold" id="modalTitle">Edit Doctor</h3>
+                <button id="closeModal" class="close-modal text-gray-500 hover:text-gray-700">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="doctorForm" class="space-y-4">
+                    <input type="hidden" id="doctorEditId" name="id">
+                    <div class="file-input-container">
+                        <label class="file-input-label">Profile Photo</label>
+                        
+                        <div id="previewSection" class="preview-section">
+                            <div class="preview-wrapper">
+                                <img id="doctorEditPreview" class="doctor-preview" src="#" alt="Doctor preview">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="doctorEditName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="doctorEditName" class="form-input mt-1 block w-full" readonly>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="doctorEditSpecialization" class="block text-sm font-medium text-gray-700">Specialization</label>
+                            <div id="specializationText" class="mt-1 p-2 bg-gray-50 rounded border border-gray-200 text-gray-700">
+                                <!-- Specialization value will be inserted here -->
+                            </div>
+                        </div>
+                        <div>
+                            <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                            <input type="text" id="gender" class="form-input mt-1 block w-full" readonly>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="doctorEditEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="doctorEditEmail" class="form-input mt-1 block w-full" required>
+                        </div>
+                        <div class="relative">
+                            <label for="doctorEditPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                            <div class="flex items-center mt-1">
+                                <input 
+                                    type="password" 
+                                    id="doctorEditPassword" 
+                                    class="form-input block w-full pr-10" 
+                                    readonly
+                                    value="••••••••"
+                                >
+                                <button 
+                                    type="button" 
+                                    id="toggleEditPassword" 
+                                    class="absolute right-3 p-1 text-gray-400 hover:text-primary focus:outline-none"
+                                >
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <button 
+                                    type="button" 
+                                    id="enablePasswordEdit" 
+                                    class="absolute right-10 p-1 text-xs text-primary hover:text-primary-dark focus:outline-none"
+                                    title="Change password"
+                                >
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="doctorEditPhone" class="block text-sm font-medium text-gray-700">Phone</label>
+                            <input type="tel" id="doctorEditPhone" class="form-input mt-1 block w-full" required>
+                        </div>
+                        <div>
+                            <label for="doctorEditStatus" class="block text-sm font-medium text-gray-700">Status</label>
+                            <select id="doctorEditStatus" class="form-input mt-1 block w-full" required>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="On Leave">On Leave</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="doctorEditPatients" class="block text-sm font-medium text-gray-700">Number of Patients</label>
+                            <input type="number" id="doctorEditPatients" class="form-input mt-1 block w-full" required>
+                        </div>
+                        <div>
+                            <label for="doctorEditExperience" class="block text-sm font-medium text-gray-700">Experience</label>
+                            <input type="text" id="doctorEditExperience" class="form-input mt-1 block w-full" readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer gap-2">
+                <button type="button" id="cancelEditDoctor" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Cancel
+                </button>
+                <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="text-lg font-semibold mb-3">Confirm Delete</h3>
+                <p class="text-gray-700">Are you sure you want to delete this doctor?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelDelete" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button id="confirmDelete" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+        const profileBtn = document.getElementById('profile-btn');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        function handleScreenSize() {
+            if (window.innerWidth >= 767) { // md breakpoint
+                mobileMenu.classList.remove("active");
+                menuIcon.classList.remove("ri-close-line");
+                menuIcon.classList.add("ri-menu-line");
+            }
+        }
+
+        // Initial check
+        handleScreenSize();
+
+        // Add resize event listener
+        window.addEventListener("resize", handleScreenSize);
+
+        // Toggle mobile menu
+        mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            menuIcon.classList.toggle('ri-menu-line');
+            menuIcon.classList.toggle('ri-close-line');
+            // Close other dropdowns when menu opens
+            if (mobileMenu.classList.contains('active')) {
+                profileDropdown.classList.add('hidden');
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+
+        // Notification Dropdown Toggle
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                notificationDropdown.classList.toggle('hidden');
+                profileDropdown.classList.add('hidden');
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            });
+        }
+
+        if (notificationDropdown) {
+            notificationDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }    
+
+        // Profile Dropdown Toggle
+        if (profileBtn) {
+            profileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('hidden');
+                notificationDropdown.classList.add('hidden');
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            });
+        }
+
+        if (profileDropdown) {
+            profileDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+
+        document.addEventListener('click', function() {
+            if (profileDropdown) profileDropdown.classList.add('hidden');
+            if (notificationDropdown) notificationDropdown.classList.add('hidden');
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!notificationBtn.contains(e.target)) {
+                notificationDropdown.classList.add('hidden');
+            }
+            if (!profileBtn.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+            if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            }
+        });
+
+        // Doctor data and state management
+        let doctors = [];
+        let currentPage = 1;
+        const itemsPerPage = 9;
+        let sortConfig = { key: null, direction: 'asc' };
+        let currentDoctorId = null;
+
+        // Initialize sample doctors
+        function initializeDoctors() {
+            doctors = [
+                {
+                    id: 1,
+                    name: 'Dr. Robert Smith',
+                    gender: 'Male',
+                    specialization: 'Cardiology',
+                    phone: '+1 234 567 890',
+                    email: 'robert.smith@example.com',
+                    status: 'Active',
+                    patients: 85,
+                    experience: '15 Years',
+                    image: 'https://randomuser.me/api/portraits/men/68.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 2,
+                    name: 'Dr. Emily Johnson',
+                    gender: 'Female',
+                    specialization: 'Neurology',
+                    phone: '+1 234 567 891',
+                    email: 'emily.j@example.com',
+                    status: 'Active',
+                    patients: 62,
+                    experience: '12 Years',
+                    image: 'https://randomuser.me/api/portraits/women/22.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 3,
+                    name: 'Dr. Michael Brown',
+                    gender: 'Male',
+                    specialization: 'Pediatrics',
+                    phone: '+1 234 567 892',
+                    email: 'michael.b@example.com',
+                    status: 'On Leave',
+                    patients: 45,
+                    experience: '8 Years',
+                    image: 'https://randomuser.me/api/portraits/men/50.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 4,
+                    name: 'Dr. Sarah Wilson',
+                    gender: 'Female',
+                    specialization: 'Orthopedics',
+                    phone: '+1 234 567 893',
+                    email: 'sarah.w@example.com',
+                    status: 'Active',
+                    patients: 112,
+                    experience: '18 Years',
+                    image: 'https://randomuser.me/api/portraits/women/12.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 5,
+                    name: 'Dr. David Lee',
+                    gender: 'Male',
+                    specialization: 'Dermatology',
+                    phone: '+1 234 567 894',
+                    email: 'david.l@example.com',
+                    status: 'Inactive',
+                    patients: 28,
+                    experience: '6 Years',
+                    image: 'https://randomuser.me/api/portraits/men/8.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 6,
+                    name: 'Dr. Jennifer Davis',
+                    gender: 'Female',
+                    specialization: 'Cardiology',
+                    phone: '+1 234 567 895',
+                    email: 'jennifer.d@example.com',
+                    status: 'Active',
+                    patients: 93,
+                    experience: '14 Years',
+                    image: 'https://randomuser.me/api/portraits/women/32.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 7,
+                    name: 'Dr. James Wilson',
+                    gender: 'Male',
+                    specialization: 'Neurology',    
+                    phone: '+1 234 567 896',
+                    email: 'james.w@example.com',
+                    status: 'Active',
+                    patients: 78,
+                    experience: '11 Years',
+                    image: 'https://randomuser.me/api/portraits/men/58.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 8,
+                    name: 'Dr. Lisa Taylor',
+                    gender: 'Female',
+                    specialization: 'Pediatrics',
+                    phone: '+1 234 567 897',
+                    email: 'lisa.t@example.com',
+                    status: 'Active',
+                    patients: 65,
+                    experience: '9 Years',
+                    image: 'https://randomuser.me/api/portraits/women/62.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 9,
+                    name: 'Dr. Michael Johnson',
+                    gender: 'Male',
+                    specialization: 'Dermatology',
+                    phone: '+1 234 567 898',
+                    email: 'michael.j@example.com',
+                    status: 'Active',
+                    patients: 25,
+                    experience: '3 Years',
+                    image: 'https://randomuser.me/api/portraits/men/45.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 10,
+                    name: 'Dr. Sarah Johnson',
+                    gender: 'Female',
+                    specialization: 'Neurology',
+                    phone: '+1 234 567 899',
+                    email: 'sarah.j@example.com',
+                    status: 'Active',
+                    patients: 12,
+                    experience: '5 Years',
+                    image: 'https://randomuser.me/api/portraits/women/10.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 11,
+                    name: 'Dr. Karim Nedved',
+                    gender: 'Male',
+                    specialization: 'Pediatrics',
+                    phone: '+1 234 567 900',
+                    email: 'karim.n@example.com',
+                    status: 'Active',
+                    patients: 45,
+                    experience: '8 Years',
+                    image: 'https://randomuser.me/api/portraits/men/5.jpg',
+                    password: 'password123'
+                },
+                {
+                    id: 12,
+                    name: 'Dr. Soufiane Rahimi',
+                    gender: 'Male',
+                    specialization: 'Pediatrics',
+                    phone: '+1 234 567 901',
+                    email: 'soufiane.r@example.com',
+                    status: 'Active',
+                    patients: 12,
+                    experience: '5 Years',
+                    image: 'https://randomuser.me/api/portraits/men/1.jpg',
+                    password: 'password123'
+                }
+            ];
+        }
+
+        // Get status badge class
+        function getStatusClass(status) {
+            const classes = {
+                Active: 'bg-green-100 text-green-800',
+                Inactive: 'bg-red-100 text-red-800',
+                'On Leave': 'bg-yellow-100 text-yellow-800'
+            };
+            return classes[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Filter doctors based on search and filters
+        function filterDoctors() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const specialization = document.getElementById('specializationFilter').value;
+            const status = document.getElementById('statusFilter').value;
+            const patientsFilter = document.getElementById('patientsFilter').value;
+
+            return doctors.filter(doctor => {
+                const matchesSearch = doctor.name.toLowerCase().includes(searchTerm) || 
+                                     doctor.specialization.toLowerCase().includes(searchTerm) ||
+                                     doctor.email.toLowerCase().includes(searchTerm);
+                
+                const matchesSpecialization = !specialization || doctor.specialization === specialization;
+                const matchesStatus = !status || doctor.status === status;
+                
+                let matchesPatients = true;
+                if (patientsFilter === '50+') {
+                    matchesPatients = doctor.patients >= 50;
+                } else if (patientsFilter === '100+') {
+                    matchesPatients = doctor.patients >= 100;
+                }
+                
+                return matchesSearch && matchesSpecialization && matchesStatus && matchesPatients;
+            });
+        }
+
+        // Sort doctors
+        function sortDoctors(doctorsToSort) {
+            if (!sortConfig.key) return doctorsToSort;
+            
+            return [...doctorsToSort].sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'asc' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+
+        // Paginate doctors
+        function paginateDoctors(doctorsToPaginate) {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            return doctorsToPaginate.slice(startIndex, startIndex + itemsPerPage);
+        }
+
+        // Render card view
+        function renderCardView(paginatedDoctors) {
+            const cardView = document.getElementById('cardView');
+            cardView.innerHTML = paginatedDoctors.map(doctor => `
+                <div class="doctor-card bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                     data-id="${doctor.id}">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <img src="${doctor.image}" 
+                                 class="w-16 h-16 rounded-full object-cover mr-4"
+                                 alt="${doctor.name}">
+                            <div>
+                                <h3 class="font-semibold">${doctor.name}</h3>
+                                <p class="text-sm text-gray-500">${doctor.specialization}</p>
+                                <span class="badge ${getStatusClass(doctor.status)} text-xs">
+                                    ${doctor.status}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="dropdown relative">
+                            <button class="text-gray-500 hover:text-primary">
+                                <i class="ri-more-2-fill"></i>
+                            </button>
+                            <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left view-doctor" data-id="${doctor.id}">
+                                    <i class="ri-eye-line mr-2"></i> View
+                                </button>
+                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left edit-doctor" data-id="${doctor.id}">
+                                    <i class="ri-pencil-line mr-2"></i> Edit
+                                </button>
+                                <button class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left delete-doctor" data-id="${doctor.id}">
+                                    <i class="ri-delete-bin-line mr-2"></i> Delete
+                                </button>
+                                <button class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 w-full text-left print-doctor" data-id="${doctor.id}">
+                                    <i class="ri-printer-line mr-2"></i> Print
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center">
+                            <i class="ri-phone-line mr-2 text-gray-500"></i>
+                            ${doctor.phone}
+                        </div>
+                        <div class="flex items-center">
+                            <i class="ri-mail-line mr-2 text-gray-500"></i>
+                            ${doctor.email}
+                        </div>
+                        <div class="flex items-center">
+                            <i class="ri-user-line mr-2 text-gray-500"></i>
+                            ${doctor.patients} Patients
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render list view
+        function renderListView(paginatedDoctors) {
+            const listViewBody = document.getElementById('listViewBody');
+            listViewBody.innerHTML = paginatedDoctors.map(doctor => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <img class="h-10 w-10 rounded-full object-cover" 
+                                 src="${doctor.image}" 
+                                 alt="${doctor.name}">
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${doctor.name}</div>
+                                <div class="text-sm text-gray-500">${doctor.specialization}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${doctor.specialization}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${doctor.patients}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${doctor.email}</div>
+                        <div class="text-sm text-gray-500">${doctor.phone}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="badge ${getStatusClass(doctor.status)}">
+                            ${doctor.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex space-x-2">
+                            <button class="text-primary hover:text-primary-dark view-doctor" data-id="${doctor.id}">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                            <button class="text-blue-600 hover:text-blue-800 edit-doctor" data-id="${doctor.id}">
+                                <i class="ri-pencil-line"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800 delete-doctor" data-id="${doctor.id}">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                            <button class="text-gray-600 hover:text-gray-800 print-doctor" data-id="${doctor.id}">
+                                <i class="ri-printer-line"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Save current page to localStorage
+        function saveCurrentPage(page) {
+            localStorage.setItem('currentDoctorPage', page);
+        }
+
+        // Get saved page from localStorage
+        function getSavedPage() {
+            const savedPage = localStorage.getItem('currentDoctorPage');
+            return savedPage ? parseInt(savedPage) : 1;
+        }
+        
+        // Update pagination controls
+        function updatePaginationControls(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pageNumbersContainer = document.getElementById('pageNumbers');
+            const showingFrom = document.getElementById('showingFrom');
+            const showingTo = document.getElementById('showingTo');
+            const totalItemsSpan = document.getElementById('totalItems');
+            const prevButton = document.getElementById('prevPage');
+            const nextButton = document.getElementById('nextPage');
+
+            // Update showing text
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+            showingFrom.textContent = startItem;
+            showingTo.textContent = endItem;
+            totalItemsSpan.textContent = totalItems;
+
+            
+            // Update page numbers
+            pageNumbersContainer.innerHTML = '';
+            
+            // Always show first page
+            if (currentPage > 2) {
+                addPageNumber(1);
+                if (currentPage > 3) {
+                    pageNumbersContainer.innerHTML += '<span class="px-2">...</span>';
+                }
+            }
+            
+            // Show current page and adjacent pages
+            for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+                addPageNumber(i);
+            }
+    
+            // Always show last page
+            if (currentPage < totalPages - 1) {
+                if (currentPage < totalPages - 2) {
+                    pageNumbersContainer.innerHTML += '<span class="px-2">...</span>';
+                }
+                addPageNumber(totalPages);
+            }
+            
+            
+            // Helper function to add a page number button
+            function addPageNumber(page) {
+                const button = document.createElement('button');
+                button.className = `w-10 h-10 rounded-lg ${page === currentPage ? 'bg-primary text-white' : 'border border-gray-300 hover:bg-gray-100'}`;
+                button.textContent = page;
+                button.addEventListener('click', () => {
+                    currentPage = page;
+                    saveCurrentPage(currentPage);
+                    renderDoctors();
+                });
+                pageNumbersContainer.appendChild(button);
+            }
+            
+            // Update prev/next buttons
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        // Render doctors based on current view
+        function renderDoctors() {
+            const filtered = filterDoctors();
+            const sorted = sortDoctors(filtered);
+            const paginated = paginateDoctors(sorted);
+            
+            if (document.getElementById('cardView').classList.contains('hidden')) {
+                renderListView(paginated);
+            } else {
+                renderCardView(paginated);
+            }
+            
+            updatePaginationControls(filtered.length);
+        }
+
+        // Toggle add doctor modal
+        function toggleModal(show) {
+            const modal = document.getElementById('addDoctorModal');
+            if (show) {
+                modal.classList.remove('hidden');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.remove('active');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Password toggle functionality for edit modal
+        function setupEditPasswordToggle() {
+            const passwordInput = document.getElementById('doctorEditPassword');
+            const toggleIcon = document.getElementById('toggleEditPassword');
+            const enableEditBtn = document.getElementById('enablePasswordEdit');
+
+            // Toggle password visibility
+            toggleIcon.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    toggleIcon.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                }
+            });
+
+            // Enable password editing with confirmation
+            enableEditBtn.addEventListener('click', () => {
+                // Show confirmation dialog
+                const confirmed = confirm('Are you sure you want to change this doctor\'s password?');
+                
+                if (confirmed) {
+                    passwordInput.readOnly = false;
+                    passwordInput.value = ''; // Clear the placeholder
+                    passwordInput.focus();
+                    enableEditBtn.classList.add('hidden'); // Hide the edit button after enabling
+                }
+            });
+        }
+
+        // Open doctor modal for editing
+        function openEditDoctorModal(doctorId) {
+            const modal = document.getElementById('doctorModal');
+            const title = document.getElementById('modalTitle');
+            const doctor = doctors.find(d => d.id === doctorId);
+            
+            if (!doctor) return;
+            
+            currentDoctorId = doctorId;
+            
+            // Set form values
+            document.getElementById('doctorEditId').value = doctor.id;
+            document.getElementById('doctorEditName').value = doctor.name;
+            document.getElementById('specializationText').textContent = doctor.specialization;
+            document.getElementById('gender').value = doctor.gender || 'Not specified';
+            document.getElementById('doctorEditEmail').value = doctor.email;
+            document.getElementById('doctorEditPhone').value = doctor.phone;
+            document.getElementById('doctorEditStatus').value = doctor.status;
+            document.getElementById('doctorEditPatients').value = doctor.patients;
+            document.getElementById('doctorEditExperience').value = doctor.experience;
+            document.getElementById('doctorEditPreview').src = doctor.image;
+            
+            // Reset password field to readonly with placeholder
+            const passwordInput = document.getElementById('doctorEditPassword');
+            passwordInput.readOnly = true;
+            passwordInput.value = doctor.password;
+            passwordInput.type = 'password';
+            document.getElementById('toggleEditPassword').innerHTML = '<i class="fa-solid fa-eye"></i>';
+            document.getElementById('enablePasswordEdit').classList.remove('hidden');
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Confirm delete
+        function confirmDelete(doctorId) {
+            const doctor = doctors.find(d => d.id === doctorId);
+            const modal = document.getElementById('confirmModal');
+            
+            // Update modal content dynamically
+            modal.querySelector('p').textContent = `Are you sure you want to delete Dr. ${doctor.name}?`;
+            
+            currentDoctorId = doctorId;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Delete doctor
+        function deleteDoctor() {
+            doctors = doctors.filter(doctor => doctor.id !== currentDoctorId);
+            renderDoctors();
+            closeModal();
+        }
+
+        // Print doctor
+        function printDoctor(doctorId) {
+            const doctor = doctors.find(d => d.id === doctorId);
+            if (!doctor) return;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Doctor Details - ${doctor.name}</title>
+                        <style>
+                            body { font-family: Arial; padding: 20px; }
+                            .doctor-header { margin-bottom: 20px; }
+                            .doctor-info { margin-bottom: 15px; }
+                            .doctor-photo { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="doctor-header">
+                            <h1>${doctor.name}</h1>
+                            <h2>${doctor.specialization}</h2>
+                        </div>
+                        <img src="${doctor.image}" class="doctor-photo" alt="${doctor.name}">
+                        <div class="doctor-info">
+                            <p><strong>Status:</strong> ${doctor.status}</p>
+                            <p><strong>Patients:</strong> ${doctor.patients}</p>
+                            <p><strong>Experience:</strong> ${doctor.experience}</p>
+                            <p><strong>Phone:</strong> ${doctor.phone}</p>
+                            <p><strong>Email:</strong> ${doctor.email}</p>
+                        </div>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.add('hidden');
+            });
+            document.getElementById('addDoctorModal').classList.remove('active');
+            document.getElementById('addDoctorModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // View state management
+        function getStoredViewPreference() {
+            return localStorage.getItem('doctorViewPreference') || 'card';
+        }
+
+        function setStoredViewPreference(view) {
+            localStorage.setItem('doctorViewPreference', view);
+        }
+
+        function applyViewPreference() {
+            const preferredView = getStoredViewPreference();
+            const cardView = document.getElementById('cardView');
+            const listView = document.getElementById('listView');
+            const cardButton = document.querySelector('.view-toggle[data-view="card"]');
+            const listButton = document.querySelector('.view-toggle[data-view="list"]');
+
+            if (preferredView === 'card') {
+                cardView.classList.remove('hidden');
+                listView.classList.add('hidden');
+                cardButton.classList.add('active');
+                listButton.classList.remove('active');
+            } else {
+                cardView.classList.add('hidden');
+                listView.classList.remove('hidden');
+                cardButton.classList.remove('active');
+                listButton.classList.add('active');
+            }
+        }
+
+        // Initialize phone country codes
+        function initializeCountryCodes() {
+            // Phone country code dropdown logic
+            const phoneCountryDropdown = document.getElementById(
+                "phoneCountryDropdown"
+                );
+                const phoneCountryFlag = document.getElementById("phoneCountryFlag");
+                const phoneCountryCode = document.getElementById("phoneCountryCode");
+                const phoneCountryArrow = document.getElementById("phoneCountryArrow");
+                const phoneCountryOptions = document.getElementById(
+                "phoneCountryOptions"
+                );
+                let phoneCountryList = [];
+                let isPhoneCountryOpen = false;
+                let selectedPhoneCountry = null;
+
+                async function fetchPhoneCountries() {
+                try {
+                    const res = await fetch("https://restcountries.com/v3.1/all");
+                    const data = await res.json();
+                    phoneCountryList = data
+                    .map((c) => ({
+                        name: c.name.common,
+                        code: c.idd?.root
+                        ? c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : "")
+                        : "",
+                        flag: c.flags?.svg || c.flags?.png || "",
+                        cca2: c.cca2,
+                    }))
+                    .filter((c) => c.code && c.flag)
+                    .sort((a, b) => a.name.localeCompare(b.name));
+                    renderPhoneCountryOptions();
+                    // Default to US if available
+                    const us = phoneCountryList.find((c) => c.cca2 === "US");
+                    if (us) selectPhoneCountry(us);
+                } catch {
+                    // fallback
+                    phoneCountryList = [
+                    {
+                        name: "United States",
+                        code: "+1",
+                        flag: "https://flagcdn.com/us.svg",
+                        cca2: "US",
+                    },
+                    {
+                        name: "United Kingdom",
+                        code: "+44",
+                        flag: "https://flagcdn.com/gb.svg",
+                        cca2: "GB",
+                    },
+                    {
+                        name: "Canada",
+                        code: "+1",
+                        flag: "https://flagcdn.com/ca.svg",
+                        cca2: "CA",
+                    },
+                    {
+                        name: "Australia",
+                        code: "+61",
+                        flag: "https://flagcdn.com/au.svg",
+                        cca2: "AU",
+                    },
+                    {
+                        name: "India",
+                        code: "+91",
+                        flag: "https://flagcdn.com/in.svg",
+                        cca2: "IN",
+                    },
+                    ];
+                    renderPhoneCountryOptions();
+                    selectPhoneCountry(phoneCountryList[0]);
+                }
+                }
+
+                function renderPhoneCountryOptions(filter = "") {
+                phoneCountryOptions.innerHTML = "";
+                let filtered = phoneCountryList;
+                if (filter) {
+                    const f = filter.trim().toLowerCase();
+                    filtered = phoneCountryList.filter(
+                    (c) =>
+                        c.name.toLowerCase().includes(f) ||
+                        c.code.replace("+", "").startsWith(f.replace("+", "")) ||
+                        c.cca2.toLowerCase().startsWith(f)
+                    );
+                }
+                filtered.forEach((c) => {
+                    const li = document.createElement("li");
+                    li.className =
+                    "w-full flex items-center px-3 py-2 hover:bg-teal-50 hover:text-[#1CB5BD] cursor-pointer";
+                    li.innerHTML = `<img src="${c.flag}" alt="${c.cca2}" class="w-5 h-5 mr-2 rounded-sm"/> <span class="w-[calc(100%-80px)] font-medium text-sm">${c.name}</span> <span class="absolute right-2 text-gray-500">${c.code}</span>`;
+                    li.addEventListener("click", () => selectPhoneCountry(c));
+                    phoneCountryOptions.appendChild(li);
+                });
+                }
+
+                function selectPhoneCountry(c) {
+                selectedPhoneCountry = c;
+                phoneCountryFlag.innerHTML = `<img src="${c.flag}" alt="${c.cca2}" class="w-6 h-6 rounded-sm"/>`;
+                phoneCountryCode.value = c.code;
+                closePhoneCountryDropdown();
+                }
+
+                function openPhoneCountryDropdown() {
+                phoneCountryOptions.classList.remove("hidden");
+                phoneCountryOptions.classList.add("block");
+                phoneCountryArrow.classList.add("rotate-180");
+                isPhoneCountryOpen = true;
+                }
+
+                function closePhoneCountryDropdown() {
+                phoneCountryOptions.classList.add("hidden");
+                phoneCountryOptions.classList.remove("block");
+                phoneCountryArrow.classList.remove("rotate-180");
+                isPhoneCountryOpen = false;
+                }
+
+                phoneCountryDropdown.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (isPhoneCountryOpen) {
+                    closePhoneCountryDropdown();
+                } else {
+                    openPhoneCountryDropdown();
+                    renderPhoneCountryOptions();
+                }
+                });
+
+                phoneCountryCode.addEventListener("input", (e) => {
+                renderPhoneCountryOptions(e.target.value);
+                openPhoneCountryDropdown();
+                });
+
+                phoneCountryOptions.addEventListener("click", (e) => {
+                e.stopPropagation();
+                });
+
+                document.addEventListener("click", (e) => {
+                if (!phoneCountryDropdown.contains(e.target)) {
+                    closePhoneCountryDropdown();
+                }
+                });
+
+                // Add keyboard navigation for phone country dropdown
+                phoneCountryDropdown.addEventListener("keydown", function (e) {
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    openPhoneCountryDropdown();
+                    const first = phoneCountryOptions.querySelector("li");
+                    if (first) first.focus();
+                }
+                });
+
+                phoneCountryOptions.addEventListener("keydown", function (e) {
+                const active = document.activeElement;
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    if (active.nextElementSibling) active.nextElementSibling.focus();
+                } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    if (active.previousElementSibling)
+                    active.previousElementSibling.focus();
+                } else if (e.key === "Escape") {
+                    closePhoneCountryDropdown();
+                    phoneCountryDropdown.focus();
+                }
+                });
+            fetchPhoneCountries();
+        }
+
+        // Toggle password visibility
+        function setupPasswordToggle() {
+            // Password eye icon logic
+            const togglePassword = document.getElementById("togglePassword");
+            const passwordField = document.getElementById("password");
+            function togglePasswordVisibility(inputField, icon) {
+            if (!inputField || !icon) return;
+            const isPassword = inputField.type === "password";
+            inputField.type = isPassword ? "text" : "password";
+            icon.classList.toggle("fa-eye", !isPassword);
+            icon.classList.toggle("fa-eye-slash", isPassword);
+            }
+            function updateEyeVisibility(inputField, icon) {
+            if (!inputField || !icon) return;
+            if (inputField.value.length > 0) {
+                icon.classList.add("opacity-100");
+                icon.classList.remove("opacity-0");
+            } else {
+                icon.classList.add("opacity-0");
+                icon.classList.remove("opacity-100");
+            }
+            }
+            if (togglePassword && passwordField) {
+            togglePassword.addEventListener("click", () =>
+                togglePasswordVisibility(passwordField, togglePassword)
+            );
+            passwordField.addEventListener("input", () => {
+                updateEyeVisibility(passwordField, togglePassword);
+            });
+            window.addEventListener("DOMContentLoaded", () => {
+                updateEyeVisibility(passwordField, togglePassword);
+            });
+            }
+        }
+
+        // Handle gender selection
+        function setupGenderSelection() {
+            // Gender selection logic
+            const btnMale = document.getElementById("btnMale");
+            const btnFemale = document.getElementById("btnFemale");
+            const genderInput = document.getElementById("genderInput");
+            const genderLabel = document.getElementById("genderLabel");
+            const genderContainer = document.querySelector(".gender-container");
+
+            function updateGenderLabel() {
+            if (genderContainer && genderLabel) {
+                if (genderContainer.classList.contains("focused")) {
+                genderLabel.classList.add("opacity-100", "-top-3", "text-primary");
+                genderLabel.classList.remove("opacity-0", "top-1/2", "text-gray-500");
+                } else {
+                genderLabel.classList.remove("opacity-100", "-top-3", "text-primary");
+                genderLabel.classList.add("opacity-0", "top-1/2", "text-gray-500");
+                }
+            }
+            }
+
+            function selectGender(gender) {
+            if (!btnMale || !btnFemale || !genderInput) return;
+            genderInput.value = gender;
+            btnMale.classList.toggle("bg-white", gender === "Male");
+            btnMale.classList.toggle("text-blue-600", gender === "Male");
+            btnMale.classList.toggle("text-gray-600", gender !== "Male");
+            btnFemale.classList.toggle("bg-white", gender === "Female");
+            btnFemale.classList.toggle("text-pink-600", gender === "Female");
+            btnFemale.classList.toggle("text-gray-600", gender !== "Female");
+            }
+
+            if (genderContainer && btnMale && btnFemale) {
+            genderContainer.addEventListener("focusin", () => {
+                genderContainer.classList.add("focused");
+                updateGenderLabel();
+            });
+            genderContainer.addEventListener("focusout", () => {
+                genderContainer.classList.remove("focused");
+                updateGenderLabel();
+            });
+            btnMale.addEventListener("click", () => selectGender("Male"));
+            btnFemale.addEventListener("click", () => selectGender("Female"));
+            }
+        }
+
+        // Handle photo upload preview
+        function setupPhotoUpload() {
+            const photoInput = document.getElementById('doctorPhoto');
+            const photoPreview = document.getElementById('doctorPreview');
+            const photoPlaceholder = document.getElementById('photoPlaceholder');
+
+            photoInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        photoPreview.src = e.target.result;
+                        photoPreview.classList.remove('hidden');
+                        photoPlaceholder.classList.add('hidden');
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+
+        // Handle CV upload with progress
+        function setupCVUpload() {
+            const cvInput = document.getElementById('doctorCV');
+            const progressWrapper = document.getElementById('cvUploadProgressWrapper');
+            const progressBar = document.getElementById('cvUploadProgress');
+            const uploadCheck = document.getElementById('cvUploadCheck');
+            const uploadStatus = document.getElementById('cvUploadStatus');
+
+            cvInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    progressWrapper.classList.remove('hidden');
+                    
+                    // Simulate upload progress
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += 5;
+                        progressBar.style.width = `${progress}%`;
+                        
+                        if (progress >= 100) {
+                            clearInterval(interval);
+                            uploadCheck.classList.remove('hidden');
+                            uploadStatus.textContent = 'Upload complete!';
+                        }
+                    }, 100);
+                }
+            });
+        }
+
+        function resetToFirstPage() {
+            currentPage = 1;
+            saveCurrentPage(currentPage);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDoctors();
+            applyViewPreference(); // Load the saved view preference
+            currentPage = getSavedPage();
+            renderDoctors();
+            setupEditPasswordToggle();
+            
+            // Initialize new modal components
+            initializeCountryCodes();
+            setupPasswordToggle();
+            setupGenderSelection();
+            setupPhotoUpload();
+            setupCVUpload();
+            
+            // View toggle
+            document.querySelectorAll('.view-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.view-toggle').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                    
+                    const view = button.dataset.view;
+                    setStoredViewPreference(view);
+                    
+                    document.getElementById('cardView').classList.toggle('hidden', view !== 'card');
+                    document.getElementById('listView').classList.toggle('hidden', view !== 'list');
+                    
+                    renderDoctors();
+                });
+            });
+            
+            // Add doctor button - opens new modal
+            document.getElementById('addDoctorBtn').addEventListener('click', () => {
+                toggleModal(true);
+            });
+            
+            // Cancel button in add doctor modal
+            document.getElementById('cancelDoctor').addEventListener('click', () => {
+                toggleModal(false);
+            });
+            
+            // Cancel button in edit doctor modal
+            document.getElementById('cancelEditDoctor').addEventListener('click', closeModal);
+            
+            // Close modal buttons
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            });
+            
+            // Delete confirmation
+            document.getElementById('confirmDelete').addEventListener('click', deleteDoctor);
+            document.getElementById('cancelDelete').addEventListener('click', closeModal);
+            
+            // New doctor form submission
+            document.getElementById('newDoctorForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const doctorId = Date.now();
+                
+                // Get the photo if uploaded
+                let photoUrl = '../assets/images/Admin pages/Doctors page/default-avatar.jpg';
+                const photoInput = document.getElementById('doctorPhoto');
+                if (photoInput.files && photoInput.files[0]) {
+                    photoUrl = URL.createObjectURL(photoInput.files[0]);
+                }
+                
+                const doctorData = {
+                    id: doctorId,
+                    name: `Dr. ${formData.get('fullName')}`,
+                    specialization: document.getElementById('specialistSelect').value,
+                    email: formData.get('email'),
+                    phone: `${document.getElementById('phoneCountryCode').value} ${formData.get('phone')}`,
+                    experience: '0 Years', // Default for new doctors
+                    status: 'Active', // Default status
+                    patients: 0, // Default patient count
+                    image: photoUrl
+                };
+                
+                // Add new doctor
+                doctors.push(doctorData);
+                
+                renderDoctors();
+                toggleModal(false);
+                
+                // Show success notification
+                alert('Doctor added successfully!');
+            });
+            
+            // Edit doctor form submission
+            document.getElementById('doctorForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const passwordInput = document.getElementById('doctorEditPassword');
+                const doctorData = {
+                    id: document.getElementById('doctorEditId').value,
+                    name: document.getElementById('doctorEditName').value,
+                    specialization: document.getElementById('specializationText').textContent,
+                    gender: document.getElementById('gender').value,
+                    email: document.getElementById('doctorEditEmail').value,
+                    phone: document.getElementById('doctorEditPhone').value,
+                    status: document.getElementById('doctorEditStatus').value,
+                    patients: parseInt(document.getElementById('doctorEditPatients').value),
+                    experience: document.getElementById('doctorEditExperience').value,
+                    image: document.getElementById('doctorEditPreview').src
+                };
+
+                // Only update password if it was changed (not the placeholder)
+                if (passwordInput.value !== '••••••••') {
+                    doctorData.password = passwordInput.value;
+                }
+                
+                // Update doctor in the array
+                const index = doctors.findIndex(d => d.id === doctorData.id);
+                if (index !== -1) {
+                    doctors[index] = { ...doctors[index], ...doctorData };
+                }
+                
+                renderDoctors();
+                closeModal();
+                alert('Doctor updated successfully!');
+            });
+            
+            // Search and filter inputs
+            // document.getElementById('searchInput').addEventListener('input', renderDoctors);
+            // document.getElementById('specializationFilter').addEventListener('change', renderDoctors);
+            // document.getElementById('statusFilter').addEventListener('change', renderDoctors);
+            // document.getElementById('patientsFilter').addEventListener('change', renderDoctors);
+
+            // Example usage in your filter event listeners:
+            document.getElementById('searchInput').addEventListener('input', () => {
+                resetToFirstPage();
+                renderDoctors();
+            });
+
+            document.getElementById('specializationFilter').addEventListener('change', () => {
+                resetToFirstPage();
+                renderDoctors();
+            });
+
+            document.getElementById('statusFilter').addEventListener('change', () => {
+                resetToFirstPage();
+                renderDoctors();
+            });
+
+            document.getElementById('patientsFilter').addEventListener('change', () => {
+                resetToFirstPage();
+                renderDoctors();
+            });
+            
+            // Pagination controls
+            document.getElementById('prevPage').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    saveCurrentPage(currentPage);
+                    renderDoctors();
+                }
+            });
+            
+            document.getElementById('nextPage').addEventListener('click', () => {
+                const filtered = filterDoctors();
+                const totalPages = Math.ceil(filtered.length / itemsPerPage);
+                
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    saveCurrentPage(currentPage);
+                    renderDoctors();
+                }
+            });
+            
+            // Sortable headers
+            document.querySelectorAll('.sortable-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const key = header.dataset.sort;
+                    
+                    if (sortConfig.key === key) {
+                        sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortConfig.key = key;
+                        sortConfig.direction = 'asc';
+                    }
+                    
+                    renderDoctors();
+                });
+            });
+            
+            // Print all button
+            document.getElementById('printAllBtn').addEventListener('click', () => {
+                const filtered = filterDoctors();
+                const sorted = sortDoctors(filtered);
+                
+                const printContent = sorted.map(doctor => `
+                    <div class="print-doctor" style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding: 10px;">
+                        <h3 style="font-size: 18px; margin-bottom: 5px;">${doctor.name}</h3>
+                        <p><strong>Specialization:</strong> ${doctor.specialization}</p>
+                        <p><strong>Patients:</strong> ${doctor.patients}</p>
+                        <p><strong>Status:</strong> ${doctor.status}</p>
+                        <p><strong>Contact:</strong> ${doctor.email} | ${doctor.phone}</p>
+                    </div>
+                `).join('');
+                
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>Doctors List</title>
+                            <style>
+                                body { font-family: Arial; padding: 20px; }
+                                .print-header { margin-bottom: 20px; text-align: center; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="print-header">
+                                <h1>Doctors List</h1>
+                                <p>Generated on ${new Date().toLocaleDateString()}</p>
+                            </div>
+                            ${printContent}
+                        </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+            });
+            
+            // Delegated event listeners for dynamic elements
+            document.addEventListener('click', (e) => {
+                // View button
+                if (e.target.closest('.view-doctor')) {
+                    const doctorId = parseInt(e.target.closest('.view-doctor').dataset.id);
+                    window.location.href = `doctor-details.html?id=${doctorId}`;
+                }
+                
+                // Edit button
+                if (e.target.closest('.edit-doctor')) {
+                    const doctorId = parseInt(e.target.closest('.edit-doctor').dataset.id);
+                    openEditDoctorModal(doctorId);
+                }
+                
+                // Delete button
+                if (e.target.closest('.delete-doctor')) {
+                    const doctorId = parseInt(e.target.closest('.delete-doctor').dataset.id);
+                    confirmDelete(doctorId);
+                }
+                
+                // Print button
+                if (e.target.closest('.print-doctor')) {
+                    const doctorId = parseInt(e.target.closest('.print-doctor').dataset.id);
+                    printDoctor(doctorId);
+                }
+                
+                // Dropdown menu
+                if (e.target.closest('.dropdown button')) {
+                    const dropdown = e.target.closest('.dropdown').querySelector('.dropdown-menu');
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        if (menu !== dropdown) menu.classList.add('hidden');
+                    });
+                    dropdown.classList.toggle('hidden');
+                } else {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

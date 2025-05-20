@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MEDora Admin Dashboard - Manage appointments">
+    <meta name="keywords" content="MEDora, healthcare, admin, appointments, calendar">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>Appointments Management - MEDora</title>
+    <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: "#1CB5BD", 
+                        secondary: "#64b5f6",
+                        danger: "#ef4444",
+                        warning: "#f59e0b",
+                        success: "#10b981"
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body { font-family: 'Poppins', sans-serif; }
+        
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        /* Menu Links */
+        .mobile-menu > a {
+            display: block;
+            padding: 0.75rem 0;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu > a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu > a:hover {
+            color: #1CB5BD;
+        }
+
+        /* Mobile menu button styles */
+        #mobile-menu-button {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu-button:hover {
+            color: #1CB5BD;
+        }
+
+        @media (min-width: 1075px) {
+            html { font-size: 14px; }
+        }
+        @media (max-width: 1075px) {
+            html { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+            html { font-size: 10px; }
+        }
+
+        /* View Toggle Styles */
+        .view-toggle-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .view-toggle {
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: white;
+            color: #4b5563;
+        }
+        .view-toggle.active {
+            background-color: #1CB5BD;
+            color: white;
+        }
+        .view-toggle:not(.active):hover {
+            background-color: #f3f4f6;
+        }
+        
+        /* Sortable Headers */
+        .sortable-header {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .sortable-header .sort-icon {
+            margin-left: 4px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .sortable-header:hover {
+            background-color: #f3f4f6;
+        }
+        
+        /* Appointment Card Styles */
+        .appointment-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .appointment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Badge Styles */
+        .badge {
+            display: inline-flex;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .badge-warning {
+            background-color: #fef08a;
+            color: #854d0e;
+        }
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .badge-primary {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        /* Pagination Styles */
+        .pagination button {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+        .pagination button:hover {
+            background-color: #f3f4f6;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-body {
+            padding: 20px;
+            padding-top: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            border-top: 1px solid #e5e7eb;
+            background-color: #f9fafb;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .modal:not(.hidden) {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Alert Animation */
+        .alert {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+        }
+
+        .alert:not(.hidden) {
+            display: flex;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Profile and notification dropdown styles */
+        #profile-dropdown, #notification-dropdown {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification badge pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        #notification-btn span {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-link:hover {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .sidebar-link.active {
+            background-color: #bae6fd;
+            color: #0369a1;
+            border-left: 4px solid #1CB5BD;
+        }
+        
+        /* Form Styles */
+        .form-input {
+            transition: all 0.3s ease;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #1CB5BD;
+            box-shadow: 0 0 0 3px rgba(28, 181, 189, 0.2);
+        }
+        
+        /* FullCalendar Customization */
+        .fc {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .fc .fc-toolbar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .fc .fc-button {
+            background-color: #1CB5BD;
+            border-color: #1CB5BD;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+            border-radius: 0.375rem;
+        }
+        
+        .fc .fc-button:hover {
+            background-color: #0D8A91;
+            border-color: #0D8A91;
+        }
+        
+        .fc .fc-button-primary:not(:disabled).fc-button-active {
+            background-color: #0D8A91;
+            border-color: #0D8A91;
+        }
+        
+        .fc .fc-daygrid-day-number {
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .fc .fc-daygrid-day.fc-day-today {
+            background-color: #f0fdfa;
+        }
+        
+        .fc .fc-daygrid-event {
+            border-radius: 0.25rem;
+            padding: 0.15rem 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .fc .fc-daygrid-event-dot {
+            display: none;
+        }
+        
+        .fc-event {
+            border: none;
+            background-color: #1CB5BD;
+            color: white;
+        }
+        
+        .fc-event.confirmed {
+            background-color: #10b981;
+        }
+        
+        .fc-event.cancelled {
+            background-color: #ef4444;
+        }
+        
+        .fc-event.pending {
+            background-color: #f59e0b;
+        }
+        
+        .fc-event.rescheduled {
+            background-color: #6366f1;
+        }
+        
+        /* Drag and drop styles */
+        .fc-highlight {
+            background: #e0f2fe;
+        }
+        
+        /* Conflict detection style */
+        .fc-event.conflict {
+            background-color: #ef4444;
+            border: 2px dashed white;
+        }
+        
+        /* Time slot hover effect */
+        .fc-timegrid-slots .fc-timegrid-slot:hover {
+            background-color: #f0fdfa;
+        }
+        
+        /* Custom event popover */
+        .event-popover {
+            position: absolute;
+            z-index: 100;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1rem;
+            width: 280px;
+            display: none;
+        }
+        
+        .event-popover::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 16px;
+            height: 16px;
+            background: white;
+            box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Confirmation Modal Styles */
+        #confirmModal .modal-content {
+            width: 90%;
+            max-width: 400px;
+            padding: 24px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 20rem;
+            height: calc(100% - 40px);
+            overflow: visible;
+        }
+
+        #confirmModal .modal-body {
+            text-align: center;
+            height: auto;
+            margin-bottom: 16px;
+        }
+
+        #confirmModal .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Floating label styles */
+        .peer:focus ~ label,
+        .peer:not(:placeholder-shown) ~ label {
+            opacity: 1;
+            transform: translateY(-2.5rem);
+            color: #1CB5BD;
+        }
+
+        .peer ~ label {
+            position: absolute;
+            left: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0 4px;
+            background-color: white;
+            color: #9CA3AF;
+            font-size: 0.875rem;
+            transition: all 0.2s ease-out;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .peer:focus ~ label,
+        .peer:not(:placeholder-shown) ~ label {
+            opacity: 1;
+            transform: translateY(-2.5rem);
+            font-size: 0.75rem;
+            color: #1CB5BD;
+        }
+
+        /* Time picker styles */
+        .time-picker {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .time-picker select {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+        }
+
+        /* Duration selector styles */
+        .duration-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .duration-selector select {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+        }
+
+        /* Conflict warning styles */
+        .conflict-warning {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .conflict-warning.show {
+            display: flex;
+        }
+
+        .conflict-warning i {
+            color: #ef4444;
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive calendar styles */
+        @media (max-width: 768px) {
+            .fc .fc-toolbar {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .fc .fc-toolbar-title {
+                font-size: 1rem;
+            }
+            
+            .fc .fc-button {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        
+        .sparkle {
+            position: relative;
+        }
+
+        .sparkle::before, .sparkle::after {
+            content: "✨";
+            position: absolute;
+            font-size: 12px;
+            color: gold;
+        }
+
+        .sparkle::before {
+            top: -3px;
+            left: -8px;
+        }
+
+        .sparkle::after {
+            rotate: 180deg;
+            bottom: -3px;
+            right: -8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-white border-r border-gray-200">
+                <div class="flex items-center justify-center h-16 px-4 bg-primary text-white">
+                    <i class="ri-stethoscope-line ri-2x text-white mr-2"></i>
+                    <span class="text-2xl font-['Pacifico']">MEDora</span>
+                </div>
+                <div class="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
+                    <div class="space-y-1">
+                        <a href="admin.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-dashboard-line mr-3"></i>Dashboard
+                        </a>
+                        <a href="doctorList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-user-star-line mr-3"></i>Doctors
+                        </a>
+                        <a href="patientList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-group-line mr-3"></i>Patients
+                        </a>
+                        <a href="appointmentList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md active">
+                            <i class="ri-calendar-line mr-3"></i>Appointments
+                        </a>
+                        <a href="#departments" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md justify-between peer">
+                            <div>
+                                <i class="ri-building-line mr-3"></i><span>Departments</span>
+                            </div>
+                            <span class="text-xs bg-primary text-white px-2 py-1 rounded-full relative sparkle transition-transform duration-300 peer-hover:scale-120">soon</span>
+                        </a>
+                        <a href="#staff" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md justify-between peer">
+                            <div>
+                                <i class="ri-team-line mr-3"></i><span>Staff</span>
+                            </div>
+                            <span class="text-xs bg-primary text-white px-2 py-1 rounded-full relative sparkle transition-transform duration-300 peer-hover:scale-120">soon</span>
+                        </a>
+                        <a href="#reports" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-file-chart-line mr-3"></i>Reports
+                        </a>
+                        <a href="#settings" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-settings-3-line mr-3"></i>Settings
+                        </a>
+                    </div>
+                    
+                    <div class="mt-auto mb-4">
+                        <div class="p-4 bg-blue-50 rounded-lg mb-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="ri-question-line text-blue-500 text-xl"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-blue-800">Need help?</p>
+                                    <p class="text-xs text-blue-600">Contact our support team</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="logoutBtn" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <i class="ri-logout-box-r-line mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Navbar -->
+            <nav class="bg-white border-b border-gray-200 z-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- Mobile menu button -->
+                        <div class="flex md:hidden">
+                            <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+                                <div class="w-6 h-6 flex items-center justify-center">
+                                    <i id="menu-icon" class="ri-menu-line ri-lg transition-transform duration-300"></i>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <!-- Search and user area -->
+                        <div class="flex items-center ml-auto">
+                            <!-- Search -->
+                            <div class="relative ml-4 md:ml-6">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="ri-search-line text-gray-400"></i>
+                                </div>
+                                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search...">
+                            </div>
+                            
+                            <!-- Notifications -->
+                            <div class="relative ml-4">
+                                <button id="notification-btn" class="p-2 rounded-full hover:bg-gray-100 relative">
+                                    <i class="ri-notification-3-line w-6 h-6 text-gray-600 text-xl"></i>
+                                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+                                </button>
+                                <!-- Notification Dropdown -->
+                                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <h3 class="text-sm font-medium text-gray-700">Notifications</h3>
+                                    </div>
+                                    <div class="max-h-60 overflow-y-auto">
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-alarm-warning-line text-yellow-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">System Alert</p>
+                                                    <p class="text-xs text-gray-500">High patient volume in Cardiology today</p>
+                                                    <p class="text-xs text-gray-400 mt-1">10 mins ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-calendar-check-line text-blue-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Appointment</p>
+                                                    <p class="text-xs text-gray-500">Dr. Smith has a new appointment scheduled</p>
+                                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-user-add-line text-green-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Patient</p>
+                                                    <p class="text-xs text-gray-500">John Doe registered as a new patient</p>
+                                                    <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="px-4 py-2 border-t border-gray-200">
+                                        <a href="#" class="text-xs font-medium text-primary hover:text-primary-dark">View all notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Profile Dropdown -->
+                            <div class="relative ml-4">
+                                <button id="profile-btn" class="flex items-center text-sm rounded-full focus:outline-none">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="../assets/images/Admin pages/Doctors page/Milla Willow_Admin.jpg" alt="Admin profile">
+                                </button>
+                                <!-- Profile Dropdown Menu -->
+                                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <p class="text-sm font-medium text-gray-700">Milla Willow</p>
+                                        <p class="text-xs text-gray-500">Super Administrator</p>
+                                    </div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-user-line mr-2"></i> MY Profile
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-settings-3-line mr-2"></i> Settings
+                                    </a>
+                                    <div class="border-t border-gray-200"></div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-logout-box-r-line mr-2"></i> Sign out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Mobile Menu Structure -->
+            <div id="mobile-menu" class="mobile-menu">
+                <a href="#" class="flex items-center">
+                    <i class="ri-dashboard-line mr-2 text-primary"></i>
+                    Dashboard
+                </a>
+                <a href="#doctors" class="flex items-center">
+                    <i class="ri-user-star-line mr-2 text-primary"></i>
+                    Doctors
+                </a>
+                <a href="#patients" class="flex items-center">
+                    <i class="ri-group-line mr-2 text-primary"></i>
+                    Patients
+                </a>
+                <a href="#appointments" class="flex items-center">
+                    <i class="ri-calendar-line mr-2 text-primary"></i>
+                    Appointments
+                </a>
+                <a href="#departments" class="flex items-center">
+                    <i class="ri-building-line mr-2 text-primary"></i>
+                    Departments
+                </a>
+                <a href="#staff" class="flex items-center">
+                    <i class="ri-team-line mr-2 text-primary"></i>
+                    Staff
+                </a>
+                <a href="#reports" class="flex items-center">
+                    <i class="ri-file-chart-line mr-2 text-primary"></i>
+                    Reports
+                </a>
+                <a href="#settings" class="flex items-center">
+                    <i class="ri-settings-3-line mr-2 text-primary"></i>
+                    Settings
+                </a>
+                <button id="mobileLogoutBtn" class="w-full flex items-center justify-start px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 mt-4">
+                    <i class="ri-logout-box-r-line mr-2"></i> Logout
+                </button>
+            </div>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Appointments Management</h1>
+                    <div class="flex items-center gap-4">
+                        <div class="view-toggle-group">
+                            <button class="view-toggle" data-view="calendar">
+                                <i class="ri-calendar-line"></i> Calendar
+                            </button>
+                            <button class="view-toggle active" data-view="list">
+                                <i class="ri-list-check-2"></i> List
+                            </button>
+                        </div>
+                        <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark" id="addAppointmentBtn">
+                            <i class="ri-add-line mr-1"></i> New Appointment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search appointments..." class="form-input">
+                        <i class="ri-search-line absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <select id="statusFilter" class="form-input">
+                        <option value="">All Statuses</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="pending">Pending</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="rescheduled">Rescheduled</option>
+                    </select>
+                    <select id="doctorFilter" class="form-input">
+                        <option value="">All Doctors</option>
+                        <option value="1">Dr. Smith</option>
+                        <option value="2">Dr. Johnson</option>
+                        <option value="3">Dr. Williams</option>
+                    </select>
+                    <select id="dateFilter" class="form-input">
+                        <option value="">All Dates</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+
+                <!-- Calendar View -->
+                <div id="calendarView" class="hidden bg-white rounded-lg shadow-md p-4 mb-6">
+                    <div id="calendar"></div>
+                </div>
+
+                <!-- List View -->
+                <div id="listView" class="bg-white rounded-lg shadow-md overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 data-table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <div class="sortable-header" data-sort="patient">
+                                        Patient
+                                        <span class="sort-icon">
+                                            <i class="ri-arrow-up-down-line"></i>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <div class="sortable-header" data-sort="doctor">
+                                        Doctor
+                                        <span class="sort-icon">
+                                            <i class="ri-arrow-up-down-line"></i>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <div class="sortable-header" data-sort="date">
+                                        Date & Time
+                                        <span class="sort-icon">
+                                            <i class="ri-arrow-up-down-line"></i>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                    <div class="sortable-header" data-sort="type">
+                                        Type
+                                        <span class="sort-icon">
+                                            <i class="ri-arrow-up-down-line"></i>
+                                        </span>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200" id="listViewBody">
+                            <!-- Table rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="text-sm text-gray-600">
+                        Showing <span id="showingFrom">1</span>-<span id="showingTo">9</span> of <span id="totalItems">12</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="prevPage" class="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="ri-arrow-left-s-line"></i>
+                        </button>
+                        
+                        <div class="flex items-center gap-1" id="pageNumbers">
+                            <!-- Page numbers will be inserted here -->
+                        </div>
+                        
+                        <button id="nextPage" class="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="ri-arrow-right-s-line"></i>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add/Edit Appointment Modal -->
+    <div id="appointmentModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
+        <div class="modal-content">
+            <div class="modal-header flex justify-between items-center p-4">
+                <h3 class="text-lg font-semibold" id="modalTitle">New Appointment</h3>
+                <button id="closeModal" class="close-modal text-gray-500 hover:text-gray-700">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm" class="space-y-4">
+                    <input type="hidden" id="appointmentId" name="id">
+                    
+                    <!-- Conflict Warning -->
+                    <div id="conflictWarning" class="conflict-warning">
+                        <i class="ri-alert-line"></i>
+                        <span id="conflictMessage">This appointment conflicts with an existing one</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="patientSelect" class="block text-sm font-medium text-gray-700">Patient</label>
+                            <select id="patientSelect" class="form-input mt-1 block w-full" required>
+                                <option value="">Select Patient</option>
+                                <option value="1">John Smith</option>
+                                <option value="2">Emily Johnson</option>
+                                <option value="3">Michael Brown</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="doctorSelect" class="block text-sm font-medium text-gray-700">Doctor</label>
+                            <select id="doctorSelect" class="form-input mt-1 block w-full" required>
+                                <option value="">Select Doctor</option>
+                                <option value="1">Dr. Smith (Cardiology)</option>
+                                <option value="2">Dr. Johnson (Neurology)</option>
+                                <option value="3">Dr. Williams (Pediatrics)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="appointmentDate" class="block text-sm font-medium text-gray-700">Date</label>
+                            <input type="date" id="appointmentDate" class="form-input mt-1 block w-full" required>
+                        </div>
+                        <div>
+                            <label for="appointmentTime" class="block text-sm font-medium text-gray-700">Time</label>
+                            <div class="time-picker mt-1">
+                                <select id="appointmentHour" class="form-input" required>
+                                    <option value="">Hour</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                </select>
+                                <span>:</span>
+                                <select id="appointmentMinute" class="form-input" required>
+                                    <option value="">Min</option>
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="appointmentType" class="block text-sm font-medium text-gray-700">Type</label>
+                            <select id="appointmentType" class="form-input mt-1 block w-full" required>
+                                <option value="">Select Type</option>
+                                <option value="consultation">Consultation</option>
+                                <option value="follow-up">Follow-up</option>
+                                <option value="check-up">Check-up</option>
+                                <option value="procedure">Procedure</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="appointmentDuration" class="block text-sm font-medium text-gray-700">Duration</label>
+                            <div class="duration-selector mt-1">
+                                <select id="appointmentDuration" class="form-input" required>
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="45">45 minutes</option>
+                                    <option value="60" selected>1 hour</option>
+                                    <option value="90">1.5 hours</option>
+                                    <option value="120">2 hours</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="appointmentStatus" class="block text-sm font-medium text-gray-700">Status</label>
+                        <select id="appointmentStatus" class="form-input mt-1 block w-full" required>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="pending">Pending</option>
+                            <option value="cancelled">Cancelled</option>
+                            <option value="rescheduled">Rescheduled</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="appointmentNotes" class="block text-sm font-medium text-gray-700">Notes</label>
+                        <textarea id="appointmentNotes" class="form-input mt-1 block w-full" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer gap-2">
+                <button type="button" id="cancelAppointment" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Cancel
+                </button>
+                <button type="submit" id="saveAppointment" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Save Appointment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="text-lg font-semibold mb-3">Confirm Delete</h3>
+                <p class="text-gray-700">Are you sure you want to delete this appointment?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelDelete" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                    Cancel
+                </button>
+                <button id="confirmDelete" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Popover (for calendar view) -->
+    <div id="eventPopover" class="event-popover">
+        <div class="flex items-start justify-between mb-2">
+            <h4 class="font-semibold text-gray-900" id="popoverTitle">Appointment</h4>
+            <div class="flex space-x-2">
+                <button class="text-blue-600 hover:text-blue-800 edit-event">
+                    <i class="ri-pencil-line"></i>
+                </button>
+                <button class="text-red-600 hover:text-red-800 delete-event">
+                    <i class="ri-delete-bin-line"></i>
+                </button>
+            </div>
+        </div>
+        <div class="text-sm space-y-1">
+            <div class="flex items-center">
+                <i class="ri-user-line text-gray-500 mr-2"></i>
+                <span id="popoverPatient">Patient Name</span>
+            </div>
+            <div class="flex items-center">
+                <i class="ri-user-star-line text-gray-500 mr-2"></i>
+                <span id="popoverDoctor">Dr. Name</span>
+            </div>
+            <div class="flex items-center">
+                <i class="ri-time-line text-gray-500 mr-2"></i>
+                <span id="popoverTime">Time</span>
+            </div>
+            <div class="flex items-center">
+                <i class="ri-information-line text-gray-500 mr-2"></i>
+                <span id="popoverStatus" class="badge">Status</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+        const profileBtn = document.getElementById('profile-btn');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        function handleScreenSize() {
+            if (window.innerWidth >= 767) { // md breakpoint
+                mobileMenu.classList.remove("active");
+                menuIcon.classList.remove("ri-close-line");
+                menuIcon.classList.add("ri-menu-line");
+            }
+        }
+
+        // Initial check
+        handleScreenSize();
+
+        // Add resize event listener
+        window.addEventListener("resize", handleScreenSize);
+
+        // Toggle mobile menu
+        mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            menuIcon.classList.toggle('ri-menu-line');
+            menuIcon.classList.toggle('ri-close-line');
+            // Close other dropdowns when menu opens
+            if (mobileMenu.classList.contains('active')) {
+                profileDropdown.classList.add('hidden');
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+
+        // Notification Dropdown Toggle
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                notificationDropdown.classList.toggle('hidden');
+                profileDropdown.classList.add('hidden');
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            });
+        }
+
+        if (notificationDropdown) {
+            notificationDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }    
+
+        // Profile Dropdown Toggle
+        if (profileBtn) {
+            profileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('hidden');
+                notificationDropdown.classList.add('hidden');
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            });
+        }
+
+        if (profileDropdown) {
+            profileDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+
+        document.addEventListener('click', function() {
+            if (profileDropdown) profileDropdown.classList.add('hidden');
+            if (notificationDropdown) notificationDropdown.classList.add('hidden');
+        });
+
+        // Appointment data and state management
+        let appointments = [];
+        let currentPage = 1;
+        const itemsPerPage = 9;
+        let sortConfig = { key: null, direction: 'asc' };
+        let currentAppointmentId = null;
+        let calendar = null;
+
+        // Initialize sample appointments
+        function initializeAppointments() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            appointments = [
+                {
+                    id: 1,
+                    patientId: 1,
+                    patientName: 'John Smith',
+                    patientImage: 'https://randomuser.me/api/portraits/men/32.jpg',
+                    doctorId: 1,
+                    doctorName: 'Dr. Smith',
+                    specialty: 'Cardiology',
+                    date: today.toISOString().split('T')[0],
+                    startTime: '10:00',
+                    endTime: '11:00',
+                    type: 'Consultation',
+                    status: 'confirmed',
+                    notes: 'Annual checkup',
+                    duration: 60
+                },
+                {
+                    id: 2,
+                    patientId: 2,
+                    patientName: 'Emily Johnson',
+                    patientImage: 'https://randomuser.me/api/portraits/women/44.jpg',
+                    doctorId: 2,
+                    doctorName: 'Dr. Johnson',
+                    specialty: 'Neurology',
+                    date: today.toISOString().split('T')[0],
+                    startTime: '14:30',
+                    endTime: '15:00',
+                    type: 'Follow-up',
+                    status: 'confirmed',
+                    notes: 'Migraine treatment follow-up',
+                    duration: 30
+                },
+                {
+                    id: 3,
+                    patientId: 3,
+                    patientName: 'Michael Brown',
+                    patientImage: 'https://randomuser.me/api/portraits/men/22.jpg',
+                    doctorId: 3,
+                    doctorName: 'Dr. Williams',
+                    specialty: 'Pediatrics',
+                    date: tomorrow.toISOString().split('T')[0],
+                    startTime: '09:00',
+                    endTime: '09:45',
+                    type: 'Check-up',
+                    status: 'pending',
+                    notes: 'Child vaccination',
+                    duration: 45
+                },
+                {
+                    id: 4,
+                    patientId: 1,
+                    patientName: 'John Smith',
+                    patientImage: 'https://randomuser.me/api/portraits/men/32.jpg',
+                    doctorId: 1,
+                    doctorName: 'Dr. Smith',
+                    specialty: 'Cardiology',
+                    date: tomorrow.toISOString().split('T')[0],
+                    startTime: '11:30',
+                    endTime: '12:30',
+                    type: 'Procedure',
+                    status: 'confirmed',
+                    notes: 'ECG scheduled',
+                    duration: 60
+                },
+                {
+                    id: 5,
+                    patientId: 2,
+                    patientName: 'Emily Johnson',
+                    patientImage: 'https://randomuser.me/api/portraits/women/44.jpg',
+                    doctorId: 2,
+                    doctorName: 'Dr. Johnson',
+                    specialty: 'Neurology',
+                    date: tomorrow.toISOString().split('T')[0],
+                    startTime: '15:00',
+                    endTime: '16:00',
+                    type: 'Consultation',
+                    status: 'rescheduled',
+                    notes: 'Rescheduled from last week',
+                    duration: 60
+                },
+                {
+                    id: 6,
+                    patientId: 3,
+                    patientName: 'Michael Brown',
+                    patientImage: 'https://randomuser.me/api/portraits/men/22.jpg',
+                    doctorId: 3,
+                    doctorName: 'Dr. Williams',
+                    specialty: 'Pediatrics',
+                    date: tomorrow.toISOString().split('T')[0],
+                    startTime: '16:30',
+                    endTime: '17:00',
+                    type: 'Follow-up',
+                    status: 'cancelled',
+                    notes: 'Patient called to cancel',
+                    duration: 30
+                },
+                {
+                    id: 7,
+                    patientId: 1,
+                    patientName: 'John Smith',
+                    patientImage: 'https://randomuser.me/api/portraits/men/32.jpg',
+                    doctorId: 1,
+                    doctorName: 'Dr. Smith',
+                    specialty: 'Cardiology',
+                    date: '2023-06-15',
+                    startTime: '09:00',
+                    endTime: '10:00',
+                    type: 'Consultation',
+                    status: 'confirmed',
+                    notes: 'Blood pressure check',
+                    duration: 60
+                },
+                {
+                    id: 8,
+                    patientId: 2,
+                    patientName: 'Emily Johnson',
+                    patientImage: 'https://randomuser.me/api/portraits/women/44.jpg',
+                    doctorId: 2,
+                    doctorName: 'Dr. Johnson',
+                    specialty: 'Neurology',
+                    date: '2023-06-16',
+                    startTime: '13:00',
+                    endTime: '14:00',
+                    type: 'Procedure',
+                    status: 'pending',
+                    notes: 'MRI scan',
+                    duration: 60
+                },
+                {
+                    id: 9,
+                    patientId: 3,
+                    patientName: 'Michael Brown',
+                    patientImage: 'https://randomuser.me/api/portraits/men/22.jpg',
+                    doctorId: 3,
+                    doctorName: 'Dr. Williams',
+                    specialty: 'Pediatrics',
+                    date: '2023-06-17',
+                    startTime: '10:30',
+                    endTime: '11:00',
+                    type: 'Check-up',
+                    status: 'confirmed',
+                    notes: 'Annual physical',
+                    duration: 30
+                },
+                {
+                    id: 10,
+                    patientId: 1,
+                    patientName: 'John Smith',
+                    patientImage: 'https://randomuser.me/api/portraits/men/32.jpg',
+                    doctorId: 1,
+                    doctorName: 'Dr. Smith',
+                    specialty: 'Cardiology',
+                    date: '2023-06-18',
+                    startTime: '14:00',
+                    endTime: '15:00',
+                    type: 'Follow-up',
+                    status: 'confirmed',
+                    notes: 'Post-surgery check',
+                    duration: 60
+                },
+                {
+                    id: 11,
+                    patientId: 2,
+                    patientName: 'Emily Johnson',
+                    patientImage: 'https://randomuser.me/api/portraits/women/44.jpg',
+                    doctorId: 2,
+                    doctorName: 'Dr. Johnson',
+                    specialty: 'Neurology',
+                    date: '2023-06-19',
+                    startTime: '11:00',
+                    endTime: '11:30',
+                    type: 'Consultation',
+                    status: 'pending',
+                    notes: 'New symptoms',
+                    duration: 30
+                },
+                {
+                    id: 12,
+                    patientId: 3,
+                    patientName: 'Michael Brown',
+                    patientImage: 'https://randomuser.me/api/portraits/men/22.jpg',
+                    doctorId: 3,
+                    doctorName: 'Dr. Williams',
+                    specialty: 'Pediatrics',
+                    date: '2023-06-20',
+                    startTime: '09:30',
+                    endTime: '10:00',
+                    type: 'Check-up',
+                    status: 'confirmed',
+                    notes: 'Vaccination follow-up',
+                    duration: 30
+                }
+            ];
+        }
+
+        // Get status badge class
+        function getStatusClass(status) {
+            const classes = {
+                confirmed: 'bg-green-100 text-green-800',
+                pending: 'bg-yellow-100 text-yellow-800',
+                cancelled: 'bg-red-100 text-red-800',
+                rescheduled: 'bg-blue-100 text-blue-800'
+            };
+            return classes[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Filter appointments based on search and filters
+        function filterAppointments() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+            const doctor = document.getElementById('doctorFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay());
+            
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+            return appointments.filter(appointment => {
+                const matchesSearch = appointment.patientName.toLowerCase().includes(searchTerm) || 
+                                     appointment.doctorName.toLowerCase().includes(searchTerm) ||
+                                     appointment.type.toLowerCase().includes(searchTerm);
+                
+                const matchesStatus = !status || appointment.status === status;
+                const matchesDoctor = !doctor || appointment.doctorId.toString() === doctor;
+                
+                let matchesDate = true;
+                if (dateFilter) {
+                    const appointmentDate = new Date(appointment.date);
+                    appointmentDate.setHours(0, 0, 0, 0);
+                    
+                    if (dateFilter === 'today') {
+                        matchesDate = appointmentDate.getTime() === today.getTime();
+                    } else if (dateFilter === 'week') {
+                        matchesDate = appointmentDate >= startOfWeek;
+                    } else if (dateFilter === 'month') {
+                        matchesDate = appointmentDate >= startOfMonth;
+                    }
+                }
+                
+                return matchesSearch && matchesStatus && matchesDoctor && matchesDate;
+            });
+        }
+
+        // Sort appointments
+        function sortAppointments(appointmentsToSort) {
+            if (!sortConfig.key) return appointmentsToSort;
+            
+            return [...appointmentsToSort].sort((a, b) => {
+                // Handle different sort keys
+                let valueA, valueB;
+                
+                if (sortConfig.key === 'date') {
+                    // Combine date and time for proper sorting
+                    valueA = new Date(`${a.date}T${a.startTime}`);
+                    valueB = new Date(`${b.date}T${b.startTime}`);
+                } 
+                else if (sortConfig.key === 'patient') {
+                    valueA = a.patientName.toLowerCase();
+                    valueB = b.patientName.toLowerCase();
+                }
+                else if (sortConfig.key === 'doctor') {
+                    valueA = a.doctorName.toLowerCase();
+                    valueB = b.doctorName.toLowerCase();
+                }
+                else if (sortConfig.key === 'type') {
+                    valueA = a.type.toLowerCase();
+                    valueB = b.type.toLowerCase();
+                }
+                else {
+                    valueA = a[sortConfig.key];
+                    valueB = b[sortConfig.key];
+                }
+                
+                if (valueA < valueB) {
+                    return sortConfig.direction === 'asc' ? -1 : 1;
+                }
+                if (valueA > valueB) {
+                    return sortConfig.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+
+        // Paginate appointments
+        function paginateAppointments(appointmentsToPaginate) {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            return appointmentsToPaginate.slice(startIndex, startIndex + itemsPerPage);
+        }
+
+        // Render list view
+        function renderListView(paginatedAppointments) {
+            const listViewBody = document.getElementById('listViewBody');
+            listViewBody.innerHTML = paginatedAppointments.map(appointment => {
+                const startDateTime = new Date(`${appointment.date}T${appointment.startTime}`);
+                const endDateTime = new Date(`${appointment.date}T${appointment.endTime}`);
+                
+                const formattedDate = startDateTime.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                const formattedTime = startDateTime.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    hour12: true 
+                }) + ' - ' + endDateTime.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    hour12: true 
+                });
+                
+                return `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full object-cover" 
+                                     src="${appointment.patientImage}" 
+                                     alt="${appointment.patientName}">
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">${appointment.patientName}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">${appointment.doctorName}</div>
+                            <div class="text-sm text-gray-500">${appointment.specialty}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">${formattedDate}</div>
+                            <div class="text-sm text-gray-500">${formattedTime}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            ${appointment.type}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="badge ${getStatusClass(appointment.status)}">
+                                ${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex space-x-2">
+                                <button class="text-primary hover:text-primary-dark view-appointment" data-id="${appointment.id}">
+                                    <i class="ri-eye-line"></i>
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-800 edit-appointment" data-id="${appointment.id}">
+                                    <i class="ri-pencil-line"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-800 delete-appointment" data-id="${appointment.id}">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Initialize FullCalendar
+        function initializeCalendar() {
+            const calendarEl = document.getElementById('calendar');
+            
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: appointments.map(appointment => ({
+                    id: appointment.id,
+                    title: `${appointment.patientName} with ${appointment.doctorName}`,
+                    start: `${appointment.date}T${appointment.startTime}`,
+                    end: `${appointment.date}T${appointment.endTime}`,
+                    extendedProps: {
+                        patientName: appointment.patientName,
+                        doctorName: appointment.doctorName,
+                        specialty: appointment.specialty,
+                        type: appointment.type,
+                        status: appointment.status,
+                        notes: appointment.notes,
+                        patientImage: appointment.patientImage
+                    },
+                    className: appointment.status
+                })),
+                eventClick: function(info) {
+                    showEventPopover(info.event, info.el);
+                },
+                eventDrop: function(info) {
+                    handleEventReschedule(info.event);
+                },
+                eventResize: function(info) {
+                    handleEventReschedule(info.event);
+                },
+                dateClick: function(info) {
+                    openAddAppointmentModal(info.dateStr);
+                },
+                eventDidMount: function(info) {
+                    // Add conflict detection styling
+                    if (hasConflict(info.event)) {
+                        info.event.setProp('classNames', ['conflict']);
+                    }
+                }
+            });
+            
+            calendar.render();
+        }
+
+        // Update calendar events
+        function updateCalendarEvents() {
+            if (!calendar) return;
+            
+            calendar.removeAllEvents();
+            
+            appointments.forEach(appointment => {
+                calendar.addEvent({
+                    id: appointment.id,
+                    title: `${appointment.patientName} with ${appointment.doctorName}`,
+                    start: `${appointment.date}T${appointment.startTime}`,
+                    end: `${appointment.date}T${appointment.endTime}`,
+                    extendedProps: {
+                        patientName: appointment.patientName,
+                        doctorName: appointment.doctorName,
+                        specialty: appointment.specialty,
+                        type: appointment.type,
+                        status: appointment.status,
+                        notes: appointment.notes,
+                        patientImage: appointment.patientImage
+                    },
+                    className: appointment.status
+                });
+            });
+        }
+
+        // Show event popover in calendar view
+        function showEventPopover(event, element) {
+            const popover = document.getElementById('eventPopover');
+            const rect = element.getBoundingClientRect();
+            
+            // Set popover content
+            document.getElementById('popoverTitle').textContent = event.extendedProps.type;
+            document.getElementById('popoverPatient').textContent = event.extendedProps.patientName;
+            document.getElementById('popoverDoctor').textContent = event.extendedProps.doctorName;
+            
+            const startTime = event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const endTime = event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('popoverTime').textContent = `${startTime} - ${endTime}`;
+            
+            const statusBadge = document.getElementById('popoverStatus');
+            statusBadge.textContent = event.extendedProps.status.charAt(0).toUpperCase() + event.extendedProps.status.slice(1);
+            statusBadge.className = 'badge ' + getStatusClass(event.extendedProps.status);
+            
+            // Set edit and delete buttons
+            const editBtn = popover.querySelector('.edit-event');
+            const deleteBtn = popover.querySelector('.delete-event');
+            
+            editBtn.onclick = function() {
+                openEditAppointmentModal(event.id);
+                popover.style.display = 'none';
+            };
+            
+            deleteBtn.onclick = function() {
+                confirmDelete(event.id);
+                popover.style.display = 'none';
+            };
+            
+            // Position and show popover
+            popover.style.top = (rect.top + window.scrollY - popover.offsetHeight - 10) + 'px';
+            popover.style.left = (rect.left + rect.width / 2 - popover.offsetWidth / 2) + 'px';
+            popover.style.display = 'block';
+            
+            // Hide popover when clicking outside
+            setTimeout(() => {
+                document.addEventListener('click', function hidePopover() {
+                    popover.style.display = 'none';
+                    document.removeEventListener('click', hidePopover);
+                });
+            }, 100);
+        }
+
+        // Check for scheduling conflicts
+        function hasConflict(event) {
+            const eventStart = event.start;
+            const eventEnd = event.end;
+            const doctorId = appointments.find(a => a.id.toString() === event.id)?.doctorId;
+            
+            if (!doctorId) return false;
+            
+            // Check for overlapping appointments with the same doctor
+            return appointments.some(appointment => {
+                if (appointment.id.toString() === event.id) return false;
+                if (appointment.doctorId !== doctorId) return false;
+                
+                const appointmentStart = new Date(`${appointment.date}T${appointment.startTime}`);
+                const appointmentEnd = new Date(`${appointment.date}T${appointment.endTime}`);
+                
+                return (
+                    (eventStart >= appointmentStart && eventStart < appointmentEnd) ||
+                    (eventEnd > appointmentStart && eventEnd <= appointmentEnd) ||
+                    (eventStart <= appointmentStart && eventEnd >= appointmentEnd)
+                );
+            });
+        }
+
+        // Handle event rescheduling (drag and drop)
+        function handleEventReschedule(event) {
+            const appointment = appointments.find(a => a.id.toString() === event.id);
+            if (!appointment) return;
+            
+            // Check for conflicts
+            if (hasConflict(event)) {
+                alert('This rescheduling would create a conflict with another appointment!');
+                event.revert();
+                return;
+            }
+            
+            // Update appointment data
+            appointment.date = event.start.toISOString().split('T')[0];
+            appointment.startTime = event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            appointment.endTime = event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            appointment.status = 'rescheduled';
+            
+            // Update the appointments array
+            appointments = appointments.map(a => a.id === appointment.id ? appointment : a);
+            
+            // Show success message
+            alert('Appointment successfully rescheduled!');
+        }
+
+        // Save current page to localStorage
+        function saveCurrentPage(page) {
+            localStorage.setItem('currentAppointmentPage', page);
+        }
+
+        // Get saved page from localStorage
+        function getSavedPage() {
+            const savedPage = localStorage.getItem('currentAppointmentPage');
+            return savedPage ? parseInt(savedPage) : 1;
+        }
+        
+        // Update pagination controls
+        function updatePaginationControls(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pageNumbersContainer = document.getElementById('pageNumbers');
+            const showingFrom = document.getElementById('showingFrom');
+            const showingTo = document.getElementById('showingTo');
+            const totalItemsSpan = document.getElementById('totalItems');
+            const prevButton = document.getElementById('prevPage');
+            const nextButton = document.getElementById('nextPage');
+
+            // Update showing text
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+            showingFrom.textContent = startItem;
+            showingTo.textContent = endItem;
+            totalItemsSpan.textContent = totalItems;
+
+            // Update page numbers
+            pageNumbersContainer.innerHTML = '';
+            
+            // Always show first page
+            if (currentPage > 2) {
+                addPageNumber(1);
+                if (currentPage > 3) {
+                    pageNumbersContainer.innerHTML += '<span class="px-2">...</span>';
+                }
+            }
+            
+            // Show current page and adjacent pages
+            for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+                addPageNumber(i);
+            }
+    
+            // Always show last page
+            if (currentPage < totalPages - 1) {
+                if (currentPage < totalPages - 2) {
+                    pageNumbersContainer.innerHTML += '<span class="px-2">...</span>';
+                }
+                addPageNumber(totalPages);
+            }
+            
+            // Helper function to add a page number button
+            function addPageNumber(page) {
+                const button = document.createElement('button');
+                button.className = `w-10 h-10 rounded-lg ${page === currentPage ? 'bg-primary text-white' : 'border border-gray-300 hover:bg-gray-100'}`;
+                button.textContent = page;
+                button.addEventListener('click', () => {
+                    currentPage = page;
+                    saveCurrentPage(currentPage);
+                    renderAppointments();
+                });
+                pageNumbersContainer.appendChild(button);
+            }
+            
+            // Update prev/next buttons
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        // Render appointments based on current view
+        function renderAppointments() {
+            const filtered = filterAppointments();
+            const sorted = sortAppointments(filtered);
+            const paginated = paginateAppointments(sorted);
+            
+            if (document.getElementById('calendarView').classList.contains('hidden')) {
+                renderListView(paginated);
+            } else {
+                updateCalendarEvents();
+            }
+            
+            updatePaginationControls(filtered.length);
+        }
+
+        // Toggle appointment modal
+        function toggleAppointmentModal(show) {
+            const modal = document.getElementById('appointmentModal');
+            if (show) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Open add appointment modal
+        function openAddAppointmentModal(date) {
+            const modal = document.getElementById('appointmentModal');
+            const title = document.getElementById('modalTitle');
+            
+            currentAppointmentId = null;
+            title.textContent = 'New Appointment';
+            
+            // Reset form
+            document.getElementById('appointmentForm').reset();
+            document.getElementById('conflictWarning').classList.remove('show');
+            
+            // Set default date if provided
+            if (date) {
+                document.getElementById('appointmentDate').value = date;
+            }
+            
+            toggleAppointmentModal(true);
+        }
+
+        // Open edit appointment modal
+        function openEditAppointmentModal(appointmentId) {
+            const modal = document.getElementById('appointmentModal');
+            const title = document.getElementById('modalTitle');
+            const appointment = appointments.find(a => a.id === appointmentId);
+            
+            if (!appointment) return;
+            
+            currentAppointmentId = appointmentId;
+            title.textContent = 'Edit Appointment';
+            
+            // Set form values
+            document.getElementById('appointmentId').value = appointment.id;
+            document.getElementById('patientSelect').value = appointment.patientId;
+            document.getElementById('doctorSelect').value = appointment.doctorId;
+            document.getElementById('appointmentDate').value = appointment.date;
+            
+            // Set time
+            const [hours, minutes] = appointment.startTime.split(':');
+            document.getElementById('appointmentHour').value = hours;
+            document.getElementById('appointmentMinute').value = minutes;
+            
+            document.getElementById('appointmentType').value = appointment.type;
+            document.getElementById('appointmentDuration').value = appointment.duration;
+            document.getElementById('appointmentStatus').value = appointment.status;
+            document.getElementById('appointmentNotes').value = appointment.notes || '';
+            
+            // Hide conflict warning initially
+            document.getElementById('conflictWarning').classList.remove('show');
+            
+            toggleAppointmentModal(true);
+        }
+
+        // Confirm delete
+        function confirmDelete(appointmentId) {
+            const appointment = appointments.find(a => a.id === appointmentId);
+            const modal = document.getElementById('confirmModal');
+            
+            currentAppointmentId = appointmentId;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Delete appointment
+        function deleteAppointment() {
+            appointments = appointments.filter(appointment => appointment.id !== currentAppointmentId);
+            renderAppointments();
+            closeModal();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.add('hidden');
+            });
+            document.body.style.overflow = 'auto';
+        }
+
+        // View state management
+        function getStoredViewPreference() {
+            return localStorage.getItem('appointmentViewPreference') || 'list';
+        }
+
+        function setStoredViewPreference(view) {
+            localStorage.setItem('appointmentViewPreference', view);
+        }
+
+        function applyViewPreference() {
+            const preferredView = getStoredViewPreference();
+            const calendarView = document.getElementById('calendarView');
+            const listView = document.getElementById('listView');
+            const calendarButton = document.querySelector('.view-toggle[data-view="calendar"]');
+            const listButton = document.querySelector('.view-toggle[data-view="list"]');
+
+            if (preferredView === 'calendar') {
+                calendarView.classList.remove('hidden');
+                listView.classList.add('hidden');
+                calendarButton.classList.add('active');
+                listButton.classList.remove('active');
+                
+                // Initialize calendar if not already done
+                if (!calendar) {
+                    initializeCalendar();
+                }
+            } else {
+                calendarView.classList.add('hidden');
+                listView.classList.remove('hidden');
+                calendarButton.classList.remove('active');
+                listButton.classList.add('active');
+            }
+        }
+
+        // Check for scheduling conflicts before saving
+        function checkForConflicts(appointmentData) {
+            // Skip conflict check for existing appointment being edited
+            if (currentAppointmentId) return false;
+            
+            const startDateTime = new Date(`${appointmentData.date}T${appointmentData.startTime}`);
+            const endDateTime = new Date(startDateTime.getTime() + appointmentData.duration * 60000);
+            
+            // Check for overlapping appointments with the same doctor
+            return appointments.some(appointment => {
+                if (appointment.doctorId !== appointmentData.doctorId) return false;
+                
+                const appointmentStart = new Date(`${appointment.date}T${appointment.startTime}`);
+                const appointmentEnd = new Date(`${appointment.date}T${appointment.endTime}`);
+                
+                return (
+                    (startDateTime >= appointmentStart && startDateTime < appointmentEnd) ||
+                    (endDateTime > appointmentStart && endDateTime <= appointmentEnd) ||
+                    (startDateTime <= appointmentStart && endDateTime >= appointmentEnd)
+                );
+            });
+        }
+
+        // Reset to first page when filters change
+        function resetToFirstPage() {
+            currentPage = 1;
+            saveCurrentPage(currentPage);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAppointments();
+            applyViewPreference(); // Load the saved view preference
+            currentPage = getSavedPage();
+            renderAppointments();
+            
+            // View toggle
+            document.querySelectorAll('.view-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.view-toggle').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                    
+                    const view = button.dataset.view;
+                    setStoredViewPreference(view);
+                    
+                    document.getElementById('calendarView').classList.toggle('hidden', view !== 'calendar');
+                    document.getElementById('listView').classList.toggle('hidden', view !== 'list');
+                    
+                    renderAppointments();
+                });
+            });
+            
+            // Add appointment button
+            document.getElementById('addAppointmentBtn').addEventListener('click', () => {
+                openAddAppointmentModal();
+            });
+            
+            // Cancel button in appointment modal
+            document.getElementById('cancelAppointment').addEventListener('click', closeModal);
+            
+            // Close modal buttons
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            });
+            
+            // Delete confirmation
+            document.getElementById('confirmDelete').addEventListener('click', deleteAppointment);
+            document.getElementById('cancelDelete').addEventListener('click', closeModal);
+            
+            // Appointment form submission
+            document.getElementById('saveAppointment').addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const patientId = document.getElementById('patientSelect').value;
+                const patientName = document.getElementById('patientSelect').options[document.getElementById('patientSelect').selectedIndex].text;
+                const doctorId = document.getElementById('doctorSelect').value;
+                const doctorName = document.getElementById('doctorSelect').options[document.getElementById('doctorSelect').selectedIndex].text.split(' (')[0];
+                const specialty = document.getElementById('doctorSelect').options[document.getElementById('doctorSelect').selectedIndex].text.match(/\(([^)]+)\)/)[1];
+                const date = document.getElementById('appointmentDate').value;
+                const hour = document.getElementById('appointmentHour').value;
+                const minute = document.getElementById('appointmentMinute').value;
+                const type = document.getElementById('appointmentType').value;
+                const duration = parseInt(document.getElementById('appointmentDuration').value);
+                const status = document.getElementById('appointmentStatus').value;
+                const notes = document.getElementById('appointmentNotes').value;
+                
+                // Validate required fields
+                if (!patientId || !doctorId || !date || !hour || !minute || !type || !duration || !status) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // Calculate end time
+                const startTime = `${hour}:${minute}`;
+                const startDateTime = new Date(`${date}T${startTime}`);
+                const endDateTime = new Date(startDateTime.getTime() + duration * 60000);
+                const endTime = endDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                
+                const appointmentData = {
+                    patientId: parseInt(patientId),
+                    patientName,
+                    doctorId: parseInt(doctorId),
+                    doctorName,
+                    specialty,
+                    date,
+                    startTime,
+                    endTime,
+                    type,
+                    status,
+                    notes,
+                    duration
+                };
+                
+                // Check for conflicts
+                if (checkForConflicts(appointmentData)) {
+                    document.getElementById('conflictWarning').classList.add('show');
+                    return;
+                }
+                
+                // Update or add appointment
+                if (currentAppointmentId) {
+                    // Update existing appointment
+                    appointmentData.id = currentAppointmentId;
+                    const index = appointments.findIndex(a => a.id === currentAppointmentId);
+                    if (index !== -1) {
+                        appointments[index] = appointmentData;
+                    }
+                } else {
+                    // Add new appointment
+                    const newId = appointments.length > 0 ? Math.max(...appointments.map(a => a.id)) + 1 : 1;
+                    appointmentData.id = newId;
+                    appointmentData.patientImage = `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`;
+                    appointments.push(appointmentData);
+                }
+                
+                renderAppointments();
+                closeModal();
+                alert(`Appointment ${currentAppointmentId ? 'updated' : 'added'} successfully!`);
+            });
+            
+            // Search and filter inputs
+            document.getElementById('searchInput').addEventListener('input', () => {
+                resetToFirstPage();
+                renderAppointments();
+            });
+
+            document.getElementById('statusFilter').addEventListener('change', () => {
+                resetToFirstPage();
+                renderAppointments();
+            });
+
+            document.getElementById('doctorFilter').addEventListener('change', () => {
+                resetToFirstPage();
+                renderAppointments();
+            });
+
+            document.getElementById('dateFilter').addEventListener('change', () => {
+                resetToFirstPage();
+                renderAppointments();
+            });
+            
+            // Pagination controls
+            document.getElementById('prevPage').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    saveCurrentPage(currentPage);
+                    renderAppointments();
+                }
+            });
+            
+            document.getElementById('nextPage').addEventListener('click', () => {
+                const filtered = filterAppointments();
+                const totalPages = Math.ceil(filtered.length / itemsPerPage);
+                
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    saveCurrentPage(currentPage);
+                    renderAppointments();
+                }
+            });
+            
+            // Sortable headers
+            document.querySelectorAll('.sortable-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const key = header.dataset.sort;
+                    
+                    if (sortConfig.key === key) {
+                        sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortConfig.key = key;
+                        sortConfig.direction = 'asc';
+                    }
+                    
+                    renderAppointments();
+                });
+            });
+            
+            // Delegated event listeners for dynamic elements
+            document.addEventListener('click', (e) => {
+                // View button
+                if (e.target.closest('.view-appointment')) {
+                    const appointmentId = parseInt(e.target.closest('.view-appointment').dataset.id);
+                    window.location.href = `appointment-details.html?id=${appointmentId}`;
+                }
+                
+                // Edit button
+                if (e.target.closest('.edit-appointment')) {
+                    const appointmentId = parseInt(e.target.closest('.edit-appointment').dataset.id);
+                    openEditAppointmentModal(appointmentId);
+                }
+                
+                // Delete button
+                if (e.target.closest('.delete-appointment')) {
+                    const appointmentId = parseInt(e.target.closest('.delete-appointment').dataset.id);
+                    confirmDelete(appointmentId);
+                }
+            });
+            
+            // Close popover when clicking outside
+            document.addEventListener('click', (e) => {
+                const popover = document.getElementById('eventPopover');
+                if (!e.target.closest('#eventPopover') && popover.style.display === 'block') {
+                    popover.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

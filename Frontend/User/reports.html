@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MEDora Admin Dashboard - Reports and Analytics">
+    <meta name="keywords" content="MEDora, healthcare, admin, reports, analytics">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>Reports - MEDora</title>
+    <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: "#1CB5BD", 
+                        secondary: "#64b5f6",
+                        danger: "#ef4444",
+                        warning: "#f59e0b",
+                        success: "#10b981"
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body { font-family: 'Poppins', sans-serif; }
+        
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        /* Menu Links */
+        .mobile-menu > a {
+            display: block;
+            padding: 0.75rem 0;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu > a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu > a:hover {
+            color: #1CB5BD;
+        }
+
+        /* Mobile menu button styles */
+        #mobile-menu-button {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu-button:hover {
+            color: #1CB5BD;
+        }
+
+        @media (min-width: 1075px) {
+            html { font-size: 14px; }
+        }
+        @media (max-width: 1075px) {
+            html { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+            html { font-size: 10px; }
+        }
+
+        /* View Toggle Styles */
+        .view-toggle-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .view-toggle {
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s, color 0.2s;
+            background-color: white;
+            color: #4b5563;
+        }
+        .view-toggle.active {
+            background-color: #1CB5BD;
+            color: white;
+        }
+        .view-toggle:not(.active):hover {
+            background-color: #f3f4f6;
+        }
+        
+        /* Sortable Headers */
+        .sortable-header {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .sortable-header .sort-icon {
+            margin-left: 4px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Keep table headers in a single row */
+        .data-table thead tr {
+            display: table-row;
+        }
+
+        .data-table th {
+            display: table-cell;
+            padding: 12px 16px; /* Adjust padding as needed */
+            text-align: left;
+            vertical-align: middle;
+        }
+        .sortable-header:hover {
+            background-color: #f3f4f6;
+        }
+        
+        /* Report Card Styles */
+        .report-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .report-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Badge Styles */
+        .badge {
+            display: inline-flex;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .badge-warning {
+            background-color: #fef08a;
+            color: #854d0e;
+        }
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* Pagination Styles */
+        .pagination button {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+        .pagination button:hover {
+            background-color: #f3f4f6;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto; /* Enable scrolling if content is too tall */
+            padding: 20px 0; /* Add some padding at top and bottom */
+        }
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 90vh; /* Limit height to viewport */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-body {
+            padding: 20px;
+            padding-top: 0;
+            overflow-y: auto; /* Enable scrolling for content */
+            flex-grow: 1; /* Allow body to grow */
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            border-top: 1px solid #e5e7eb;
+            background-color: #f9fafb;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        .modal:not(.hidden) {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Alert Animation */
+        .alert {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+        }
+
+        .alert:not(.hidden) {
+            display: flex;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Profile and notification dropdown styles */
+        #profile-dropdown, #notification-dropdown {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification badge pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        #notification-btn span {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-link:hover {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .sidebar-link.active {
+            background-color: #bae6fd;
+            color: #0369a1;
+            border-left: 4px solid #1CB5BD;
+        }
+        
+        /* Form Styles */
+        .form-input {
+            transition: all 0.3s ease;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #1CB5BD;
+            box-shadow: 0 0 0 3px rgba(28, 181, 189, 0.2);
+        }
+        
+        /* Chart container styles */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        /* Report visualization styles */
+        .visualization-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .visualization-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Export button styles */
+        .export-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        /* Date range picker styles */
+        .date-range-picker {
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+        }
+        
+        .date-range-picker:focus-within {
+            border-color: #1CB5BD;
+            box-shadow: 0 0 0 3px rgba(28, 181, 189, 0.2);
+        }
+        
+        /* Schedule dropdown styles */
+        .schedule-dropdown {
+            z-index: 50;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Confirmation Modal Styles */
+        #confirmModal .modal-content {
+            width: 90%;
+            max-width: 400px;
+            padding: 24px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 20rem;
+            height: calc(100% - 40px);
+            overflow: visible;
+        }
+
+        #confirmModal .modal-body {
+            text-align: center;
+            height: auto;
+            margin-bottom: 16px;
+        }
+
+        #confirmModal .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        /* Report type tabs */
+        .report-tab {
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .report-tab:hover {
+            color: #1CB5BD;
+            border-bottom-color: #1CB5BD;
+        }
+        
+        .report-tab.active {
+            color: #1CB5BD;
+            border-bottom-color: #1CB5BD;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-white border-r border-gray-200">
+                <div class="flex items-center justify-center h-16 px-4 bg-primary text-white">
+                    <i class="ri-stethoscope-line ri-2x text-white mr-2"></i>
+                    <span class="text-2xl font-['Pacifico']">MEDora</span>
+                </div>
+                <div class="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
+                    <div class="space-y-1">
+                        <a href="admin.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-dashboard-line mr-3"></i>Dashboard
+                        </a>
+                        <a href="doctorList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-user-star-line mr-3"></i>Doctors
+                        </a>
+                        <a href="patientList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-group-line mr-3"></i>Patients
+                        </a>
+                        <a href="appointments.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-calendar-line mr-3"></i>Appointments
+                        </a>
+                        <a href="#departments" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-building-line mr-3"></i>Departments
+                        </a>
+                        <a href="#staff" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-team-line mr-3"></i>Staff
+                        </a>
+                        <a href="reports.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md active">
+                            <i class="ri-file-chart-line mr-3"></i>Reports
+                        </a>
+                        <a href="#settings" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-settings-3-line mr-3"></i>Settings
+                        </a>
+                    </div>
+                    
+                    <div class="mt-auto mb-4">
+                        <div class="p-4 bg-blue-50 rounded-lg mb-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="ri-question-line text-blue-500 text-xl"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-blue-800">Need help?</p>
+                                    <p class="text-xs text-blue-600">Contact our support team</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="logoutBtn" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <i class="ri-logout-box-r-line mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Navbar -->
+            <nav class="bg-white border-b border-gray-200 z-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- Mobile menu button -->
+                        <div class="flex md:hidden">
+                            <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+                                <div class="w-6 h-6 flex items-center justify-center">
+                                    <i id="menu-icon" class="ri-menu-line ri-lg transition-transform duration-300"></i>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <!-- Search and user area -->
+                        <div class="flex items-center ml-auto">
+                            <!-- Search -->
+                            <div class="relative ml-4 md:ml-6">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="ri-search-line text-gray-400"></i>
+                                </div>
+                                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search...">
+                            </div>
+                            
+                            <!-- Notifications -->
+                            <div class="relative ml-4">
+                                <button id="notification-btn" class="p-2 rounded-full hover:bg-gray-100 relative">
+                                    <i class="ri-notification-3-line w-6 h-6 text-gray-600 text-xl"></i>
+                                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+                                </button>
+                                <!-- Notification Dropdown -->
+                                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <h3 class="text-sm font-medium text-gray-700">Notifications</h3>
+                                    </div>
+                                    <div class="max-h-60 overflow-y-auto">
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-alarm-warning-line text-yellow-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">System Alert</p>
+                                                    <p class="text-xs text-gray-500">High patient volume in Cardiology today</p>
+                                                    <p class="text-xs text-gray-400 mt-1">10 mins ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-calendar-check-line text-blue-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Appointment</p>
+                                                    <p class="text-xs text-gray-500">Dr. Smith has a new appointment scheduled</p>
+                                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-user-add-line text-green-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Patient</p>
+                                                    <p class="text-xs text-gray-500">John Doe registered as a new patient</p>
+                                                    <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="px-4 py-2 border-t border-gray-200">
+                                        <a href="#" class="text-xs font-medium text-primary hover:text-primary-dark">View all notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Profile Dropdown -->
+                            <div class="relative ml-4">
+                                <button id="profile-btn" class="flex items-center text-sm rounded-full focus:outline-none">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="../assets/images/Admin pages/Doctors page/Milla Willow_Admin.jpg" alt="Admin profile">
+                                </button>
+                                <!-- Profile Dropdown Menu -->
+                                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <p class="text-sm font-medium text-gray-700">Milla Willow</p>
+                                        <p class="text-xs text-gray-500">Super Administrator</p>
+                                    </div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-user-line mr-2"></i> MY Profile
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-settings-3-line mr-2"></i> Settings
+                                    </a>
+                                    <div class="border-t border-gray-200"></div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-logout-box-r-line mr-2"></i> Sign out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Mobile Menu Structure -->
+            <div id="mobile-menu" class="mobile-menu">
+                <a href="#" class="flex items-center">
+                    <i class="ri-dashboard-line mr-2 text-primary"></i>
+                    Dashboard
+                </a>
+                <a href="#doctors" class="flex items-center">
+                    <i class="ri-user-star-line mr-2 text-primary"></i>
+                    Doctors
+                </a>
+                <a href="#patients" class="flex items-center">
+                    <i class="ri-group-line mr-2 text-primary"></i>
+                    Patients
+                </a>
+                <a href="#appointments" class="flex items-center">
+                    <i class="ri-calendar-line mr-2 text-primary"></i>
+                    Appointments
+                </a>
+                <a href="#departments" class="flex items-center">
+                    <i class="ri-building-line mr-2 text-primary"></i>
+                    Departments
+                </a>
+                <a href="#staff" class="flex items-center">
+                    <i class="ri-team-line mr-2 text-primary"></i>
+                    Staff
+                </a>
+                <a href="reports.html" class="flex items-center">
+                    <i class="ri-file-chart-line mr-2 text-primary"></i>
+                    Reports
+                </a>
+                <a href="#settings" class="flex items-center">
+                    <i class="ri-settings-3-line mr-2 text-primary"></i>
+                    Settings
+                </a>
+                <button id="mobileLogoutBtn" class="w-full flex items-center justify-start px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 mt-4">
+                    <i class="ri-logout-box-r-line mr-2"></i> Logout
+                </button>
+            </div>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Reports & Analytics</h1>
+                    <div class="flex items-center gap-4">
+                        <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark" id="generateReportBtn">
+                            <i class="ri-file-add-line mr-1"></i> Generate Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Report Type Tabs -->
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button class="report-tab active px-4 py-2 text-sm font-medium" data-tab="overview">
+                        Overview
+                    </button>
+                    <button class="report-tab px-4 py-2 text-sm font-medium" data-tab="appointments">
+                        Appointments
+                    </button>
+                    <button class="report-tab px-4 py-2 text-sm font-medium" data-tab="financial">
+                        Financial
+                    </button>
+                    <button class="report-tab px-4 py-2 text-sm font-medium" data-tab="patient">
+                        Patient Analytics
+                    </button>
+                    <button class="report-tab px-4 py-2 text-sm font-medium" data-tab="scheduled">
+                        Scheduled Reports
+                    </button>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="relative">
+                        <input type="text" id="reportSearchInput" placeholder="Search reports..." class="form-input">
+                        <i class="ri-search-line absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <div class="date-range-picker flex items-center">
+                        <input type="date" id="startDate" class="form-input border-0 rounded-r-none">
+                        <span class="px-2 text-gray-500">to</span>
+                        <input type="date" id="endDate" class="form-input border-0 rounded-l-none">
+                    </div>
+                    <select id="departmentFilter" class="form-input">
+                        <option value="">All Departments</option>
+                        <option>Cardiology</option>
+                        <option>Neurology</option>
+                        <option>Pediatrics</option>
+                        <option>Orthopedics</option>
+                        <option>Dermatology</option>
+                    </select>
+                    <div class="relative">
+                        <button id="exportDropdownBtn" class="w-full flex items-center justify-between px-4 py-2 bg-white border border-gray-300 rounded-button hover:bg-gray-50">
+                            <span>Export</span>
+                            <i class="ri-arrow-down-s-line ml-2"></i>
+                        </button>
+                        <div id="exportDropdown" class="hidden absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg z-50">
+                            <button class="export-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-format="pdf">
+                                <i class="ri-file-pdf-line mr-2 text-red-500"></i> PDF
+                            </button>
+                            <button class="export-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-format="csv">
+                                <i class="ri-file-excel-line mr-2 text-green-500"></i> Excel (CSV)
+                            </button>
+                            <button class="export-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-format="excel">
+                                <i class="ri-file-excel-2-line mr-2 text-green-600"></i> Excel (XLSX)
+                            </button>
+                            <button class="export-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-format="word">
+                                <i class="ri-file-word-line mr-2 text-blue-500"></i> Word
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization Previews -->
+                <div id="overviewTab" class="tab-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Appointment Trends Chart -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Appointment Trends</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="appointmentTrendsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Patient Demographics Chart -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Patient Demographics</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="patientDemographicsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <!-- Revenue Overview -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Revenue Overview</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="revenueOverviewChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Department Distribution -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Department Distribution</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="departmentDistributionChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Doctor Performance -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Top Performing Doctors</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="doctorPerformanceChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments Tab (hidden by default) -->
+                <div id="appointmentsTab" class="tab-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Appointment Status -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Appointment Status</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="appointmentStatusChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- No-show Rate -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">No-show Rate</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="noShowRateChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Appointment List -->
+                    <div class="bg-white rounded-lg shadow-md overflow-x-auto mb-6">
+                        <table class="min-w-full divide-y divide-gray-200 data-table">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Date
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Patient
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Doctor
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Department
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="appointmentListBody">
+                                <!-- Sample data - would be dynamically populated -->
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2023-06-15
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">John Doe</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Dr. Robert Smith
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Cardiology
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-success">
+                                            Completed
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2023-06-16
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Jane Smith</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Dr. Emily Johnson
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Neurology
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-warning">
+                                            Pending
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Financial Tab (hidden by default) -->
+                <div id="financialTab" class="tab-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Revenue by Department -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Revenue by Department</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="revenueByDepartmentChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Methods -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Payment Methods</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="paymentMethodsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Financial Summary -->
+                    <div class="bg-white rounded-lg shadow-md overflow-x-auto mb-6">
+                        <table class="min-w-full divide-y divide-gray-200 data-table">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Month
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Total Revenue
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Expenses
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Profit
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Growth
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="financialSummaryBody">
+                                <!-- Sample data - would be dynamically populated -->
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        June 2023
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        $125,450
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        $78,200
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        $47,250
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-success">
+                                            +12.5%
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        May 2023
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        $112,300
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        $72,500
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        $39,800
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-success">
+                                            +8.2%
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Patient Analytics Tab (hidden by default) -->
+                <div id="patientTab" class="tab-content hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Patient Age Distribution -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Patient Age Distribution</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="patientAgeChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Patient Gender Distribution -->
+                        <div class="visualization-card bg-white p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="font-semibold">Patient Gender Distribution</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="p-1 text-gray-500 hover:text-primary">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="patientGenderChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Patient List -->
+                    <div class="bg-white rounded-lg shadow-md overflow-x-auto mb-6">
+                        <table class="min-w-full divide-y divide-gray-200 data-table">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Patient ID
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Name
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Age
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Gender
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Last Visit
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Visits (6m)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="patientAnalyticsBody">
+                                <!-- Sample data - would be dynamically populated -->
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        PT-1001
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">John Doe</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        42
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Male
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2023-06-15
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        4
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        PT-1002
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Jane Smith</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        35
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Female
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2023-06-10
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Scheduled Reports Tab (hidden by default) -->
+                <div id="scheduledTab" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-semibold">Scheduled Reports</h2>
+                        <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark" id="scheduleReportBtn">
+                            <i class="ri-time-line mr-1"></i> Schedule New Report
+                        </button>
+                    </div>
+                    
+                    <!-- Scheduled Reports List -->
+                    <div class="bg-white rounded-lg shadow-md overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 data-table">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Report Name
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Type
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Frequency
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Next Run
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Recipients
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="scheduledReportsBody">
+                                <!-- Sample data - would be dynamically populated -->
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Monthly Financial Summary</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Financial
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Monthly
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2023-07-01
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        3 recipients
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-success">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-primary hover:text-primary-dark mr-3">
+                                            <i class="ri-edit-line"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Weekly Appointment Overview</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Appointments
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Weekly
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2023-06-19
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        5 recipients
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-success">
+                                            Active
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-primary hover:text-primary-dark mr-3">
+                                            <i class="ri-edit-line"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Quarterly Patient Demographics</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Patient Analytics
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Quarterly
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2023-09-01
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        2 recipients
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-warning">
+                                            Paused
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-primary hover:text-primary-dark mr-3">
+                                            <i class="ri-edit-line"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Schedule Report Modal -->
+                <div id="scheduleReportModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
+                    <div class="modal-content">
+                        <div class="modal-header flex justify-between items-center p-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold">Schedule New Report</h3>
+                            <button class="close-modal text-gray-500 hover:text-gray-700">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="space-y-4">
+                                <div>
+                                    <label for="reportName" class="block text-sm font-medium text-gray-700">Report Name</label>
+                                    <input type="text" id="reportName" class="form-input mt-1 block w-full" placeholder="e.g. Monthly Financial Report" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="reportType" class="block text-sm font-medium text-gray-700">Report Type</label>
+                                    <select id="reportType" class="form-input mt-1 block w-full" required>
+                                        <option value="">Select report type</option>
+                                        <option>Financial Summary</option>
+                                        <option>Appointment Overview</option>
+                                        <option>Patient Demographics</option>
+                                        <option>Doctor Performance</option>
+                                        <option>Custom Report</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="reportFrequency" class="block text-sm font-medium text-gray-700">Frequency</label>
+                                        <select id="reportFrequency" class="form-input mt-1 block w-full" required>
+                                            <option value="">Select frequency</option>
+                                            <option>Daily</option>
+                                            <option>Weekly</option>
+                                            <option>Monthly</option>
+                                            <option>Quarterly</option>
+                                            <option>Yearly</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="reportFormat" class="block text-sm font-medium text-gray-700">Format</label>
+                                        <select id="reportFormat" class="form-input mt-1 block w-full" required>
+                                            <option value="">Select format</option>
+                                            <option>PDF</option>
+                                            <option>Excel (CSV)</option>
+                                            <option>Excel (XLSX)</option>
+                                            <option>Word</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="reportRecipients" class="block text-sm font-medium text-gray-700">Recipients</label>
+                                    <textarea id="reportRecipients" rows="3" class="form-input mt-1 block w-full" placeholder="Enter email addresses separated by commas" required></textarea>
+                                </div>
+                                
+                                <div>
+                                    <label for="reportStartDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+                                    <input type="date" id="reportStartDate" class="form-input mt-1 block w-full" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer gap-2">
+                            <button type="button" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Cancel
+                            </button>
+                            <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Schedule Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Report Modal -->
+                <div id="generateReportModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
+                    <div class="modal-content">
+                        <div class="modal-header flex justify-between items-center p-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold">Generate Custom Report</h3>
+                            <button class="close-modal text-gray-500 hover:text-gray-700">
+                                <i class="ri-close-line"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="space-y-4">
+                                <div>
+                                    <label for="customReportName" class="block text-sm font-medium text-gray-700">Report Name</label>
+                                    <input type="text" id="customReportName" class="form-input mt-1 block w-full" placeholder="e.g. Q2 Financial Analysis" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="customReportType" class="block text-sm font-medium text-gray-700">Report Type</label>
+                                    <select id="customReportType" class="form-input mt-1 block w-full" required>
+                                        <option value="">Select report type</option>
+                                        <option>Financial Analysis</option>
+                                        <option>Appointment Trends</option>
+                                        <option>Patient Statistics</option>
+                                        <option>Doctor Performance</option>
+                                        <option>Department Overview</option>
+                                        <option>Custom Data Export</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="customReportFormat" class="block text-sm font-medium text-gray-700">Output Format</label>
+                                    <select id="customReportFormat" class="form-input mt-1 block w-full" required>
+                                        <option value="">Select format</option>
+                                        <option>PDF</option>
+                                        <option>Excel (CSV)</option>
+                                        <option>Excel (XLSX)</option>
+                                        <option>Word</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="customReportStartDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+                                        <input type="date" id="customReportStartDate" class="form-input mt-1 block w-full">
+                                    </div>
+                                    <div>
+                                        <label for="customReportEndDate" class="block text-sm font-medium text-gray-700">End Date</label>
+                                        <input type="date" id="customReportEndDate" class="form-input mt-1 block w-full">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="customReportDepartments" class="block text-sm font-medium text-gray-700">Departments</label>
+                                    <select id="customReportDepartments" class="form-input mt-1 block w-full" multiple>
+                                        <option>Cardiology</option>
+                                        <option>Neurology</option>
+                                        <option>Pediatrics</option>
+                                        <option>Orthopedics</option>
+                                        <option>Dermatology</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Include Visualizations</label>
+                                    <div class="mt-2 space-y-2">
+                                        <div class="flex items-center">
+                                            <input id="includeCharts" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" checked>
+                                            <label for="includeCharts" class="ml-2 block text-sm text-gray-700">Charts and Graphs</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input id="includeTables" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" checked>
+                                            <label for="includeTables" class="ml-2 block text-sm text-gray-700">Data Tables</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input id="includeSummary" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" checked>
+                                            <label for="includeSummary" class="ml-2 block text-sm text-gray-700">Executive Summary</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer gap-2">
+                            <button type="button" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Cancel
+                            </button>
+                            <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                Generate Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+        const profileBtn = document.getElementById('profile-btn');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        function handleScreenSize() {
+            if (window.innerWidth >= 767) { // md breakpoint
+                mobileMenu.classList.remove("active");
+                menuIcon.classList.remove("ri-close-line");
+                menuIcon.classList.add("ri-menu-line");
+            }
+        }
+
+        // Initial check
+        handleScreenSize();
+
+        // Add resize event listener
+        window.addEventListener("resize", handleScreenSize);
+
+        // Toggle mobile menu
+        mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            menuIcon.classList.toggle('ri-menu-line');
+            menuIcon.classList.toggle('ri-close-line');
+            // Close other dropdowns when menu opens
+            if (mobileMenu.classList.contains('active')) {
+                profileDropdown.classList.add('hidden');
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+
+        // Notification Dropdown Toggle
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                notificationDropdown.classList.toggle('hidden');
+                profileDropdown.classList.add('hidden');
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            });
+        }
+
+        if (notificationDropdown) {
+            notificationDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }    
+
+        // Profile Dropdown Toggle
+        if (profileBtn) {
+            profileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('hidden');
+                notificationDropdown.classList.add('hidden');
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            });
+        }
+
+        if (profileDropdown) {
+            profileDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+
+        document.addEventListener('click', function() {
+            if (profileDropdown) profileDropdown.classList.add('hidden');
+            if (notificationDropdown) notificationDropdown.classList.add('hidden');
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!notificationBtn.contains(e.target)) {
+                notificationDropdown.classList.add('hidden');
+            }
+            if (!profileBtn.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+            if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                menuIcon.classList.remove('ri-close-line');
+                menuIcon.classList.add('ri-menu-line');
+            }
+        });
+
+        // Tab switching functionality
+        document.querySelectorAll('.report-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.report-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show the selected tab content
+                const tabId = tab.dataset.tab + 'Tab';
+                document.getElementById(tabId).classList.remove('hidden');
+            });
+        });
+
+        // Export dropdown functionality
+        const exportDropdownBtn = document.getElementById('exportDropdownBtn');
+        const exportDropdown = document.getElementById('exportDropdown');
+
+        if (exportDropdownBtn && exportDropdown) {
+            exportDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                exportDropdown.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!exportDropdownBtn.contains(e.target) && !exportDropdown.contains(e.target)) {
+                    exportDropdown.classList.add('hidden');
+                }
+            });
+            
+            // Handle export format selection
+            exportDropdown.querySelectorAll('.export-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const format = btn.dataset.format;
+                    exportReport(format);
+                    exportDropdown.classList.add('hidden');
+                });
+            });
+        }
+
+        // Function to handle report export
+        function exportReport(format) {
+            // In a real application, this would generate and download the report
+            // For this demo, we'll just show an alert
+            alert(`Exporting report as ${format.toUpperCase()}...`);
+            
+            // Simulate export process
+            const exportBtn = exportDropdownBtn;
+            const originalText = exportBtn.innerHTML;
+            
+            exportBtn.innerHTML = `<i class="ri-loader-4-line loading-spinner mr-1"></i> Exporting...`;
+            exportBtn.disabled = true;
+            
+            setTimeout(() => {
+                exportBtn.innerHTML = originalText;
+                exportBtn.disabled = false;
+                alert(`Report exported successfully as ${format.toUpperCase()}!`);
+            }, 1500);
+        }
+
+        // Schedule Report Modal
+        const scheduleReportBtn = document.getElementById('scheduleReportBtn');
+        const scheduleReportModal = document.getElementById('scheduleReportModal');
+        const generateReportBtn = document.getElementById('generateReportBtn');
+        const generateReportModal = document.getElementById('generateReportModal');
+
+        // Open schedule report modal
+        if (scheduleReportBtn && scheduleReportModal) {
+            scheduleReportBtn.addEventListener('click', () => {
+                scheduleReportModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        // Open generate report modal
+        if (generateReportBtn && generateReportModal) {
+            generateReportBtn.addEventListener('click', () => {
+                generateReportModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        // Close modals
+        function closeModal() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.add('hidden');
+            });
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal buttons
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', closeModal);
+        });
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+
+        // Initialize charts when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Appointment Trends Chart
+            const appointmentTrendsCtx = document.getElementById('appointmentTrendsChart').getContext('2d');
+            const appointmentTrendsChart = new Chart(appointmentTrendsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Appointments',
+                        data: [120, 190, 170, 220, 240, 280],
+                        borderColor: '#1CB5BD',
+                        backgroundColor: 'rgba(28, 181, 189, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Patient Demographics Chart
+            const patientDemographicsCtx = document.getElementById('patientDemographicsChart').getContext('2d');
+            const patientDemographicsChart = new Chart(patientDemographicsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-18', '19-30', '31-45', '46-60', '61+'],
+                    datasets: [{
+                        label: 'Patients',
+                        data: [50, 120, 180, 150, 80],
+                        backgroundColor: [
+                            'rgba(28, 181, 189, 0.7)',
+                            'rgba(100, 181, 246, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(16, 185, 129, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(28, 181, 189, 1)',
+                            'rgba(100, 181, 246, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Revenue Overview Chart
+            const revenueOverviewCtx = document.getElementById('revenueOverviewChart').getContext('2d');
+            const revenueOverviewChart = new Chart(revenueOverviewCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Consultations', 'Procedures', 'Medications', 'Other'],
+                    datasets: [{
+                        data: [45, 30, 15, 10],
+                        backgroundColor: [
+                            'rgba(28, 181, 189, 0.7)',
+                            'rgba(100, 181, 246, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(245, 158, 11, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(28, 181, 189, 1)',
+                            'rgba(100, 181, 246, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(245, 158, 11, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Department Distribution Chart
+            const departmentDistributionCtx = document.getElementById('departmentDistributionChart').getContext('2d');
+            const departmentDistributionChart = new Chart(departmentDistributionCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics', 'Dermatology'],
+                    datasets: [{
+                        data: [25, 20, 30, 15, 10],
+                        backgroundColor: [
+                            'rgba(28, 181, 189, 0.7)',
+                            'rgba(100, 181, 246, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(16, 185, 129, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(28, 181, 189, 1)',
+                            'rgba(100, 181, 246, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Doctor Performance Chart
+            const doctorPerformanceCtx = document.getElementById('doctorPerformanceChart').getContext('2d');
+            const doctorPerformanceChart = new Chart(doctorPerformanceCtx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: ['Dr. Smith', 'Dr. Johnson', 'Dr. Brown', 'Dr. Wilson', 'Dr. Lee'],
+                    datasets: [{
+                        label: 'Patient Satisfaction (%)',
+                        data: [92, 88, 85, 90, 82],
+                        backgroundColor: 'rgba(28, 181, 189, 0.7)',
+                        borderColor: 'rgba(28, 181, 189, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            // Appointment Status Chart (for Appointments tab)
+            const appointmentStatusCtx = document.getElementById('appointmentStatusChart').getContext('2d');
+            const appointmentStatusChart = new Chart(appointmentStatusCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Completed', 'Pending', 'Cancelled', 'No-show'],
+                    datasets: [{
+                        label: 'Appointments',
+                        data: [320, 150, 40, 25],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(156, 163, 175, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(156, 163, 175, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // No-show Rate Chart (for Appointments tab)
+            const noShowRateCtx = document.getElementById('noShowRateChart').getContext('2d');
+            const noShowRateChart = new Chart(noShowRateCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'No-show Rate (%)',
+                        data: [8, 7, 6, 5, 4, 3],
+                        borderColor: '#1CB5BD',
+                        backgroundColor: 'rgba(28, 181, 189, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+
+            // Revenue by Department Chart (for Financial tab)
+            const revenueByDepartmentCtx = document.getElementById('revenueByDepartmentChart').getContext('2d');
+            const revenueByDepartmentChart = new Chart(revenueByDepartmentCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics', 'Dermatology'],
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: [45000, 38000, 28000, 32000, 18000],
+                        backgroundColor: 'rgba(28, 181, 189, 0.7)',
+                        borderColor: 'rgba(28, 181, 189, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Payment Methods Chart (for Financial tab)
+            const paymentMethodsCtx = document.getElementById('paymentMethodsChart').getContext('2d');
+            const paymentMethodsChart = new Chart(paymentMethodsCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Credit Card', 'Insurance', 'Cash', 'Bank Transfer'],
+                    datasets: [{
+                        data: [45, 35, 15, 5],
+                        backgroundColor: [
+                            'rgba(28, 181, 189, 0.7)',
+                            'rgba(100, 181, 246, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(245, 158, 11, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(28, 181, 189, 1)',
+                            'rgba(100, 181, 246, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(245, 158, 11, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Patient Age Chart (for Patient Analytics tab)
+            const patientAgeCtx = document.getElementById('patientAgeChart').getContext('2d');
+            const patientAgeChart = new Chart(patientAgeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-18', '19-30', '31-45', '46-60', '61+'],
+                    datasets: [{
+                        label: 'Patients',
+                        data: [120, 280, 350, 300, 180],
+                        backgroundColor: 'rgba(28, 181, 189, 0.7)',
+                        borderColor: 'rgba(28, 181, 189, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Patient Gender Chart (for Patient Analytics tab)
+            const patientGenderCtx = document.getElementById('patientGenderChart').getContext('2d');
+            const patientGenderChart = new Chart(patientGenderCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Male', 'Female', 'Other'],
+                    datasets: [{
+                        data: [45, 52, 3],
+                        backgroundColor: [
+                            'rgba(28, 181, 189, 0.7)',
+                            'rgba(100, 181, 246, 0.7)',
+                            'rgba(239, 68, 68, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(28, 181, 189, 1)',
+                            'rgba(100, 181, 246, 1)',
+                            'rgba(239, 68, 68, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        });
+
+        // Set default dates for date range picker
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(today.getMonth() - 1);
+            
+            // Format dates as YYYY-MM-DD
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+            
+            document.getElementById('startDate').value = formatDate(oneMonthAgo);
+            document.getElementById('endDate').value = formatDate(today);
+        });
+    </script>
+</body>
+</html> 
