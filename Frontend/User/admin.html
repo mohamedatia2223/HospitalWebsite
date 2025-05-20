@@ -880,103 +880,66 @@
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 data-table">
                                 <thead>
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Visit</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    </tr>
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient Name</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date of Birth</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Info</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Insurance</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Emergency Contact</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                        </tr>
+
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr class="patient-row hover:bg-gray-50 cursor-pointer" data-patient-id="P1001">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
+                                <tbody id="patientsTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                        fetch("https://localhost:7227/api/Patient")
+                                            .then(response => {
+                                            if (!response.ok) throw new Error("Erorr");
+                                            return response.json();
+                                            })
+                                            .then(patients => {
+                                            const tableBody = document.getElementById("patientsTableBody");
+                                            tableBody.innerHTML = "";
+
+                                            patients.forEach(patient => {
+                                                const dob = new Date(patient.dateOfBirth);
+                                                const dobFormatted = dob.toLocaleDateString();
+
+                                                const row = document.createElement("tr");
+                                                row.className = "hover:bg-gray-50";
+
+                                                row.innerHTML = `
                                                 <div class="flex-shrink-0 h-10 w-10">
                                                     <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Patient">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Milla Willow</div>
-                                                    <div class="text-sm text-gray-500">Cardiology</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">P1001</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">May 15, 2023</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-success">Active</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="patient-row hover:bg-gray-50 cursor-pointer" data-patient-id="P1002">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Patient">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">John Smith</div>
-                                                    <div class="text-sm text-gray-500">Neurology</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">P1002</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">May 14, 2023</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-success">Active</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="patient-row hover:bg-gray-50 cursor-pointer" data-patient-id="P1003">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Patient">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
-                                                    <div class="text-sm text-gray-500">Pediatrics</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">P1003</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">May 12, 2023</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-warning">Follow-up</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="patient-row hover:bg-gray-50 cursor-pointer" data-patient-id="P1004">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/22.jpg" alt="Patient">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Michael Brown</div>
-                                                    <div class="text-sm text-gray-500">Orthopedics</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">P1004</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">May 10, 2023</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-danger">Inactive</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                                </div> 
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.patientName ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.email ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${dobFormatted}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.contactInfo ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.address ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.insuranceDetails ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.emergencyContact ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <button class="text-primary hover:text-primary-dark text-sm font-medium" onclick="alert('تفاصيل المريض: ${patient.patientName}')">
+                                                    View
+                                                    </button>
+                                                </td>
+                                                `;
+
+                                                tableBody.appendChild(row);
+                                            });
+                                            })
+                                            .catch(error => {
+                                            console.error("Error:", error);
+                                            alert("Error");
+                                            });
+                                        });
+                                    </script>
+
                             </table>
                         </div>
                     </div>
@@ -995,108 +958,61 @@
                                     <tr>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Doctor</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Specialization</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hourly Pay</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr class="doctor-row hover:bg-gray-50" data-doctor-id="D1001">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Doctor">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Dr. Robert Smith</div>
-                                                    <div class="text-sm text-gray-500">robert.smith@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">Cardiology</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-success">Active</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <button class="text-primary hover:text-primary-dark text-sm font-medium">
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="doctor-row hover:bg-gray-50" data-doctor-id="D1002">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/women/45.jpg" alt="Doctor">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Dr. Emily Johnson</div>
-                                                    <div class="text-sm text-gray-500">emily.johnson@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">Neurology</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-success">Active</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <button class="text-primary hover:text-primary-dark text-sm font-medium">
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="doctor-row hover:bg-gray-50" data-doctor-id="D1003">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/68.jpg" alt="Doctor">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Dr. Michael Brown</div>
-                                                    <div class="text-sm text-gray-500">michael.brown@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">Pediatrics</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-warning">On Leave</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <button class="text-primary hover:text-primary-dark text-sm font-medium">
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="doctor-row hover:bg-gray-50" data-doctor-id="D1004">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/women/22.jpg" alt="Doctor">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Dr. Sarah Wilson</div>
-                                                    <div class="text-sm text-gray-500">sarah.wilson@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">Orthopedics</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="badge badge-danger">Inactive</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <button class="text-primary hover:text-primary-dark text-sm font-medium">
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="doctorsTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                            fetch("https://localhost:7227/api/Doctor")
+                                                .then(response => {
+                                                if (!response.ok) throw new Error("Error in Api");
+                                                return response.json();
+                                                })
+                                                .then(doctors => {
+                                                const tableBody = document.getElementById("doctorsTableBody");
+                                                tableBody.innerHTML = "";
+
+                                                doctors.forEach(doctor => {
+                                                    const row = document.createElement("tr");
+                                                    row.className = "doctor-row hover:bg-gray-50";
+
+                                                    row.innerHTML = `
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                         <div class="flex-shrink-0 h-10 w-10">
+                                                               <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/22.jpg" alt="Patient">
+                                                         </div>   
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-medium text-gray-900">${doctor.doctorName}</div>
+                                                            <div class="text-sm text-gray-500">${doctor.email}</div>
+                                                        </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="text-sm text-gray-900">${doctor.specialty}</div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <span class="badge badge-success">${doctor.hourlyPay}$ / hr</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <button class="text-primary hover:text-primary-dark text-sm font-medium" onclick="alert('خبرة: ${doctor.yearsOfExperience} سنة')">
+                                                        View
+                                                        </button>
+                                                    </td>
+                                                    `;
+
+                                                    tableBody.appendChild(row);
+                                                });
+                                                })
+                                                .catch(error => {
+                                                console.error("Error:", error);
+                                                alert("Erorr in Uploads");
+                                                });
+                                            });
+                                        </script>
+
                             </table>
                         </div>
                     </div>
@@ -1107,154 +1023,321 @@
 
     <!-- Add Patient Modal -->
     <div id="addPatientModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Add New Patient</h3>
-                <button id="closePatientModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="ri-close-line"></i>
-                </button>
-            </div>
-            <form id="patientForm" class="space-y-4">
-                <div>
-                    <label for="patientName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                    <input type="text" id="patientName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Add New Patient</h3>
+                        <button id="closePatientModal" class="text-gray-500 hover:text-gray-700">
+                            <i class="ri-close-line"></i>
+                        </button>
                 </div>
-                <div>
-                    <label for="patientEmail" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="patientEmail" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                </div>
-                <div>
-                    <label for="patientPhone" class="block text-sm font-medium text-gray-700">Phone</label>
-                    <input type="tel" id="patientPhone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                </div>
-                <div>
-                    <label for="patientDepartment" class="block text-sm font-medium text-gray-700">Department</label>
-                    <select id="patientDepartment" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                        <option>Cardiology</option>
-                        <option>Neurology</option>
-                        <option>Pediatrics</option>
-                        <option>Orthopedics</option>
-                        <option>Dermatology</option>
-                    </select>
-                </div>
-                <div class="file-input-container">
-                    <label class="file-input-label">Profile Photo</label>
-                    <div class="file-input-button">
-                        <input type="file" id="patientPhoto" class="file-input" accept="image/*">
-                        <span class="text-sm text-gray-600">Click to upload photo</span>
-                        <img id="patientPreview" class="file-preview" src="#" alt="Patient preview">
+                <form id="patientForm" class="space-y-4">
+                    <div>
+                        <label for="patientName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="patientName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
                     </div>
-                </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" id="cancelPatient" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Add Patient
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+                    <div>
+                        <label for="patientEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="patientEmail" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="patientPassword" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientDob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                        <input type="date" id="patientDob" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientPhone" class="block text-sm font-medium text-gray-700">Contact Info</label>
+                        <input type="tel" id="patientPhone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientAddress" class="block text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" id="patientAddress" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientInsurance" class="block text-sm font-medium text-gray-700">Insurance Details</label>
+                        <input type="text" id="patientInsurance" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientEmergency" class="block text-sm font-medium text-gray-700">Emergency Contact</label>
+                        <input type="text" id="patientEmergency" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" id="cancelPatient" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                            Add Patient
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+      </div>
+      <script>
+    document.getElementById('patientForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const patient = {
+            patientName: document.getElementById('patientName').value,
+            email: document.getElementById('patientEmail').value,
+            password: document.getElementById('patientPassword').value,
+            dateOfBirth: document.getElementById('patientDob').value,
+            contactInfo: document.getElementById('patientPhone').value,
+            address: document.getElementById('patientAddress').value,
+            insuranceDetails: document.getElementById('patientInsurance').value,
+            emergencyContact: document.getElementById('patientEmergency').value
+        };
+
+        try {
+            const response = await fetch('https://localhost:7227/api/Patient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(patient)
+            });
+
+            if (response.ok) {
+                alert('Success');
+                document.getElementById('patientForm').reset();
+            } else {
+                const error = await response.text();
+                alert('Eror\n' + error);
+            }
+        } catch (err) {
+            alert('Erorr\n' + err.message);
+        }
+    });
+</script>
+
+
 
     <!-- Add Doctor Modal -->
     <div id="addDoctorModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Register New Doctor</h3>
-                <button id="closeDoctorModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="ri-close-line"></i>
-                </button>
-            </div>
-            <form id="doctorForm" class="space-y-4">
-                <div>
-                    <label for="doctorName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                    <input type="text" id="doctorName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                </div>
-                <div>
-                    <label for="doctorEmail" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="doctorEmail" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                </div>
-                <div>
-                    <label for="doctorSpecialization" class="block text-sm font-medium text-gray-700">Specialization</label>
-                    <select id="doctorSpecialization" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                        <option>Cardiologist</option>
-                        <option>Neurologist</option>
-                        <option>Pediatrician</option>
-                        <option>Orthopedic Surgeon</option>
-                        <option>Dermatologist</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="doctorPhone" class="block text-sm font-medium text-gray-700">Phone</label>
-                    <input type="tel" id="doctorPhone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                </div>
-                <div class="file-input-container">
-                    <label class="file-input-label">Profile Photo</label>
-                    <div class="file-input-button">
-                        <input type="file" id="doctorPhoto" class="file-input" accept="image/*">
-                        <span class="text-sm text-gray-600">Click to upload photo</span>
-                        <img id="doctorPreview" class="file-preview" src="#" alt="Doctor preview">
-                    </div>
-                </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" id="cancelDoctor" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Register Doctor
-                    </button>
-                </div>
-            </form>
-        </div>
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Register New Doctor</h3>
+        <button id="closeDoctorModal" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line"></i>
+        </button>
     </div>
+    <form id="doctorForm" class="space-y-4">
+        <div>
+            <label for="doctorName" class="block text-sm font-medium text-gray-700">Full Name</label>
+            <input type="text" id="doctorName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorEmail" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="doctorEmail" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorPassword" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" id="doctorPassword" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorSpecialty" class="block text-sm font-medium text-gray-700">Specialty</label>
+            <input type="text" id="doctorSpecialty" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" placeholder="e.g. Cardiologist">
+        </div>
+        <div>
+            <label for="doctorContactInfo" class="block text-sm font-medium text-gray-700">Contact Info</label>
+            <input type="tel" id="doctorContactInfo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorHourlyPay" class="block text-sm font-medium text-gray-700">Hourly Pay</label>
+            <input type="number" id="doctorHourlyPay" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" min="0">
+        </div>
+        <div>
+            <label for="doctorYearsOfExperience" class="block text-sm font-medium text-gray-700">Years Of Experience</label>
+            <input type="number" id="doctorYearsOfExperience" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" min="0">
+        </div>
+        <div class="flex justify-end space-x-3 pt-4">
+            <button type="button" id="cancelDoctor" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                Register Doctor
+            </button>
+        </div>
+    </form>
+</div>
+    </div>
+    <script>
+    document.getElementById("doctorForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        // تجهيز البيانات حسب أسماء الخصائص في C#
+        const doctor = {
+            DoctorName: document.getElementById("doctorName").value.trim(),
+            Email: document.getElementById("doctorEmail").value.trim(),
+            Password: document.getElementById("doctorPassword").value.trim(),
+            Specialty: document.getElementById("doctorSpecialty").value.trim(),
+            ContactInfo: document.getElementById("doctorContactInfo").value.trim(),
+            HourlyPay: parseInt(document.getElementById("doctorHourlyPay").value),
+            YearsOfExperience: parseInt(document.getElementById("doctorYearsOfExperience").value)
+        };
+
+        // للتأكد من القيم
+        console.log("Doctor to be sent:", doctor);
+
+        try {
+            const response = await fetch("https://localhost:7227/api/Doctor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(doctor)
+            });
+
+            if (response.ok) {
+                alert("✅ تم إضافة الدكتور بنجاح");
+                document.getElementById("doctorForm").reset();
+                // إغلاق المودال إذا رغبت
+                document.getElementById("addDoctorModal").classList.add("hidden");
+            } else {
+                const errorText = await response.text();
+                console.error("❌ Server error:", errorText);
+                alert("❌ حدث خطأ أثناء الإضافة:\n" + errorText);
+            }
+        } catch (error) {
+            console.error("❌ Exception:", error);
+            alert("⚠️ حدث خطأ غير متوقع:\n" + error.message);
+        }
+    });
+
+    // إغلاق المودال عند الضغط على زر الإغلاق
+    document.getElementById("closeDoctorModal").addEventListener("click", function () {
+        document.getElementById("addDoctorModal").classList.add("hidden");
+    });
+
+    document.getElementById("cancelDoctor").addEventListener("click", function () {
+        document.getElementById("addDoctorModal").classList.add("hidden");
+    });
+</script>
+
+
 
     <!-- Schedule Appointment Modal -->
     <div id="scheduleAppointmentModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Schedule Appointment</h3>
-                <button id="closeAppointmentModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="ri-close-line"></i>
-                </button>
-            </div>
-            <form id="appointmentForm" class="space-y-4">
-                <div>
-                    <label for="patientSelect" class="block text-sm font-medium text-gray-700">Patient</label>
-                    <select id="patientSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                        <option>Select Patient</option>
-                        <option>Milla Willow (P1001)</option>
-                        <option>John Smith (P1002)</option>
-                        <option>Sarah Johnson (P1003)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="doctorSelect" class="block text-sm font-medium text-gray-700">Doctor</label>
-                    <select id="doctorSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                        <option>Select Doctor</option>
-                        <option>Dr. Robert Smith (Cardiology)</option>
-                        <option>Dr. Emily Johnson (Neurology)</option>
-                        <option>Dr. Michael Brown (Pediatrics)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="appointmentDateTime" class="block text-sm font-medium text-gray-700">Date & Time</label>
-                    <input type="datetime-local" id="appointmentDateTime" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
-                </div>
-                <div>
-                    <label for="appointmentNotes" class="block text-sm font-medium text-gray-700">Notes</label>
-                    <textarea id="appointmentNotes" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"></textarea>
-                </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" id="cancelAppointment" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Cancel
-                    </button>
-                    <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                        Schedule
-                    </button>
-                </div>
-            </form>
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Schedule Appointment</h3>
+        <button id="closeAppointmentModal" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line"></i>
+        </button>
+    </div>
+    <form id="appointmentForm" class="space-y-4">
+        <div>
+            <label for="patientSelect" class="block text-sm font-medium text-gray-700">Patient</label>
+            <select id="patientSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                <option value="">Select Patient</option>
+            </select>
         </div>
+        <div>
+            <label for="doctorSelect" class="block text-sm font-medium text-gray-700">Doctor</label>
+            <select id="doctorSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                <option value="">Select Doctor</option>
+            </select>
+        </div>
+        <div>
+            <label for="appointmentDateTime" class="block text-sm font-medium text-gray-700">Date & Time</label>
+            <input type="datetime-local" id="appointmentDateTime" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
+        </div>
+        <div>
+            <label for="appointmentNotes" class="block text-sm font-medium text-gray-700">Notes</label>
+            <textarea id="appointmentNotes" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"></textarea>
+        </div>
+        <div class="flex justify-end space-x-3 pt-4">
+            <button type="button" id="cancelAppointment" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                Schedule
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    async function loadPatients() {
+        try {
+            const res = await fetch('https://localhost:7227/api/Patient');
+            if (!res.ok) throw new Error('Failed to load patients');
+            const patients = await res.json();
+            const patientSelect = document.getElementById('patientSelect');
+            patients.forEach(patient => {
+                const option = document.createElement('option');
+                option.value = patient.patientId; 
+                option.textContent = `${patient.patientName} (${patient.patientCode ?? patient.email ?? 'ID'})`;
+                patientSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading patients:', error);
+        }
+    }
+
+    async function loadDoctors() {
+        try {
+            const res = await fetch('https://localhost:7227/api/Doctor');
+            if (!res.ok) throw new Error('Failed to load doctors');
+            const doctors = await res.json();
+            const doctorSelect = document.getElementById('doctorSelect');
+            doctors.forEach(doc => {
+                const option = document.createElement('option');
+                option.value = doc.doctorId; 
+                option.textContent = `Dr. ${doc.doctorName} (${doc.specialty})`;
+                doctorSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading doctors:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPatients();
+        loadDoctors();
+
+
+        document.getElementById('appointmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+           
+            const appointment = {
+                patientId: document.getElementById('patientSelect').value,
+                doctorId: document.getElementById('doctorSelect').value,
+                appointmentDate: document.getElementById('appointmentDateTime').value,
+                reasonForVisit: document.getElementById('appointmentNotes').value,
+                duration: 1 
+            };
+
+            try {
+                const response = await fetch('https://localhost:7227/api/Appointment/AddAppointment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appointment)
+                });
+
+                if (response.ok) {
+                    alert('Appointment scheduled successfully!');
+                    e.target.reset();
+                } else {
+                    const errorText = await response.text();
+                    alert('Failed to schedule appointment: ' + errorText);
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        });
+
+        // Cancel button closes modal (you can implement accordingly)
+        document.getElementById('cancelAppointment').addEventListener('click', () => {
+            // Hide modal logic here
+            document.getElementById('appointmentForm').reset();
+        });
+    });
+</script>
+
     </div>
 
     <!-- Report Generation Modal -->
