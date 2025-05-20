@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MEDora Admin Dashboard - Manage hospital operations, doctors, patients, and statistics">
+    <meta name="keywords" content="MEDora, healthcare, admin, dashboard, management, hospital, doctors, patients">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>Admin Dashboard - MEDora</title>
+    <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Word -->
+    <script src="https://unpkg.com/docx/build/index.js"></script>
+    
+
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: "#1CB5BD", 
+                        secondary: "#64b5f6",
+                        danger: "#ef4444",
+                        warning: "#f59e0b",
+                        success: "#10b981"
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .dropdown {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .dropdown-container:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        /* Menu Links */
+        .mobile-menu > a {
+            display: block;
+            padding: 0.75rem 0;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu > a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu > a:hover {
+            color: #1CB5BD;
+        }
+
+
+        /* Arrow Animation */
+        .rotate-180 {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+
+        /* Mobile menu button styles */
+        #mobile-menu-button {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #mobile-menu-button:hover {
+            color: #1CB5BD;
+        }
+
+        @media (min-width: 1075px) {
+            html { font-size: 14px; }
+        }
+        @media (max-width: 1075px) {
+            html { font-size: 12px; }
+        }
+        @media (max-width: 480px) {
+            html { font-size: 10px; }
+        }
+        
+        /* Admin specific styles */
+        .stat-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card.patients {
+            border-left-color: #3b82f6;
+        }
+        
+        .stat-card.doctors {
+            border-left-color: #10b981;
+        }
+        
+        .stat-card.appointments {
+            border-left-color: #f59e0b;
+        }
+        
+        .stat-card.revenue {
+            border-left-color: #8b5cf6;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .data-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f9fafb;
+            z-index: 10;
+        }
+        
+        .data-table tr:hover td {
+            background-color: #f3f4f6;
+        }
+        
+        .badge {
+            display: inline-flex;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge-warning {
+            background-color: #fef08a;
+            color: #854d0e;
+        }
+        
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* Modal Animation */
+        .modal {
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal:not(.hidden) {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Alert Animation */
+        .alert {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+        }
+
+        .alert:not(.hidden) {
+            display: flex;
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Profile and notification dropdown styles */
+        #profile-dropdown, #notification-dropdown {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification badge pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        #notification-btn span {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-link:hover {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        .sidebar-link.active {
+            background-color: #bae6fd;
+            color: #0369a1;
+            border-left: 4px solid #1CB5BD;
+        }
+        
+        /* Chart container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        /* Form styles */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(28, 181, 189, 0.2);
+        }
+        
+        /* Toggle switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #1CB5BD;
+            background-color: #1CB5BD;
+        }
+        
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #bae6fd;
+        }
+
+        /* File input style */
+        .file-input-container {
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .file-input-button {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-button:hover {
+            border-color: #1CB5BD;
+            background-color: #f0fdfa;
+        }
+
+        .file-preview {
+            margin-top: 0.5rem;
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 0.25rem;
+            display: none;
+        }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .file-preview {
+            margin-top: 0.5rem;
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 0.25rem;
+            display: none;
+        }
+
+        /* Notification Styles */
+        #notification {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+            z-index: 9999;
+        }
+
+        #notification:not(.hidden) {
+            transform: translateX(0);
+        }
+
+        #notification.success {
+            background-color: #f0fdf4;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        #notification.warning {
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            color: #854d0e;
+        }
+
+        #notification.danger {
+            background-color: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        #notificationIcon.success { color: #22c55e; }
+        #notificationIcon.warning { color: #eab308; }
+        #notificationIcon.danger { color: #ef4444; }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Admin Layout -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-white border-r border-gray-200">
+                <div class="flex items-center justify-center h-16 px-4 bg-primary text-white">
+                    <i class="ri-stethoscope-line ri-2x text-white mr-2"></i>
+                    <span class="text-2xl font-['Pacifico']">MEDora</span>
+                </div>
+                <div class="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
+                    <div class="space-y-1">
+                        <a href="admin.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md active">
+                            <i class="ri-dashboard-line mr-3"></i>
+                            Dashboard
+                        </a>
+                        <a href="doctorList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-user-star-line mr-3"></i>
+                            Doctors
+                        </a>
+                        <a href="patientList.html" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-group-line mr-3"></i>
+                            Patients
+                        </a>
+                        <a href="#appointments" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-calendar-line mr-3"></i>
+                            Appointments
+                        </a>
+                        <a href="#departments" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-building-line mr-3"></i>
+                            Departments
+                        </a>
+                        <a href="#staff" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-team-line mr-3"></i>
+                            Staff
+                        </a>
+                        <a href="#reports" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-file-chart-line mr-3"></i>
+                            Reports
+                        </a>
+                        <a href="#settings" class="sidebar-link flex items-center px-4 py-2 text-sm font-medium rounded-md">
+                            <i class="ri-settings-3-line mr-3"></i>
+                            Settings
+                        </a>
+                    </div>
+                    
+                    <div class="mt-auto mb-4">
+                        <div class="p-4 bg-blue-50 rounded-lg mb-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="ri-question-line text-blue-500 text-xl"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-blue-800">Need help?</p>
+                                    <p class="text-xs text-blue-600">Contact our support team</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="logoutBtn" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <i class="ri-logout-box-r-line mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Navbar -->
+            <nav class="bg-white border-b border-gray-200 z-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- Mobile menu button -->
+                        <div class="flex md:hidden">
+                            <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+                                <div class="w-6 h-6 flex items-center justify-center">
+                                    <i id="menu-icon" class="ri-menu-line ri-lg transition-transform duration-300"></i>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <!-- Search and user area -->
+                        <div class="flex items-center ml-auto">
+                            <!-- Search -->
+                            <div class="relative ml-4 md:ml-6">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="ri-search-line text-gray-400"></i>
+                                </div>
+                                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search...">
+                            </div>
+                            
+                            <!-- Notifications -->
+                            <div class="relative ml-4">
+                                <button id="notification-btn" class="p-2 rounded-full hover:bg-gray-100 relative">
+                                    <i class="ri-notification-3-line w-6 h-6 text-gray-600 text-xl"></i>
+                                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+                                </button>
+                                <!-- Notification Dropdown -->
+                                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <h3 class="text-sm font-medium text-gray-700">Notifications</h3>
+                                    </div>
+                                    <div class="max-h-60 overflow-y-auto">
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-alarm-warning-line text-yellow-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">System Alert</p>
+                                                    <p class="text-xs text-gray-500">High patient volume in Cardiology today</p>
+                                                    <p class="text-xs text-gray-400 mt-1">10 mins ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-calendar-check-line text-blue-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Appointment</p>
+                                                    <p class="text-xs text-gray-500">Dr. Smith has a new appointment scheduled</p>
+                                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 pt-1">
+                                                    <i class="ri-user-add-line text-green-500"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm font-medium text-gray-900">New Patient</p>
+                                                    <p class="text-xs text-gray-500">John Doe registered as a new patient</p>
+                                                    <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="px-4 py-2 border-t border-gray-200">
+                                        <a href="#" class="text-xs font-medium text-primary hover:text-primary-dark">View all notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Profile Dropdown -->
+                            <div class="relative ml-4">
+                                <button id="profile-btn" class="flex items-center text-sm rounded-full focus:outline-none">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="../assets/images/Admin pages/Doctors page/Milla Willow_Admin.jpg" alt="Admin profile">
+                                    <!-- <span class="ml-2 hidden md:block">Admin</span> -->
+                                </button>
+                                <!-- Profile Dropdown Menu -->
+                                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <div class="px-4 py-2 border-b border-gray-200">
+                                        <p class="text-sm font-medium text-gray-700">Milla Willow</p>
+                                        <p class="text-xs text-gray-500">Super Administrator</p>
+                                    </div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-user-line mr-2"></i> MY Profile
+                                    </a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-settings-3-line mr-2"></i> Settings
+                                    </a>
+                                    <div class="border-t border-gray-200"></div>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="ri-logout-box-r-line mr-2"></i> Sign out
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Mobile Menu Structure -->
+            <div id="mobile-menu" class="mobile-menu">
+                <a href="#" class="flex items-center">
+                    <i class="ri-dashboard-line mr-2 text-primary"></i>
+                    Dashboard
+                </a>
+                <a href="#doctors" class="flex items-center">
+                    <i class="ri-user-star-line mr-2 text-primary"></i>
+                    Doctors
+                </a>
+                <a href="#patients" class="flex items-center">
+                    <i class="ri-group-line mr-2 text-primary"></i>
+                    Patients
+                </a>
+                <a href="#appointments" class="flex items-center">
+                    <i class="ri-calendar-line mr-2 text-primary"></i>
+                    Appointments
+                </a>
+                <a href="#departments" class="flex items-center">
+                    <i class="ri-building-line mr-2 text-primary"></i>
+                    Departments
+                </a>
+                <a href="#staff" class="flex items-center">
+                    <i class="ri-team-line mr-2 text-primary"></i>
+                    Staff
+                </a>
+                <a href="#reports" class="flex items-center">
+                    <i class="ri-file-chart-line mr-2 text-primary"></i>
+                    Reports
+                </a>
+                <a href="#settings" class="flex items-center">
+                    <i class="ri-settings-3-line mr-2 text-primary"></i>
+                    Settings
+                </a>
+                <button id="mobileLogoutBtn" class="w-full flex items-center justify-start px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 mt-4">
+                    <i class="ri-logout-box-r-line mr-2"></i> Logout
+                </button>
+            </div>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
+                <!-- Page Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark transition duration-300 text-sm">
+                            <i class="ri-add-line mr-1"></i> <a href="#quickActions">Quick Action</a>
+                        </button>
+                        <button id="refreshStats" class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="ri-refresh-line text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- صوت خفيف -->
+                <audio id="doneSound" src="../assets/sound/done_sound.mp3"></audio>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="stat-card patients bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Patients</p>
+                                <p class="text-2xl font-bold text-gray-800 counter" data-old="1092" data-target="1248">1248</p>
+                                <p class="text-xs text-green-500 mt-1">
+                                    <i class="ri-arrow-up-line"></i> 12.5% from last month
+                                </p>
+                            </div>
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-500">
+                                <i class="ri-group-line text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card doctors bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Active Doctors</p>
+                                <p class="text-2xl font-bold text-gray-800 counter" data-old="46" data-target="48">48</p>
+                                <p class="text-xs text-green-500 mt-1">
+                                    <i class="ri-arrow-up-line"></i> 2 new this month
+                                </p>
+                            </div>
+                            <div class="p-3 rounded-full bg-green-100 text-green-500">
+                                <i class="ri-user-star-line text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card appointments bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Today's Appointments</p>
+                                <p class="text-2xl font-bold text-gray-800 counter" data-old="90" data-target="86">86</p>
+                                <p class="text-xs text-red-500 mt-1">
+                                    <i class="ri-arrow-down-line"></i> 5% from yesterday
+                                </p>
+                            </div>
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
+                                <i class="ri-calendar-line text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card revenue bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Monthly Revenue</p>
+                                <p class="text-2xl font-bold text-gray-800 counter" data-old="228353" data-target="248750">248750</p>
+                                <p class="text-xs text-green-500 mt-1">
+                                    <i class="ri-arrow-up-line"></i> 8.2% from last month
+                                </p>
+                            </div>
+                            <div class="p-3 rounded-full bg-purple-100 text-purple-500">
+                                <i class="ri-money-dollar-circle-line text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Appointments Chart -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800">Appointments Overview</h2>
+                            <select id="appointmentsTimeRange" class="block w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">
+                                <option>Last 7 Days</option>
+                                <option selected>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                                <option>Last Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="appointmentsChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Department Distribution -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800">Department Distribution</h2>
+                            <button class="p-2 rounded-full hover:bg-gray-100">
+                                <i class="ri-more-2-line text-gray-600"></i>
+                            </button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="departmentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity and Quick Actions -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Recent Activity -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800">Recent Activity</h2>
+                            <button id="viewAllActivity" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                View All
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full text-blue-500">
+                                        <i class="ri-user-add-line"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-800">New patient registered</p>
+                                    <p class="text-xs text-gray-500">John Doe registered as a new patient</p>
+                                    <p class="text-xs text-gray-400 mt-1">10 minutes ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full text-green-500">
+                                        <i class="ri-calendar-check-line"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-800">Appointment completed</p>
+                                    <p class="text-xs text-gray-500">Dr. Smith completed an appointment with patient #P001</p>
+                                    <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500">
+                                        <i class="ri-alarm-warning-line"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-800">System alert</p>
+                                    <p class="text-xs text-gray-500">High patient volume in Cardiology department</p>
+                                    <p class="text-xs text-gray-400 mt-1">3 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full text-purple-500">
+                                        <i class="ri-file-text-line"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-800">Report generated</p>
+                                    <p class="text-xs text-gray-500">Monthly financial report was generated</p>
+                                    <p class="text-xs text-gray-400 mt-1">Yesterday</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div id="quickActions" class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                        <div class="space-y-3">
+                            <button class="quick-action-btn w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200" data-action="add-patient">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full text-blue-500 mr-3">
+                                        <i class="ri-user-add-line"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">Add New Patient</span>
+                                </div>
+                                <i class="ri-arrow-right-line text-gray-400"></i>
+                            </button>
+                            <button class="quick-action-btn w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200" data-action="add-doctor">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full text-green-500 mr-3">
+                                        <i class="ri-user-star-line"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">Register New Doctor</span>
+                                </div>
+                                <i class="ri-arrow-right-line text-gray-400"></i>
+                            </button>
+                            <button class="quick-action-btn w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200" data-action="schedule-appointment">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full text-purple-500 mr-3">
+                                        <i class="ri-calendar-line"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">Schedule Appointment</span>
+                                </div>
+                                <i class="ri-arrow-right-line text-gray-400"></i>
+                            </button>
+                            <button class="quick-action-btn w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200" data-action="generate-report">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full text-yellow-500 mr-3">
+                                        <i class="ri-file-text-line"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">Generate Report</span>
+                                </div>
+                                <i class="ri-arrow-right-line text-gray-400"></i>
+                            </button>
+                            <button class="quick-action-btn w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200" data-action="system-settings">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full text-red-500 mr-3">
+                                        <i class="ri-settings-3-line"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">System Settings</span>
+                                </div>
+                                <i class="ri-arrow-right-line text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Patients and Doctors -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Recent Patients -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800">Recent Patients</h2>
+                            <button id="viewAllPatients" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                View All
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 data-table">
+                                <thead>
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient Name</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date of Birth</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Info</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Insurance</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Emergency Contact</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                        </tr>
+
+                                </thead>
+                                <tbody id="patientsTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                        fetch("https://localhost:7227/api/Patient")
+                                            .then(response => {
+                                            if (!response.ok) throw new Error("Erorr");
+                                            return response.json();
+                                            })
+                                            .then(patients => {
+                                            const tableBody = document.getElementById("patientsTableBody");
+                                            tableBody.innerHTML = "";
+
+                                            patients.forEach(patient => {
+                                                const dob = new Date(patient.dateOfBirth);
+                                                const dobFormatted = dob.toLocaleDateString();
+
+                                                const row = document.createElement("tr");
+                                                row.className = "hover:bg-gray-50";
+
+                                                row.innerHTML = `
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Patient">
+                                                </div> 
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.patientName ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.email ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${dobFormatted}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.contactInfo ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.address ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.insuranceDetails ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">${patient.emergencyContact ?? 'N/A'}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <button class="text-primary hover:text-primary-dark text-sm font-medium" onclick="alert('تفاصيل المريض: ${patient.patientName}')">
+                                                    View
+                                                    </button>
+                                                </td>
+                                                `;
+
+                                                tableBody.appendChild(row);
+                                            });
+                                            })
+                                            .catch(error => {
+                                            console.error("Error:", error);
+                                            alert("Error");
+                                            });
+                                        });
+                                    </script>
+
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Doctors -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800">Recent Doctors</h2>
+                            <button id="viewAllDoctors" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                View All
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 data-table">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Doctor</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Specialization</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hourly Pay</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doctorsTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function () {
+                                            fetch("https://localhost:7227/api/Doctor")
+                                                .then(response => {
+                                                if (!response.ok) throw new Error("Error in Api");
+                                                return response.json();
+                                                })
+                                                .then(doctors => {
+                                                const tableBody = document.getElementById("doctorsTableBody");
+                                                tableBody.innerHTML = "";
+
+                                                doctors.forEach(doctor => {
+                                                    const row = document.createElement("tr");
+                                                    row.className = "doctor-row hover:bg-gray-50";
+
+                                                    row.innerHTML = `
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="flex items-center">
+                                                         <div class="flex-shrink-0 h-10 w-10">
+                                                               <img class="h-10 w-10 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/22.jpg" alt="Patient">
+                                                         </div>   
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-medium text-gray-900">${doctor.doctorName}</div>
+                                                            <div class="text-sm text-gray-500">${doctor.email}</div>
+                                                        </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="text-sm text-gray-900">${doctor.specialty}</div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <span class="badge badge-success">${doctor.hourlyPay}$ / hr</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <button class="text-primary hover:text-primary-dark text-sm font-medium" onclick="alert('خبرة: ${doctor.yearsOfExperience} سنة')">
+                                                        View
+                                                        </button>
+                                                    </td>
+                                                    `;
+
+                                                    tableBody.appendChild(row);
+                                                });
+                                                })
+                                                .catch(error => {
+                                                console.error("Error:", error);
+                                                alert("Erorr in Uploads");
+                                                });
+                                            });
+                                        </script>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div id="addPatientModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Add New Patient</h3>
+                        <button id="closePatientModal" class="text-gray-500 hover:text-gray-700">
+                            <i class="ri-close-line"></i>
+                        </button>
+                </div>
+                <form id="patientForm" class="space-y-4">
+                    <div>
+                        <label for="patientName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="patientName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="patientEmail" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="patientPassword" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientDob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                        <input type="date" id="patientDob" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientPhone" class="block text-sm font-medium text-gray-700">Contact Info</label>
+                        <input type="tel" id="patientPhone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientAddress" class="block text-sm font-medium text-gray-700">Address</label>
+                        <input type="text" id="patientAddress" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientInsurance" class="block text-sm font-medium text-gray-700">Insurance Details</label>
+                        <input type="text" id="patientInsurance" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+                    <div>
+                        <label for="patientEmergency" class="block text-sm font-medium text-gray-700">Emergency Contact</label>
+                        <input type="text" id="patientEmergency" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+                    </div>
+
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" id="cancelPatient" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                            Add Patient
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+      </div>
+      <script>
+    document.getElementById('patientForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const patient = {
+            patientName: document.getElementById('patientName').value,
+            email: document.getElementById('patientEmail').value,
+            password: document.getElementById('patientPassword').value,
+            dateOfBirth: document.getElementById('patientDob').value,
+            contactInfo: document.getElementById('patientPhone').value,
+            address: document.getElementById('patientAddress').value,
+            insuranceDetails: document.getElementById('patientInsurance').value,
+            emergencyContact: document.getElementById('patientEmergency').value
+        };
+
+        try {
+            const response = await fetch('https://localhost:7227/api/Patient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(patient)
+            });
+
+            if (response.ok) {
+                alert('Success');
+                document.getElementById('patientForm').reset();
+            } else {
+                const error = await response.text();
+                alert('Eror\n' + error);
+            }
+        } catch (err) {
+            alert('Erorr\n' + err.message);
+        }
+    });
+</script>
+
+
+
+    <!-- Add Doctor Modal -->
+    <div id="addDoctorModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Register New Doctor</h3>
+        <button id="closeDoctorModal" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line"></i>
+        </button>
+    </div>
+    <form id="doctorForm" class="space-y-4">
+        <div>
+            <label for="doctorName" class="block text-sm font-medium text-gray-700">Full Name</label>
+            <input type="text" id="doctorName" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorEmail" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="doctorEmail" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorPassword" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" id="doctorPassword" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorSpecialty" class="block text-sm font-medium text-gray-700">Specialty</label>
+            <input type="text" id="doctorSpecialty" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" placeholder="e.g. Cardiologist">
+        </div>
+        <div>
+            <label for="doctorContactInfo" class="block text-sm font-medium text-gray-700">Contact Info</label>
+            <input type="tel" id="doctorContactInfo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
+        </div>
+        <div>
+            <label for="doctorHourlyPay" class="block text-sm font-medium text-gray-700">Hourly Pay</label>
+            <input type="number" id="doctorHourlyPay" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" min="0">
+        </div>
+        <div>
+            <label for="doctorYearsOfExperience" class="block text-sm font-medium text-gray-700">Years Of Experience</label>
+            <input type="number" id="doctorYearsOfExperience" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3" min="0">
+        </div>
+        <div class="flex justify-end space-x-3 pt-4">
+            <button type="button" id="cancelDoctor" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary hover:bg-primary-dark">
+                Register Doctor
+            </button>
+        </div>
+    </form>
+</div>
+    </div>
+    <script>
+    document.getElementById("doctorForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        // تجهيز البيانات حسب أسماء الخصائص في C#
+        const doctor = {
+            DoctorName: document.getElementById("doctorName").value.trim(),
+            Email: document.getElementById("doctorEmail").value.trim(),
+            Password: document.getElementById("doctorPassword").value.trim(),
+            Specialty: document.getElementById("doctorSpecialty").value.trim(),
+            ContactInfo: document.getElementById("doctorContactInfo").value.trim(),
+            HourlyPay: parseInt(document.getElementById("doctorHourlyPay").value),
+            YearsOfExperience: parseInt(document.getElementById("doctorYearsOfExperience").value)
+        };
+
+        // للتأكد من القيم
+        console.log("Doctor to be sent:", doctor);
+
+        try {
+            const response = await fetch("https://localhost:7227/api/Doctor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(doctor)
+            });
+
+            if (response.ok) {
+                alert("✅ تم إضافة الدكتور بنجاح");
+                document.getElementById("doctorForm").reset();
+                // إغلاق المودال إذا رغبت
+                document.getElementById("addDoctorModal").classList.add("hidden");
+            } else {
+                const errorText = await response.text();
+                console.error("❌ Server error:", errorText);
+                alert("❌ حدث خطأ أثناء الإضافة:\n" + errorText);
+            }
+        } catch (error) {
+            console.error("❌ Exception:", error);
+            alert("⚠️ حدث خطأ غير متوقع:\n" + error.message);
+        }
+    });
+
+    // إغلاق المودال عند الضغط على زر الإغلاق
+    document.getElementById("closeDoctorModal").addEventListener("click", function () {
+        document.getElementById("addDoctorModal").classList.add("hidden");
+    });
+
+    document.getElementById("cancelDoctor").addEventListener("click", function () {
+        document.getElementById("addDoctorModal").classList.add("hidden");
+    });
+</script>
+
+
+
+    <!-- Schedule Appointment Modal -->
+    <div id="scheduleAppointmentModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Schedule Appointment</h3>
+        <button id="closeAppointmentModal" class="text-gray-500 hover:text-gray-700">
+            <i class="ri-close-line"></i>
+        </button>
+    </div>
+    <form id="appointmentForm" class="space-y-4">
+        <div>
+            <label for="patientSelect" class="block text-sm font-medium text-gray-700">Patient</label>
+            <select id="patientSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                <option value="">Select Patient</option>
+            </select>
+        </div>
+        <div>
+            <label for="doctorSelect" class="block text-sm font-medium text-gray-700">Doctor</label>
+            <select id="doctorSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                <option value="">Select Doctor</option>
+            </select>
+        </div>
+        <div>
+            <label for="appointmentDateTime" class="block text-sm font-medium text-gray-700">Date & Time</label>
+            <input type="datetime-local" id="appointmentDateTime" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
+        </div>
+        <div>
+            <label for="appointmentNotes" class="block text-sm font-medium text-gray-700">Notes</label>
+            <textarea id="appointmentNotes" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"></textarea>
+        </div>
+        <div class="flex justify-end space-x-3 pt-4">
+            <button type="button" id="cancelAppointment" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                Schedule
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    async function loadPatients() {
+        try {
+            const res = await fetch('https://localhost:7227/api/Patient');
+            if (!res.ok) throw new Error('Failed to load patients');
+            const patients = await res.json();
+            const patientSelect = document.getElementById('patientSelect');
+            patients.forEach(patient => {
+                const option = document.createElement('option');
+                option.value = patient.patientId; 
+                option.textContent = `${patient.patientName} (${patient.patientCode ?? patient.email ?? 'ID'})`;
+                patientSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading patients:', error);
+        }
+    }
+
+    async function loadDoctors() {
+        try {
+            const res = await fetch('https://localhost:7227/api/Doctor');
+            if (!res.ok) throw new Error('Failed to load doctors');
+            const doctors = await res.json();
+            const doctorSelect = document.getElementById('doctorSelect');
+            doctors.forEach(doc => {
+                const option = document.createElement('option');
+                option.value = doc.doctorId; 
+                option.textContent = `Dr. ${doc.doctorName} (${doc.specialty})`;
+                doctorSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading doctors:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPatients();
+        loadDoctors();
+
+
+        document.getElementById('appointmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+           
+            const appointment = {
+                patientId: document.getElementById('patientSelect').value,
+                doctorId: document.getElementById('doctorSelect').value,
+                appointmentDate: document.getElementById('appointmentDateTime').value,
+                reasonForVisit: document.getElementById('appointmentNotes').value,
+                duration: 1 
+            };
+
+            try {
+                const response = await fetch('https://localhost:7227/api/Appointment/AddAppointment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appointment)
+                });
+
+                if (response.ok) {
+                    alert('Appointment scheduled successfully!');
+                    e.target.reset();
+                } else {
+                    const errorText = await response.text();
+                    alert('Failed to schedule appointment: ' + errorText);
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        });
+
+        // Cancel button closes modal (you can implement accordingly)
+        document.getElementById('cancelAppointment').addEventListener('click', () => {
+            // Hide modal logic here
+            document.getElementById('appointmentForm').reset();
+        });
+    });
+</script>
+
+    </div>
+
+    <!-- Report Generation Modal -->
+    <div id="reportModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Generate Report</h3>
+                <button id="closeReportModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label for="reportType" class="block text-sm font-medium text-gray-700">Report Type</label>
+                    <select id="reportType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                        <option value="pdf">PDF Report</option>
+                        <option value="doc">Word Document</option>
+                        <option value="stats">Statistics Summary</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="cancelReport" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Cancel
+                    </button>
+                    <button id="generateReport" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Generate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="hidden fixed top-4 right-4 w-80 px-4 py-3 rounded shadow-lg z-50">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <i id="notificationIcon" class="ri-information-line"></i>
+            </div>
+            <div class="ml-3">
+                <p id="notificationMessage" class="text-sm font-medium"></p>
+            </div>
+            <div class="ml-auto pl-3">
+                <button id="closeNotification" class="hover:opacity-75">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <!-- <div id="successNotification" class="hidden fixed top-4 right-4 w-80 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg z-50">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <i class="ri-checkbox-circle-fill text-green-500"></i>
+            </div>
+            <div class="ml-3">
+                <p id="notificationMessage" class="text-sm font-medium">Operation completed successfully!</p>
+            </div>
+            <div class="ml-auto pl-3">
+                <button id="closeNotification" class="text-green-500 hover:text-green-700">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+        </div>
+    </div> -->
+
+    <script>
+        
+        // DOM Elements
+        document.addEventListener("DOMContentLoaded", () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const notificationBtn = document.getElementById('notification-btn');
+            const notificationDropdown = document.getElementById('notification-dropdown');
+            const profileBtn = document.getElementById('profile-btn');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            
+            const viewAllActivity = document.getElementById('viewAllActivity');
+            const viewAllPatients = document.getElementById('viewAllPatients');
+            const viewAllDoctors = document.getElementById('viewAllDoctors');
+            const quickActionBtns = document.querySelectorAll('.quick-action-btn');
+            const patientRows = document.querySelectorAll('.patient-row');
+            const doctorRows = document.querySelectorAll('.doctor-row');
+            const addPatientModal = document.getElementById('addPatientModal');
+            const addDoctorModal = document.getElementById('addDoctorModal');
+            const closePatientModal = document.getElementById('closePatientModal');
+            const closeDoctorModal = document.getElementById('closeDoctorModal');
+            const cancelPatient = document.getElementById('cancelPatient');
+            const cancelDoctor = document.getElementById('cancelDoctor');
+            const patientForm = document.getElementById('patientForm');
+            const doctorForm = document.getElementById('doctorForm');
+            const successNotification = document.getElementById('successNotification');
+            const closeNotification = document.getElementById('closeNotification');
+            const notificationMessage = document.getElementById('notificationMessage');
+            const appointmentsTimeRange = document.getElementById('appointmentsTimeRange');
+            const generateReportBtn = document.getElementById('generateReport');
+            const reportModal = document.getElementById('reportModal');
+            const closeReportModal = document.getElementById('closeReportModal');
+            const cancelReport = document.getElementById('cancelReport');
+            const scheduleAppointmentModal = document.getElementById('scheduleAppointmentModal');
+            const closeAppointmentModal = document.getElementById('closeAppointmentModal');
+            const cancelAppointment = document.getElementById('cancelAppointment');
+
+            generateReportBtn.addEventListener('click', () => {
+                const reportType = document.getElementById('reportType').value;
+                generateReport(reportType);
+                reportModal.classList.add('hidden');
+            });
+
+            closeReportModal.addEventListener('click', () => {
+                reportModal.classList.add('hidden');
+            });
+
+            cancelReport.addEventListener('click', () => {
+                reportModal.classList.add('hidden');
+            });
+
+            function handleScreenSize() {
+                if (window.innerWidth >= 767) { // md breakpoint
+                    mobileMenu.classList.remove("active");
+                    menuIcon.classList.remove("ri-close-line");
+                    menuIcon.classList.add("ri-menu-line");
+                }
+            }
+    
+            // Initial check
+            handleScreenSize();
+    
+            // Add resize event listener
+            window.addEventListener("resize", handleScreenSize);
+
+            // Toggle mobile menu
+            mobileMenuButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('active');
+                menuIcon.classList.toggle('ri-menu-line');
+                menuIcon.classList.toggle('ri-close-line');
+                // Close other dropdowns when menu opens
+                if (mobileMenu.classList.contains('active')) {
+                    profileDropdown.classList.add('hidden');
+                    notificationDropdown.classList.add('hidden');
+                }
+            });
+
+            // Notification Dropdown Toggle
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    notificationDropdown.classList.toggle('hidden');
+                    profileDropdown.classList.add('hidden');
+                    mobileMenu.classList.remove('active');
+                    menuIcon.classList.remove('ri-close-line');
+                    menuIcon.classList.add('ri-menu-line');
+                });
+            }
+
+            if (notificationDropdown) {
+                notificationDropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }    
+
+            // Profile Dropdown Toggle
+            if (profileBtn) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                    notificationDropdown.classList.add('hidden');
+                    mobileMenu.classList.remove('active');
+                    menuIcon.classList.remove('ri-close-line');
+                    menuIcon.classList.add('ri-menu-line');
+                });
+            }
+    
+            if (profileDropdown) {
+                profileDropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+
+            document.addEventListener('click', function() {
+                if (profileDropdown) profileDropdown.classList.add('hidden');
+                if (notificationDropdown) notificationDropdown.classList.add('hidden');
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!notificationBtn.contains(e.target)) {
+                    notificationDropdown.classList.add('hidden');
+                }
+                if (!profileBtn.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+                if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    menuIcon.classList.remove('ri-close-line');
+                    menuIcon.classList.add('ri-menu-line');
+                }
+            });
+    
+            // View All Buttons
+            viewAllActivity.addEventListener('click', () => {
+                showNotification('Viewing all activity records');
+            });
+    
+            viewAllPatients.addEventListener('click', () => {
+                showNotification('Viewing all patient records');
+            });
+    
+            viewAllDoctors.addEventListener('click', () => {
+                showNotification('Viewing all doctor records');
+            });
+    
+            // Quick Action Buttons
+            quickActionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const action = btn.getAttribute('data-action');
+                    switch(action) {
+                        case 'add-patient':
+                            addPatientModal.classList.remove('hidden');
+                            break;
+                        case 'add-doctor':
+                            addDoctorModal.classList.remove('hidden');
+                            break;
+                        case 'schedule-appointment':
+                            scheduleAppointmentModal.classList.remove('hidden');
+                            break;
+                        case 'generate-report':
+                            reportModal.classList.remove('hidden');
+                            break;
+                        case 'system-settings':
+                            showNotification('Opening system settings');
+                            break;
+                    }
+                });
+
+                function animateCounters() {
+                    const counters = document.querySelectorAll('.counter');
+                    const doneSound = document.getElementById('doneSound');
+                    const duration = 1500;
+
+                    // Track how many counters have finished
+                    let finishedCount = 0;
+
+                    counters.forEach(counter => {
+                        const start = +counter.getAttribute('data-old') || 0;
+                        const end = +counter.getAttribute('data-target');
+                        const startTime = performance.now();
+
+                        const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+
+                        function animate(currentTime) {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const eased = easeOutCubic(progress);
+                            const currentValue = Math.floor(start + (end - start) * eased);
+
+                            counter.textContent = currentValue.toLocaleString();
+
+                            if (progress < 1) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                counter.textContent = end.toLocaleString();
+                                finishedCount++;
+
+                                // Play sound only when all counters finish
+                                if (finishedCount === counters.length && doneSound) {
+                                    doneSound.currentTime = 0;
+                                    doneSound.play().catch(e => console.warn("🔇 الصوت منع من التشغيل التلقائي"));
+                                }
+                            }
+                        }
+
+                        requestAnimationFrame(animate);
+                    });
+                }
+
+                // Prevent animation stacking on multiple clicks
+                let isAnimating = false;
+
+                document.getElementById("refreshStats").addEventListener("click", () => {
+                    if (isAnimating) return;  // ignore clicks while animating
+                    isAnimating = true;
+                    animateCounters();
+                    // Reset animating flag after duration + small buffer
+                    setTimeout(() => {
+                        isAnimating = false;
+                    }, 1600);
+                });
+
+                // Kick off initial animation on page load
+                animateCounters();
+
+
+
+
+            });
+    
+            // Patient Row Click
+            patientRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    const patientId = row.getAttribute('data-patient-id');
+                    showNotification(`Viewing details for patient ${patientId}`);
+                });
+            });
+    
+            // Doctor Row Click
+            doctorRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    const doctorId = row.getAttribute('data-doctor-id');
+                    showNotification(`Viewing details for doctor ${doctorId}`);
+                });
+            });
+    
+            // Modal Controls
+            closePatientModal.addEventListener('click', () => {
+                addPatientModal.classList.add('hidden');
+            });
+    
+            closeDoctorModal.addEventListener('click', () => {
+                addDoctorModal.classList.add('hidden');
+            });
+    
+            cancelPatient.addEventListener('click', () => {
+                addPatientModal.classList.add('hidden');
+            });
+    
+            cancelDoctor.addEventListener('click', () => {
+                addDoctorModal.classList.add('hidden');
+            });
+    
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === addPatientModal) {
+                    addPatientModal.classList.add('hidden');
+                }
+                if (e.target === addDoctorModal) {
+                    addDoctorModal.classList.add('hidden');
+                }
+            });
+    
+            // Form Submissions
+            patientForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('patientName').value;
+                addPatientModal.classList.add('hidden');
+                showNotification(`Patient ${name} added successfully`);
+                patientForm.reset();
+            });
+    
+            doctorForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('doctorName').value;
+                addDoctorModal.classList.add('hidden');
+                showNotification(`Doctor ${name} registered successfully`);
+                doctorForm.reset();
+            });
+            
+            // Notification Controls
+            closeNotification.addEventListener('click', () => {
+                successNotification.classList.add('hidden');
+            });
+            
+            document.getElementById('patientPhoto').addEventListener('change', function() {
+                handleImagePreview(this, 'patientPreview');
+            });
+    
+            document.getElementById('doctorPhoto').addEventListener('change', function() {
+                handleImagePreview(this, 'doctorPreview');
+            });
+    
+            closeAppointmentModal.addEventListener('click', () => {
+                scheduleAppointmentModal.classList.add('hidden');
+            });
+    
+            cancelAppointment.addEventListener('click', () => {
+                scheduleAppointmentModal.classList.add('hidden');
+            });
+    
+            // Add form submission
+            document.getElementById('appointmentForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                scheduleAppointmentModal.classList.add('hidden');
+                showNotification('Appointment scheduled successfully');
+            });
+
+        });
+
+        function generateReport(type) {
+            switch (type) {
+                case 'pdf':
+                    generatePDF();
+                    break;
+                case 'doc':
+                    generateWordDoc();
+                    break;
+                case 'stats':
+                    generateStatsSummary();
+                    break;
+            }
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.text('MEDora Hospital Report', 20, 20);
+
+            doc.setFontSize(12);
+            doc.text(`Total Patients: 1,248`, 20, 40);
+            doc.text(`Active Doctors: 48`, 20, 50);
+            doc.text(`Monthly Revenue: $248,750`, 20, 60);
+
+            html2canvas(document.querySelector("#appointmentsChart")).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 20, 70, 160, 80);
+                doc.save('MEDora-report.pdf');
+            }).catch(error => {
+                alert('Failed to generate PDF: ' + error.message);
+            });
+        }
+
+        
+
+        
+
+        function generateWordDoc() {
+            const content = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+                    xmlns:w='urn:schemas-microsoft-com:office:word' 
+                    xmlns='http://www.w3.org/TR/REC-html40'>
+                <head><meta charset='utf-8'></head>
+                <body>
+                    <h1>MEDora Hospital Report</h1>
+                    <p>Total Patients: 1,248</p>
+                    <p>Active Doctors: 48</p>
+                    <p>Monthly Revenue: $248,750</p>
+                </body>
+                </html>`;
+
+
+            const blob = new Blob(['\ufeff', content], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'MEDora-report.doc';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function generateStatsSummary() {
+            const summary = `
+                MEDora Hospital Statistics Summary:
+                - Total Patients: 1,248
+                - Active Doctors: 48
+                - Today's Appointments: 86
+                - Monthly Revenue: $248,750
+            `;
+            alert(summary);
+        }
+
+        
+        // Image Preview Handlers
+        function handleImagePreview(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const file = input.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+
+        // Notification Function
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.className = `hidden fixed top-4 right-4 w-80 px-4 py-3 rounded shadow-lg z-50 ${type}`;
+            notification.querySelector('#notificationIcon').className = `ri-${
+                type === 'success' ? 'checkbox-circle-fill' : 
+                type === 'warning' ? 'alert-fill' : 
+                'close-circle-fill'
+            }`;
+            notificationMessage.textContent = message;
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize Charts
+        function initCharts() {
+            // Appointments Chart
+            const appointmentsCtx = document.getElementById('appointmentsChart').getContext('2d');
+            const appointmentsChart = new Chart(appointmentsCtx, {
+                type: 'line',
+                data: {
+                    labels: getLastThirtyDays(),
+                    datasets: [{
+                        label: 'Appointments',
+                        data: getLastThirtyDays().map(() => Math.floor(Math.random() * 100)),
+                        backgroundColor: 'rgba(28, 181, 189, 0.1)',
+                        borderColor: 'rgba(28, 181, 189, 1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Department Chart
+            const departmentCtx = document.getElementById('departmentChart').getContext('2d');
+            const departmentChart = new Chart(departmentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cardiology', 'Neurology', 'Pediatrics', 'Orthopedics', 'Dermatology'],
+                    datasets: [{
+                        data: Array.from({length: 5}, () => Math.floor(Math.random() * 100)),
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(239, 68, 68, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            
+            function getLastSevenDays() {
+                const date = new Date();
+                const days = [];
+
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date(date);
+                    d.setDate(date.getDate() - i);
+
+                    const dayLabel = d.toLocaleDateString('default', {
+                        weekday: 'short',  // "Sun", "Mon", ...
+                        // day: 'numeric',    // 12
+                        // month: 'short'     // "May"
+                    });
+
+                    days.push(dayLabel);
+                }
+
+                return days;
+            }
+            
+            function getLastThreeMonths() {
+                const date = new Date();
+                const months = [];
+
+                for (let i = 2; i >= 0; i--) {
+                    const d = new Date(date.getFullYear(), date.getMonth() - i, 1);
+                    const monthName = d.toLocaleString('default', { month: 'short' });  // long for full month name
+                    months.push(monthName);
+                }
+
+                return months;
+            }
+
+            function getLastThirtyDays() {
+                const date = new Date();
+                const days = [];
+
+                for (let i = 29; i >= 0; i--) {
+                    const d = new Date(date);
+                    d.setDate(date.getDate() - i);
+
+                    const dayLabel = d.toLocaleDateString('default', {
+                        day: 'numeric',
+                        month: 'short'  // Example: "16 May"
+                    });
+
+                    days.push(dayLabel);
+                }
+
+                return days;
+            }
+
+            function getLastTwelveMonths() {
+                const date = new Date();
+                const months = [];
+
+                for (let i = 11; i >= 0; i--) {
+                    const d = new Date(date.getFullYear(), date.getMonth() - i, 1);
+                    const monthName = d.toLocaleString('default', { month: 'short' }); // "Jan", "Feb", ...
+                    months.push(monthName);
+                }
+
+                return months;
+            }
+
+
+            // Update chart based on time range selection
+            appointmentsTimeRange.addEventListener('change', (e) => {
+                const range = e.target.value;
+                let labels, data;
+                
+                if (range === 'Last 7 Days') {
+                    labels = getLastSevenDays();
+                    data = getLastSevenDays().map(() => Math.floor(Math.random() * 100));
+                } else if (range === 'Last 30 Days') {
+                    labels = getLastThirtyDays();
+                    data = getLastThirtyDays().map(() => Math.floor(Math.random() * 100));
+                } else if (range === 'Last 3 Months') {
+                    labels = getLastThreeMonths();
+                    data = getLastThreeMonths().map(() => Math.floor(Math.random() * 100));
+                } else if(range === 'Last Year') {
+                    labels = getLastTwelveMonths();
+                    data = getLastTwelveMonths().map(() => Math.floor(Math.random() * 100));
+                }
+                
+                appointmentsChart.data.labels = labels;
+                appointmentsChart.data.datasets[0].data = data;
+                appointmentsChart.update();
+            });
+        }
+
+        // Initialize the dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            feather.replace();
+        });
+    
+    </script>
+</body>
+
+</html>
