@@ -127,7 +127,7 @@
             return Ok("Review deleted successfully");
         }
         [HttpGet("filter")]
-        public async Task<IActionResult> DeleteReviewByReviewId(string keyword = "", string sortBy = "", float rating = 0, int page = 1, int pageSize = 20)
+        public async Task<IActionResult> FilterReviews(string keyword = "", string sortBy = "", float rating = 0, int page = 1, int pageSize = 20)
         {
             var reviews = await _reviewService.FilterReviews(keyword, sortBy, rating, page, pageSize);
             return Ok(reviews);
