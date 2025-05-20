@@ -1,322 +1,436 @@
 <!-- login.html -->
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-white">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="keywords" content="MEDora, healthcare, modern, solutions, services, health, active, modern healthcare solutions provider, stay healthy and active">
-    <meta name="author" content="MEDora">
-    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <meta name="bingbot" content="index, follow">
-    <meta name="google" content="notranslate">
-    <meta name="google-site-verification" content="your-verification-code">
-    <meta name="google-site-verification" content="your-verification-code">
-  <title>Login - MEDora</title>
-  <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
-  <!--Google Fonts-->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  
-  <!--Normalized Template-->
-  <link rel="stylesheet" href="../assets/css/normalize.css">
-  
-  <!--Icons-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="keywords"
+			content="MEDora, healthcare, modern, solutions, services, health, active, modern healthcare solutions provider, stay healthy and active"
+		/>
+		<meta name="author" content="MEDora" />
+		<meta
+			name="theme-color"
+			content="#1CB5BD"
+			media="(prefers-color-scheme: light)"
+		/>
+		<meta
+			name="theme-color"
+			content="#0D8A91"
+			media="(prefers-color-scheme: dark)"
+		/>
+		<meta name="robots" content="index, follow" />
+		<meta name="googlebot" content="index, follow" />
+		<meta name="bingbot" content="index, follow" />
+		<meta name="google" content="notranslate" />
+		<meta
+			name="google-site-verification"
+			content="your-verification-code"
+		/>
+		<meta
+			name="google-site-verification"
+			content="your-verification-code"
+		/>
+		<title>Login - MEDora</title>
+		<link
+			rel="icon"
+			href="../assets/Icons/MEDora Logo.png"
+			type="image/png"
+		/>
+		<!--Google Fonts-->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<!--Normalized Template-->
+		<link rel="stylesheet" href="../assets/css/normalize.css" />
 
-  
-  
-  
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-  
-  <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: { primary: "#1CB5BD", secondary: "#64b5f6" },
-                borderRadius: {
-                    none: "0px",
-                    sm: "4px",
-                    DEFAULT: "8px",
-                    md: "12px",
-                    lg: "16px",
-                    xl: "20px",
-                    "2xl": "24px",
-                    "3xl": "32px",
-                    full: "9999px",
-                    button: "8px",
-                },
-            },
-        },
-    };
-</script>
-<style>
-  input[type="password"]::-ms-reveal, input[type="password"]::-webkit-contacts-auto-fill-button {
-      display: none;
-      }
-      
-  .animate-slide-in-left {
-    animation: slideInLeft 1s ease forwards;
-  }
-  .animate-fade-in {
-    animation: fadeIn 1.2s ease forwards;
-  }
-  @keyframes slideInLeft {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+		<!--Icons-->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+			integrity="sha512-..."
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
 
-  @media (min-width: 1075px) {
-      html { font-size: 14px; }
-    }
-    @media (max-width: 1075px) {
-      html { font-size: 12px; }
-    }
-    @media (max-width: 480px) {
-      html { font-size: 10px; }
-    }
+		<!-- Fonts -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
 
-</style>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-</head>
-<body class="h-full">
-  <div class="flex min-h-screen">
-    <!-- Illustration Left -->
-    <div
-      class="hidden lg:flex w-1/2 items-center justify-center bg-gray-100 p-6 animate-slide-in-right relative overflow-hidden rounded-lg"
-      oncontextmenu="return false" 
-    > 
-    <!-- Disable right-click -->
-    <!-- <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_touohxv0.json" background="transparent" speed="1" style="width: 400px; height: 400px;" loop autoplay></lottie-player> -->
-       <video 
-        autoplay 
-        loop 
-        muted 
-        playsinline 
-        class="absolute inset-0 w-full h-full object-cover rounded-lg"
-          oncontextmenu="return false"
-          ondragstart="return false"
-          ondrop="return false"
-          onselectstart="return false"
-          oncopy="return false"
-          onpaste="return false"
-          oncut="return false"
-          controlsList="nodownload nofullscreen noremoteplayback"
-          disablePictureInPicture 
-        >
-        <source src="../assets/videos/Standard_Mode_A_glowing__animated_heart_at_the.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						colors: { primary: "#1CB5BD", secondary: "#64b5f6" },
+						borderRadius: {
+							none: "0px",
+							sm: "4px",
+							DEFAULT: "8px",
+							md: "12px",
+							lg: "16px",
+							xl: "20px",
+							"2xl": "24px",
+							"3xl": "32px",
+							full: "9999px",
+							button: "8px",
+						},
+					},
+				},
+			};
+		</script>
+		<style>
+			input[type="password"]::-ms-reveal,
+			input[type="password"]::-webkit-contacts-auto-fill-button {
+				display: none;
+			}
 
-    <!-- Login Form -->
-    <div class="flex flex-col justify-center w-full lg:w-1/2 px-8 py-12 max-w-xl mx-auto animate-fade-in">
-      <!-- Mobile GIF (visible only on screens < 1024px) -->
-      <div class="lg:hidden mb-8 w-full flex justify-center mt-[-3rem]">
-        <img src="../assets/images/stethoscope.gif" class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain">
-      </div>
-      
-      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">Sign In to 
-        <span class="text-primary text-xl sm:text-2xl md:text-3xl font-['Pacifico']">MEDora</span></h2>
-      <form class="space-y-5 w-full max-w-md mx-auto">
-        <div class="relative w-full">
-          <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"></i>
-          <input 
-            id="email" 
-            type="email" 
-            placeholder="Enter your email" 
-            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            onfocus="this.placeholder='example@medora.com'"
-            onblur="this.placeholder='Enter your email'"
-          />
-          <label for="email" class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:-top-2.5 peer-focus:text-primary">Email</label>
-        </div>
+			.animate-slide-in-left {
+				animation: slideInLeft 1s ease forwards;
+			}
+			.animate-fade-in {
+				animation: fadeIn 1.2s ease forwards;
+			}
+			@keyframes slideInLeft {
+				from {
+					transform: translateX(-100%);
+					opacity: 0;
+				}
+				to {
+					transform: translateX(0);
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
 
-        <div class="relative w-full">
-          <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"></i>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            onfocus="this.placeholder='Str0ngP@ssw0rd'"
-            onblur="this.placeholder='Enter your password'"
-            required
-          />
-          <label
-            for="password"
-            class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:-top-2.5 peer-focus:text-primary"
-            >Password</label
-          >
-          <!-- Eye Icon for Password -->
-          <i id="togglePassword" class="fa-solid fa-eye absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[#1CB5FF] hover:text-[#1CB5BD] opacity-0"></i>
-        </div>
+			@media (min-width: 1075px) {
+				html {
+					font-size: 14px;
+				}
+			}
+			@media (max-width: 1075px) {
+				html {
+					font-size: 12px;
+				}
+			}
+			@media (max-width: 480px) {
+				html {
+					font-size: 10px;
+				}
+			}
+		</style>
+	</head>
+	<body class="h-full">
+		<div class="flex min-h-screen">
+			<!-- Illustration Left -->
+			<div
+				class="hidden lg:flex w-1/2 items-center justify-center bg-gray-100 p-6 animate-slide-in-right relative overflow-hidden rounded-lg"
+				oncontextmenu="return false"
+			>
+				<!-- Disable right-click -->
+				<!-- <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_touohxv0.json" background="transparent" speed="1" style="width: 400px; height: 400px;" loop autoplay></lottie-player> -->
+				<video
+					autoplay
+					loop
+					muted
+					playsinline
+					class="absolute inset-0 w-full h-full object-cover rounded-lg"
+					oncontextmenu="return false"
+					ondragstart="return false"
+					ondrop="return false"
+					onselectstart="return false"
+					oncopy="return false"
+					onpaste="return false"
+					oncut="return false"
+					controlsList="nodownload nofullscreen noremoteplayback"
+					disablePictureInPicture
+				>
+					<source
+						src="../assets/videos/Standard_Mode_A_glowing__animated_heart_at_the.mp4"
+						type="video/mp4"
+					/>
+					Your browser does not support the video tag.
+				</video>
+			</div>
 
-        <div class="flex items-center justify-between text-sm w-full">
-          <label class="flex items-center">
-            <input type="checkbox" id="rememberMe" class="mr-2"> Remember me
-          </label>
-          <a href="forgot-password.html" class="text-blue-500 hover:underline">Forgot password?</a>
-        </div>
+			<!-- Login Form -->
+			<div
+				class="flex flex-col justify-center w-full lg:w-1/2 px-8 py-12 max-w-xl mx-auto animate-fade-in"
+			>
+				<!-- Mobile GIF (visible only on screens < 1024px) -->
+				<div
+					class="lg:hidden mb-8 w-full flex justify-center mt-[-3rem]"
+				>
+					<img
+						src="../assets/images/stethoscope.gif"
+						class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+					/>
+				</div>
 
-        <button type="submit" class="w-full py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors duration-200">Sign In</button>
-    
-        <div class="mt-6 text-center">
-          <span class="text-gray-500 text-sm">Or sign in using</span>
-          <div class="flex justify-center space-x-4 mt-2">
-            <!-- Google Button -->
-            <button
-              type="button"
-              class="w-auto min-w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center group gap-1 p-2 transition-all duration-300"
-            >
-              <i
-                class="fa-brands fa-google text-gray-600 group-hover:hidden"
-              ></i>
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                class="w-5 h-5 hidden group-hover:block"
-                alt="Google Logo"
-              />
-              <span class="hidden group-hover:inline"
-                ><span
-                  class="text-[#176BEF] font-medium transition-colors duration-300"
-                  >G</span
-                ><span
-                  class="text-[#FF3E30] font-medium transition-colors duration-300"
-                  >o</span
-                ><span
-                  class="text-[#F7B529] font-medium transition-colors duration-300"
-                  >o</span
-                ><span
-                  class="text-[#176BEF] font-medium transition-colors duration-300"
-                  >g</span
-                ><span
-                  class="text-[#179C52] font-medium transition-colors duration-300"
-                  >l</span
-                ><span
-                  class="text-[#FF3E30] font-medium transition-colors duration-300"
-                  >e</span
-                ></span
-              >
-            </button>
+				<h2
+					class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6"
+				>
+					Sign In to
+					<span
+						class="text-primary text-xl sm:text-2xl md:text-3xl font-['Pacifico']"
+						>MEDora</span
+					>
+				</h2>
+				<form class="space-y-5 w-full max-w-md mx-auto">
+					<div class="relative w-full">
+						<i
+							class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
+						></i>
+						<input
+							id="email"
+							type="email"
+							placeholder="Enter your email"
+							class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+							onfocus="this.placeholder='example@medora.com'"
+							onblur="this.placeholder='Enter your email'"
+						/>
+						<label
+							for="email"
+							class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:-top-2.5 peer-focus:text-primary"
+							>Email</label
+						>
+					</div>
 
-            <!-- Apple Button -->
-            <button
-              type="button"
-              class="w-auto min-w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center group gap-1 p-2"
-            >
-              <i
-                class="fa-brands fa-apple text-gray-600 group-hover:text-black transition-colors duration-300"
-              ></i>
-              <span
-                class="hidden group-hover:inline text-black transition-colors duration-300"
-                >Apple</span
-              >
-            </button>
+					<div class="relative w-full">
+						<i
+							class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"
+						></i>
+						<input
+							type="password"
+							id="password"
+							placeholder="Enter your password"
+							class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+							onfocus="this.placeholder='Str0ngP@ssw0rd'"
+							onblur="this.placeholder='Enter your password'"
+							required
+						/>
+						<label
+							for="password"
+							class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:-top-2.5 peer-focus:text-primary"
+							>Password</label
+						>
+						<!-- Eye Icon for Password -->
+						<i
+							id="togglePassword"
+							class="fa-solid fa-eye absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[#1CB5FF] hover:text-[#1CB5BD] opacity-0"
+						></i>
+					</div>
 
-            <!-- Facebook Button -->
-            <button
-              type="button"
-              class="w-auto min-w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center group gap-1 p-2"
-            >
-              <i
-                class="fa-brands fa-facebook text-gray-600 group-hover:text-[#1877F2] transition-colors duration-300"
-              ></i>
-              <span
-                class="hidden group-hover:inline text-[#1877F2] transition-colors duration-300"
-                >Facebook</span
-              >
-            </button>
-          </div>
-        </div>
-    
-    </form>
+					<div
+						class="flex items-center justify-between text-sm w-full"
+					>
+						<label class="flex items-center">
+							<input
+								type="checkbox"
+								id="rememberMe"
+								class="mr-2"
+							/>
+							Remember me
+						</label>
+						<a
+							href="forgot-password.html"
+							class="text-blue-500 hover:underline"
+							>Forgot password?</a
+						>
+					</div>
 
-      <div class="mt-6 text-sm text-center">
-        Don't have an account? <a href="sign-up.html" class="text-teal-600 hover:underline">Sign Up</a>
-      </div>
-    </div>
-  </div>
+					<button
+						type="submit"
+						class="w-full py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors duration-200"
+					>
+						Sign In
+					</button>
 
-  
-  <script type="module">
-    import {authUser} from '../assets/js/api/auth.js'
-    import {logIn} from '../assets/js/utils/jwt.js'
+					<div class="mt-6 text-center">
+						<span class="text-gray-500 text-sm"
+							>Or sign in using</span
+						>
+						<div class="flex justify-center space-x-4 mt-2">
+							<!-- Google Button -->
+							<button
+								type="button"
+								class="w-auto min-w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center group gap-1 p-2 transition-all duration-300"
+							>
+								<i
+									class="fa-brands fa-google text-gray-600 group-hover:hidden"
+								></i>
+								<img
+									src="https://www.svgrepo.com/show/475656/google-color.svg"
+									class="w-5 h-5 hidden group-hover:block"
+									alt="Google Logo"
+								/>
+								<span class="hidden group-hover:inline"
+									><span
+										class="text-[#176BEF] font-medium transition-colors duration-300"
+										>G</span
+									><span
+										class="text-[#FF3E30] font-medium transition-colors duration-300"
+										>o</span
+									><span
+										class="text-[#F7B529] font-medium transition-colors duration-300"
+										>o</span
+									><span
+										class="text-[#176BEF] font-medium transition-colors duration-300"
+										>g</span
+									><span
+										class="text-[#179C52] font-medium transition-colors duration-300"
+										>l</span
+									><span
+										class="text-[#FF3E30] font-medium transition-colors duration-300"
+										>e</span
+									></span
+								>
+							</button>
 
-    // Get the eye icon and password field
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
+							<!-- Apple Button -->
+							<button
+								type="button"
+								class="w-auto min-w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center group gap-1 p-2"
+							>
+								<i
+									class="fa-brands fa-apple text-gray-600 group-hover:text-black transition-colors duration-300"
+								></i>
+								<span
+									class="hidden group-hover:inline text-black transition-colors duration-300"
+									>Apple</span
+								>
+							</button>
 
-    // Function to toggle password visibility
-    function togglePasswordVisibility(inputField, icon) {
-      const isPassword = inputField.type === 'password';
-      inputField.type = isPassword ? 'text' : 'password';
+							<!-- Facebook Button -->
+							<button
+								type="button"
+								class="w-auto min-w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center group gap-1 p-2"
+							>
+								<i
+									class="fa-brands fa-facebook text-gray-600 group-hover:text-[#1877F2] transition-colors duration-300"
+								></i>
+								<span
+									class="hidden group-hover:inline text-[#1877F2] transition-colors duration-300"
+									>Facebook</span
+								>
+							</button>
+						</div>
+					</div>
+				</form>
 
-      // Toggle icon class
-      icon.classList.toggle('fa-eye', !isPassword);
-      icon.classList.toggle('fa-eye-slash', isPassword);
-    }
+				<div class="mt-6 text-sm text-center">
+					Don't have an account?
+					<a href="sign-up.html" class="text-teal-600 hover:underline"
+						>Sign Up</a
+					>
+				</div>
+			</div>
+		</div>
 
-    // Function to show/hide eye icon based on input value
-    function updateEyeVisibility(inputField, icon) {
-      if (inputField.value.length > 0) {
-        icon.classList.add('opacity-100');
-        icon.classList.remove('opacity-0');
-      } else {
-        icon.classList.add('opacity-0');
-        icon.classList.remove('opacity-100');
-      }
-    }
+		<script type="module">
+			import { authUser } from "../assets/js/api/auth.js";
+			import {
+				logIn,
+				parseJwt,
+				cleanToken,
+			} from "../assets/js/utils/jwt.js";
 
-    // Event listener for eye icon click
-    togglePassword.addEventListener('click', () => {
-      togglePasswordVisibility(passwordField, togglePassword);
-    });
+			// Get the eye icon and password field
+			const togglePassword = document.getElementById("togglePassword");
+			const passwordField = document.getElementById("password");
 
-    // Event listener for input change
-    passwordField.addEventListener('input', () => {
-      updateEyeVisibility(passwordField, togglePassword);
-    });
+			// Function to toggle password visibility
+			function togglePasswordVisibility(inputField, icon) {
+				const isPassword = inputField.type === "password";
+				inputField.type = isPassword ? "text" : "password";
 
-    // Handle pre-filled values (autofill, etc.)
-    window.addEventListener('DOMContentLoaded', () => {
-      updateEyeVisibility(passwordField, togglePassword);
-    });
-    const form = document.querySelector("form");
+				// Toggle icon class
+				icon.classList.toggle("fa-eye", !isPassword);
+				icon.classList.toggle("fa-eye-slash", isPassword);
+			}
 
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-      const rememberMe = document.querySelector("#rememberMe").checked;
-      const email = document.querySelector("#email").value ; 
-      const password = document.querySelector("#password").value ; 
+			// Function to show/hide eye icon based on input value
+			function updateEyeVisibility(inputField, icon) {
+				if (inputField.value.length > 0) {
+					icon.classList.add("opacity-100");
+					icon.classList.remove("opacity-0");
+				} else {
+					icon.classList.add("opacity-0");
+					icon.classList.remove("opacity-100");
+				}
+			}
 
-      const jwt = await authUser({
-        email,
-        password
-      })
-      
-      if (jwt) {
-        if (logIn(jwt.token,rememberMe)) window.location.href = "home.html"
-      }
-       else {
-        alert("Login failed 🗿🗿");
-      }
-      
-    }
+			// Event listener for eye icon click
+			togglePassword.addEventListener("click", () => {
+				togglePasswordVisibility(passwordField, togglePassword);
+			});
 
-  </script>
-</body>
+			// Event listener for input change
+			passwordField.addEventListener("input", () => {
+				updateEyeVisibility(passwordField, togglePassword);
+			});
+
+			// Handle pre-filled values (autofill, etc.)
+			window.addEventListener("DOMContentLoaded", () => {
+				updateEyeVisibility(passwordField, togglePassword);
+			});
+			const form = document.querySelector("form");
+
+			form.onsubmit = async (e) => {
+				e.preventDefault();
+				const rememberMe =
+					document.querySelector("#rememberMe").checked;
+				const email = document.querySelector("#email").value;
+				const password = document.querySelector("#password").value;
+
+				const jwt = await authUser({
+					email,
+					password,
+				});
+
+				if (jwt) {
+					if (logIn(jwt.token, rememberMe)) {
+						const parsedJwt = parseJwt(jwt.token);
+            const JWT = cleanToken(parsedJwt)
+
+						switch (JWT.role) {
+							case "Admin":
+								redirectTo("../User/admin.html");
+								break;
+							case "Patient":
+								redirectTo("../User/patient.html");
+								break;
+							case "Doctor":
+								redirectTo("../User/doctor.html");
+								break;
+						}
+					}
+				} else {
+					alert("Login failed 🗿🗿");
+				}
+			};
+			function redirectTo(page) {
+				window.location.href = page;
+			}
+		</script>
+	</body>
 </html>
