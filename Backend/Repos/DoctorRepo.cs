@@ -94,7 +94,7 @@ namespace Hospital.Repos
         public async Task<List<DoctorPatient>> GetAllReviewsForDoctorById(Guid doctorId)
         {
             return await _context.DoctorPatients
-                .Where(db => db.DoctorId == doctorId && string.IsNullOrEmpty(db.ReviewText) && db.Rating != 0)
+                .Where(db => db.DoctorId == doctorId)
                 .ToListAsync();
         }
     }
