@@ -31,7 +31,7 @@ namespace Hospital.Controllers
 		[HttpPost]
         [Authorize(Roles = "Admin")]
 
-		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTOUpdate doctor)
+		public async Task<IActionResult> AddDoctor([FromBody]DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
 			{
