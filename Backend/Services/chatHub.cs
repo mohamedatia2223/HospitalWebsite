@@ -31,6 +31,7 @@ namespace Hospital.Services
                 await Clients.Client(connectionId).SendAsync("ReceivePrivateMessage", senderId, message);
             }
         }
+        
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {

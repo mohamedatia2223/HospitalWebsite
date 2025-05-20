@@ -1,5 +1,20 @@
-const userRole = getUserRoleFromToken(); // Implement this function
-const currentUserId = getUserIdFromToken(); // Implement this function
+import { getDoctorPatients } from "../../assets/js/api/doctors";
+import {getToken} from '../../assets/js/utils/jwt'
+
+function getUserRoleFromToken() {
+    if (window.User) {
+        return window.User.role;
+    }
+} 
+function getUserIdFromToken() {
+    if (window.User) {
+        return window.User.id;
+    }
+}
+
+
+const userRole = getUserRoleFromToken(); 
+const currentUserId = getUserIdFromToken();
 
 // SignalR Connection
 const connection = new signalR.HubConnectionBuilder()
@@ -32,7 +47,7 @@ chatToggle.addEventListener("click", () => {
 async function loadAvailableUsers() {
     // Call your API to get users based on role
     // Example: Doctors see patients, Patients see doctors
-    const response = await fetch(`/api/users/available?role=${userRole === 'Doctor' ? 'Patient' : 'Doctor'}`);
+    const response = await getDoctorPatients(currentUserId,getToken())
     availableUsers = await response.json();
     
     // Populate dropdown
