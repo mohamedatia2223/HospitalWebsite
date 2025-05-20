@@ -29,7 +29,7 @@
             return Ok(apps);
         }
         [HttpPost("AddAppointment")]
-        public async Task<IActionResult> AddAppointment([FromForm]AppointmentDTOUpdate appointment)
+        public async Task<IActionResult> AddAppointment([FromBody]AppointmentDTOUpdate appointment)
         {
             await _appointmentService.AddAppointment(appointment);
             if (!ModelState.IsValid)
