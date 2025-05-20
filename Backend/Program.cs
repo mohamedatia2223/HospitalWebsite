@@ -44,7 +44,26 @@ namespace Hospital
                     ValidAudience = builder.Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
                 };
+                 // SignalR JWT Token Configuration
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            path.StartsWithSegments("/chatHub"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
+            // SignalR JWT Token Configuration
+                
+
             //add CORs
             builder.Services.AddCors(options =>
             {
@@ -103,6 +122,7 @@ namespace Hospital
             app.UseCors("AllowCORs");
 
             app.MapControllers();
+            app.MapHub<ChatHub>("/chatHub"); 
 
             app.Run();
         }
