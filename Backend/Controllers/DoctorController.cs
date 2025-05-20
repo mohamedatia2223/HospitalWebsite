@@ -2,9 +2,8 @@ namespace Hospital.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-   	[Authorize]
-
-	public class DoctorController : ControllerBase
+	[Authorize]
+    public class DoctorController : ControllerBase
 	{
 		private readonly IDoctorService _docService;
 		private readonly IPatientService _patientService;
@@ -152,7 +151,7 @@ namespace Hospital.Controllers
 		//	var rating = await _docService.GetDoctorRatingByPatientId(doctorId,patientId);
 		//	return Ok(rating);
 		//}
-		[HttpGet("[action]")]
+		[HttpGet("[action]/{doctorId}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllReviewsForDoctorById(Guid doctorId)
 		{

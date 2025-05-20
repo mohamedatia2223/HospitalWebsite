@@ -10,7 +10,7 @@ export async function getDoctorPatients(id, TOKEN) {
 }
 export async function filterDoctors(queryOptions, TOKEN) {
 	const query = new URLSearchParams(queryOptions).toString();
-	return await request(`/api/Doctor?${query}`, TOKEN);
+	return await request(`/api/Doctor/filter?${query}`, TOKEN);
 }
 export async function getDoctorAppointments(id, TOKEN) {
 	return await request(`/api/Doctor/${id}/appointments`, TOKEN);

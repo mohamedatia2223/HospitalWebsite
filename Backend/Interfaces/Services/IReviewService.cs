@@ -10,5 +10,6 @@
         Task<double> GetAverageofRating();
         Task<int> GetCountOfAllReviews();
         Task<List<ReviewDTOGet>> GetAllReviewsForPatient(Guid patientId);
+        Task<List<ReviewDTOGet>> FilterReviews(string keyword = "",string sortBy = "" , float rating = 0 ,int page = 1 , int pageSize = 10);
     }
 }
