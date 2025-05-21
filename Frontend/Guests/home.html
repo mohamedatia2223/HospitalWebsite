@@ -342,6 +342,9 @@
         .mobile-menu .dropdown-content2.active {
             display: block;
         }
+        .hidden {
+            display: none;
+        }
 
         .mobile-menu .dropdown-content2 a {
             padding: 0.75rem 1rem;
@@ -449,7 +452,7 @@
                         <a href="contact.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium sm:text-xs md:text-sm lg:text-base xl:text-lg">Contact</a>
                     </div>
                 </div>
-                <div class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8">
+                <div id="authLogo" class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8">
                     <button
                         class="px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
                         <a href="log-in.html">Sign
@@ -666,251 +669,10 @@
                 <h3 class="text-2xl font-semibold text-gray-900 mb-6">Top Specialists</h3>
                 <div class="relative overflow-hidden">
                     <div class="flex space-x-6 specialist-scroll">
-                        
                         <div class="carousel-first">
-                            
-                            <!-- <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Sarah Johnson.jpg"
-                                        alt="Dr. Sarah Johnson" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Sarah Johnson</h4>
-                                    <p class="text-primary font-medium">Cardiology</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-half-fill"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.8 (124)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Michael Chen.jpg"
-                                        alt="Dr. Michael Chen" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Michael Chen</h4>
-                                    <p class="text-primary font-medium">Neurology</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">5.0 (89)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Emily Rodriguez.jpg"
-                                        alt="Dr. Emily Rodriguez" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Emily Rodriguez</h4>
-                                    <p class="text-primary font-medium">Pediatrics</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-line"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.2 (156)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. James Wilson.jpg"
-                                        alt="Dr. James Wilson" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. James Wilson</h4>
-                                    <p class="text-primary font-medium">Orthopedics</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-half-fill"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.7 (103)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Amanda Taylor.jpg"
-                                        alt="Dr. Amanda Taylor" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Amanda Taylor</h4>
-                                    <p class="text-primary font-medium">Dermatology</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-line"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.1 (87)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div> -->
                         </div>
 
                         <div class="carousel-second">
-                            
-                            <!-- <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Sarah Johnson.jpg"
-                                        alt="Dr. Sarah Johnson" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Sarah Johnson</h4>
-                                    <p class="text-primary font-medium">Cardiology</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-half-fill"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.8 (124)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Michael Chen.jpg"
-                                        alt="Dr. Michael Chen" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Michael Chen</h4>
-                                    <p class="text-primary font-medium">Neurology</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">5.0 (89)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Emily Rodriguez.jpg"
-                                        alt="Dr. Emily Rodriguez" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Emily Rodriguez</h4>
-                                    <p class="text-primary font-medium">Pediatrics</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-line"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.2 (156)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. James Wilson.jpg"
-                                        alt="Dr. James Wilson" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. James Wilson</h4>
-                                    <p class="text-primary font-medium">Orthopedics</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-half-fill"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.7 (103)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div>
-
-                            <div class="specialist-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="../assets/images/Dr. Amanda Taylor.jpg"
-                                        alt="Dr. Amanda Taylor" class="w-full h-full object-cover object-top">
-                                </div>
-                                <div class="p-4">
-                                    <h4 class="text-lg font-semibold text-gray-900">Dr. Amanda Taylor</h4>
-                                    <p class="text-primary font-medium">Dermatology</p>
-                                    <div class="flex items-center mt-2">
-                                        <div class="flex text-yellow-400">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-line"></i>
-                                        </div>
-                                        <span class="text-gray-600 text-sm ml-1">4.1 (87)</span>
-                                    </div>
-                                    <button
-                                        class="w-full mt-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 whitespace-nowrap">Book
-                                        Appointment</button>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -1268,6 +1030,25 @@
         document.addEventListener("DOMContentLoaded", function () {
             // setup authentication 
             setupUser();
+
+            // change the authLogo div 
+            const authLogo = document.getElementById("authLogo"); 
+
+            if (window.User){
+                authLogo.innerHTML = "" ;    
+                switch (window.User.role) {
+                    case "Admin":
+                        authLogo.textContent = "Admin"
+                        break;
+                    case "Patient":
+                        authLogo.textContent = "Patient"
+                        break;
+                    case "Doctor":
+                        authLogo.textContent = "Doctor"
+                        break;
+                
+                }
+            }
 
             // Mobile menu functionality
             const mobileMenuButton = document.getElementById("mobile-menu-button");

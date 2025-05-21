@@ -102,7 +102,9 @@ namespace Hospital.Services
             if (doctorPatients == null)
                 return [];
 
-            var patients = doctorPatients.Select(dp => dp.Patient).ToList();
+            var patients = doctorPatients.Select(dp => dp.Patient).DistinctBy(p => p.PatientId).ToList();
+            
+
             return _mapper.Map<List<PatientDTOGet>>(patients);
         }
 

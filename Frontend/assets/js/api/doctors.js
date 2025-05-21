@@ -12,6 +12,9 @@ export async function filterDoctors(queryOptions, TOKEN) {
 	const query = new URLSearchParams(queryOptions).toString();
 	return await request(`/api/Doctor/filter?${query}`, TOKEN);
 }
+export async function GetAllReviewsForDoctorById(id,TOKEN) {
+	return await request(`/api/Doctor/GetAllReviewsForDoctorById/${id}`, TOKEN);
+}
 export async function getDoctorAppointments(id, TOKEN) {
 	return await request(`/api/Doctor/${id}/appointments`, TOKEN);
 }
@@ -35,13 +38,13 @@ export async function addDoctor(TOKEN, doctor) {
 	});
 }
 export async function updateDoctorById(id,doctor,TOKEN) {
-	return await request(`/api/Doctor`, TOKEN, {
+	return await request(`/api/Doctor/${id}`, TOKEN, {
 		method: "PUT",
 		body: doctor,
 	});
 }
 export async function deleteDoctorById(id,TOKEN) {
-	return await request(`/api/Doctor`, TOKEN, {
+	return await request(`/api/Doctor/${id}`, TOKEN, {
 		method: "DELETE",
 	});
 }
