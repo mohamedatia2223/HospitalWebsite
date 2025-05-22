@@ -513,14 +513,16 @@
                 </div>
             </div>
             <div class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8">
-                <button
-                    class="px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
-                    <a href="log-in.html">Sign
-                    In</a></button>
-                <button
-                    class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
-                    <a href="sign-up.html">Sign
-                    Up</a></button>
+                <div id="authLogo" class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8">
+                    <button
+                        class="px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                        <a href="log-in.html">Sign
+                        In</a></button>
+                    <button
+                        class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap">
+                        <a href="sign-up.html">Sign
+                        Up</a></button>
+                </div>
             </div>
             <div class="flex md:hidden items-center">
                 <button id="mobile-menu-button" class="p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
@@ -1218,11 +1220,30 @@
     import {getPatientById} from '../assets/js/api/patients.js'
     import {getToken} from '../assets/js/utils/jwt.js'
     import {setupUser} from '../assets/js/authSetup.js'
-
-    setupUser();
-
+    
+  
     document.addEventListener("DOMContentLoaded", function () {
-      // Mobile menu functionality
+      // setup authentication 
+            setupUser();
+
+            // change the authLogo div 
+            const authLogo = document.getElementById("authLogo"); 
+
+            if (window.User){
+                authLogo.innerHTML = "" ;    
+                switch (window.User.role) {
+                    case "Admin":
+                        authLogo.textContent = "Admin"
+                        break;
+                    case "Patient":
+                        authLogo.textContent = "Patient"
+                        break;
+                    case "Doctor":
+                        authLogo.textContent = "Doctor"
+                        break;
+                
+                }
+            }
       const mobileMenuButton = document.getElementById("mobile-menu-button");
       const mobileMenu = document.getElementById("mobile-menu");
       const mobileServicesMenu = document.getElementById("mobile-services-menu");

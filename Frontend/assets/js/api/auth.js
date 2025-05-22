@@ -12,10 +12,3 @@ export async function authUser(loginDTO) {
 		body: loginDTO,
 	});
 }
-
-// console.log(
-// 	await authUser({
-// 		email: "admin fuck",
-// 		password: "admin dude",
-// 	})
-// );

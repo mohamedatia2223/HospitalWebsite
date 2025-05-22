@@ -1397,7 +1397,7 @@
 
     <!-- Chatbot Icon -->
     <div class="fixed bottom-6 right-6 z-50">
-        <a href="chat-bot.html" class="group relative chatbot-icon">
+        <a href="chat-widget.html" class="group relative chatbot-icon">
         <button
             class="w-16 h-16 flex items-center justify-center bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition duration-300">
             <div class="w-8 h-8 flex items-center justify-center">
@@ -1816,27 +1816,7 @@
                 });
             }
     
-            // Profile dropdown
-            const profileBtn = document.getElementById('profile-btn');
-            const profileDropdown = document.getElementById('profile-dropdown');
-            const notificationBtn = document.getElementById('notification-btn');
-            const notificationDropdown = document.getElementById('notification-dropdown');
-    
-            if (profileBtn) {
-                profileBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    profileDropdown.classList.toggle('hidden');
-                    notificationDropdown.classList.add('hidden');
-                });
-            }
-    
-            if (notificationBtn) {
-                notificationBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    notificationDropdown.classList.toggle('hidden');
-                    profileDropdown.classList.add('hidden');
-                });
-            }
+           
     
             document.addEventListener('click', function() {
                 if (profileDropdown) profileDropdown.classList.add('hidden');
@@ -2012,7 +1992,6 @@
             items.forEach(item => container.appendChild(item));
         }
     </script>
-    <!-- Include the scripts -->
-    <script src="../assets/js/chatWithDoctor.js" defer></script>
+
 </body>
 </html>

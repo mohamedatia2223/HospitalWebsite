@@ -693,96 +693,7 @@
                                 </div>
                             </button>
                         </div>
-                        
-                        <!-- Search and user area -->
-                        <div class="flex items-center ml-auto">
-                            <!-- Search -->
-                            <div class="relative ml-4 md:ml-6">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <i class="ri-search-line text-gray-400"></i>
-                                </div>
-                                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search...">
-                            </div>
-                            
-                            <!-- Notifications -->
-                            <div class="relative ml-4">
-                                <button id="notification-btn" class="p-2 rounded-full hover:bg-gray-100 relative">
-                                    <i class="ri-notification-3-line w-6 h-6 text-gray-600 text-xl"></i>
-                                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
-                                </button>
-                                <!-- Notification Dropdown -->
-                                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg py-1 z-50">
-                                    <div class="px-4 py-2 border-b border-gray-200">
-                                        <h3 class="text-sm font-medium text-gray-700">Notifications</h3>
-                                    </div>
-                                    <div class="max-h-60 overflow-y-auto">
-                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
-                                            <div class="flex items-start">
-                                                <div class="flex-shrink-0 pt-1">
-                                                    <i class="ri-alarm-warning-line text-yellow-500"></i>
-                                                </div>
-                                                <div class="ml-3">
-                                                    <p class="text-sm font-medium text-gray-900">System Alert</p>
-                                                    <p class="text-xs text-gray-500">High patient volume in Cardiology today</p>
-                                                    <p class="text-xs text-gray-400 mt-1">10 mins ago</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
-                                            <div class="flex items-start">
-                                                <div class="flex-shrink-0 pt-1">
-                                                    <i class="ri-calendar-check-line text-blue-500"></i>
-                                                </div>
-                                                <div class="ml-3">
-                                                    <p class="text-sm font-medium text-gray-900">New Appointment</p>
-                                                    <p class="text-xs text-gray-500">Dr. Smith has a new appointment scheduled</p>
-                                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
-                                            <div class="flex items-start">
-                                                <div class="flex-shrink-0 pt-1">
-                                                    <i class="ri-user-add-line text-green-500"></i>
-                                                </div>
-                                                <div class="ml-3">
-                                                    <p class="text-sm font-medium text-gray-900">New Patient</p>
-                                                    <p class="text-xs text-gray-500">John Doe registered as a new patient</p>
-                                                    <p class="text-xs text-gray-400 mt-1">1 day ago</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="px-4 py-2 border-t border-gray-200">
-                                        <a href="#" class="text-xs font-medium text-primary hover:text-primary-dark">View all notifications</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Profile Dropdown -->
-                            <div class="relative ml-4">
-                                <button id="profile-btn" class="flex items-center text-sm rounded-full focus:outline-none">
-                                    <img class="h-8 w-8 rounded-full object-cover" src="../assets/images/Admin pages/Doctors page/Milla Willow_Admin.jpg" alt="Admin profile">
-                                </button>
-                                <!-- Profile Dropdown Menu -->
-                                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                                    <div class="px-4 py-2 border-b border-gray-200">
-                                        <p class="text-sm font-medium text-gray-700">Milla Willow</p>
-                                        <p class="text-xs text-gray-500">Super Administrator</p>
-                                    </div>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <i class="ri-user-line mr-2"></i> MY Profile
-                                    </a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <i class="ri-settings-3-line mr-2"></i> Settings
-                                    </a>
-                                    <div class="border-t border-gray-200"></div>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <i class="ri-logout-box-r-line mr-2"></i> Sign out
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </nav>
@@ -839,12 +750,6 @@
                                 <i class="ri-list-check-2"></i> List
                             </button>
                         </div>
-                        <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark" id="addPatientBtn">
-                            <i class="ri-user-add-line mr-1"></i> Add Patient
-                        </button>
-                        <button class="px-4 py-2 bg-gray-200 rounded-button print-button" id="printAllBtn">
-                            <i class="ri-printer-line mr-1"></i> Print All
-                        </button>
                     </div>
                 </div>
 
@@ -897,21 +802,9 @@
                                     </div>
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                    <div class="sortable-header" data-sort="condition">
-                                        Condition
-                                        <span class="sort-icon">
-                                            <i class="ri-arrow-up-down-line"></i>
-                                        </span>
-                                    </div>
+                                    Phone Number
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                    <div class="sortable-header" data-sort="bloodType">
-                                        Blood Type
-                                        <span class="sort-icon">
-                                            <i class="ri-arrow-up-down-line"></i>
-                                        </span>
-                                    </div>
-                                </th>
+                                
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
@@ -946,254 +839,43 @@
         </div>
     </div>
 
-    <!-- Add Patient Modal -->
-    <div id="addPatientModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center hidden transition-all duration-300">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 relative animate-fadeIn">
-            <!-- Close Button -->
-            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-xl">
+
+    <!-- Edit Patient Modal -->
+    <div id="patientModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex justify-center items-center">
+    <div class="modal-content bg-white rounded-lg shadow-lg max-w-xl w-full p-6 relative">
+        <div class="modal-header flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold" id="modalTitle">Edit Patient</h3>
+            <button id="closeModal" class="close-modal text-gray-500 hover:text-gray-700 text-2xl font-bold leading-none">
                 &times;
             </button>
+        </div>
+        <div class="modal-body">
+            <form id="patientForm" class="space-y-4">
+                <input type="hidden" id="patientEditId" name="id">
 
-            <h2 class="text-xl font-semibold mb-4">Add New Patient</h2>
-
-            <!-- FORM -->
-            <form class="grid grid-cols-1 gap-6" id="newPatientForm">
-                <div class="grid grid-cols-3 gap-4">
-                    <!-- Left Inputs -->
-                    <div class="col-span-2 flex flex-col gap-4">
-                        <!-- Floating Label Group -->
-
-                        <!-- Patient ID Field -->
-                        <div class="relative w-full">
-                            <i
-                                class="fa-solid fa-tag absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
-                            ></i>
-                            <input
-                                type="text"
-                                id="patientId"
-                                placeholder="Patient ID"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                                onfocus="this.placeholder='PAT-001'"
-                                onblur="this.placeholder='Patient ID'"
-                                required
-                            />
-                            <label
-                                for="patientId"
-                                class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                            >Patient ID</label
-                            >
-                        </div>
-
-                        <!-- Full Name Field -->
-                        <div class="relative w-full">
-                            <i
-                                class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
-                            ></i>
-                            <input
-                                type="text"
-                                id="fullName"
-                                placeholder="Full name"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                                onfocus="this.placeholder='John Doe'"
-                                onblur="this.placeholder='Full name'"
-                                required
-                            />
-                            <label
-                                for="fullName"
-                                class="absolute left-4 -top-2.5 translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                            >Full Name</label
-                            >
-                        </div>
-
-                        <!-- Date of Birth / Gender Field -->
-                        <div
-                            class="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0"
-                        >
-                            <!-- Date of Birth -->
-                            <div class="relative w-full sm:w-1/2">
-                                <i
-                                class="fa-solid fa-calendar-days absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"
-                                style="transform: translateY(-50%)"
-                                ></i>
-                                <input
-                                type="date"
-                                id="dateOfBirth"
-                                placeholder="Select your date of birth"
-                                class="w-full pl-10 pr-4 py-3 text-sm text-gray-500 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                                onfocus="this.placeholder='MM/DD/YYYY'"
-                                onblur="this.placeholder='Select your date of birth'"
-                                required
-                                />
-                                <label
-                                for="dateOfBirth"
-                                class="absolute left-4 -top-2.5 translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                                >
-                                Date of Birth
-                                </label>
-                            </div>
-
-                            <!-- Gender -->
-                            <div class="w-full sm:w-1/2">
-                                <div class="relative h-full">
-                                <!-- Floating Label -->
-                                <label
-                                    id="genderLabel"
-                                    for="genderInput"
-                                    class="absolute left-5 -top-3 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 pointer-events-none"
-                                >
-                                    Gender
-                                </label>
-                                <!-- Icon and Button Container -->
-                                <div
-                                    class="gender-container flex items-center gap-3 bg-teal-400 rounded-lg overflow-hidden border border-teal-400 ring-1 ring-teal-500 w-full pl-4 pr-2 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary transition-all duration-200 mt-2"
-                                    tabindex="0"
-                                >
-                                    <!-- Icon -->
-                                    <i class="fa-solid fa-venus-mars text-white text-lg"></i>
-                                    <!-- Buttons -->
-                                    <div class="flex w-full bg-gray-100">
-                                    <button
-                                        type="button"
-                                        id="btnMale"
-                                        class="w-1/2 py-2 text-sm font-medium text-gray-600 focus:outline-none border-r border-gray-300 flex items-center justify-center gap-2"
-                                    >
-                                        <i class="fa-solid fa-mars text-blue-500"></i> <span class="text-sm sm:hidden">Male</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        id="btnFemale"
-                                        class="w-1/2 py-2 text-sm font-medium text-gray-600 focus:outline-none flex items-center justify-center gap-2"
-                                    >
-                                        <i class="fa-solid fa-venus text-pink-500"></i> <span class="text-sm sm:hidden">Female</span>
-                                    </button>
-                                    </div>
-                                </div>
-                                <!-- Hidden Input -->
-                                <input type="hidden" name="gender" id="genderInput" required />
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Phone Number Field (country code + number) -->
-                        <div class="relative w-full mb-3">
-                            <!-- Input container (flag + code + phone input) -->
-                            <div
-                            class="flex items-center w-full border border-gray-300 rounded-lg bg-white focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all duration-200"
-                            >
-                                <!-- Country Code Dropdown -->
-                                <div
-                                    id="phoneCountryDropdown"
-                                    class="relative flex items-center cursor-pointer px-2 select-none border-r border-gray-300"
-                                    style="
-                                    min-width: 10px;
-                                    scrollbar-width: thin;
-                                    scrollbar-color: #1cb5bd #f1f5f9;
-                                    scrollbar-track-color: #f1f5f9;
-                                    "
-                                >
-                                    <span id="phoneCountryFlag" class="mr-2"></span>
-                                    <input
-                                        id="phoneCountryCode"
-                                        type="text"
-                                        class="w-12 bg-transparent outline-none text-gray-900 text-sm px-0 border-0 mr-4 focus:ring-0 text-center"
-                                        placeholder="+1"
-                                        autocomplete="off"
-                                    />
-                                    <svg
-                                        id="phoneCountryArrow"
-                                        class="ml-1 w-4 h-4 text-[#1CB5BD] transition-transform duration-200"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19 9l-7 7-7-7"
-                                    />
-                                    </svg>
-            
-                                    <!-- Country code options -->
-                                    <ul
-                                        id="phoneCountryOptions"
-                                        class="w-48 absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto z-50 hidden transition-all duration-300 text-sm"
-                                    ></ul>
-                                </div>
-            
-                                <!-- Phone Number Input -->
-                                <input
-                                    type="text"
-                                    id="phone"
-                                    placeholder="Phone number"
-                                    class="peer flex-1 pl-3 pr-4 py-2 sm:py-3 bg-transparent border-0 focus:ring-0 focus:outline-none text-gray-900 text-sm"
-                                    onfocus="this.placeholder='1234567890'"
-                                    onblur="this.placeholder='Phone number'"
-                                    required
-                                />
-            
-                                <!-- Phone Label ABOVE the full container -->
-                                <label
-                                    for="phone"
-                                    class="absolute left-4 -top-2.5 -translate-y-1/2 text-sm text-gray-500 bg-white px-1 transition-all duration-200 opacity-0 scale-95 pointer-events-none peer-focus:opacity-100 peer-focus:scale-100 peer-focus:-top-1 peer-focus:text-primary"
-                                >
-                                    Phone Number
-                                </label>
-                            </div>
-                        </div>
+                <div class="file-input-container">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Profile Photo</label>
+                    <div id="previewSection" class="preview-section mb-4">
+                        <img id="patientEditPreview" class="w-24 h-24 rounded-full object-cover border border-gray-300" src="#" alt="Patient preview">
                     </div>
-
-                    <!-- Right: Photo Upload -->
-                    <div class="flex flex-col items-center justify-center">
-                        <label
-                        class="w-full h-full flex flex-col items-center justify-center bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer transition hover:border-primary">
-                        <span class="text-gray-500 text-sm mb-2">Upload Photo</span>
-                        <input type="file" id="patientPhoto" accept="image/*" class="hidden" />
-                        <div
-                            class="w-24 h-24 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
-                            <img id="patientPreview" class="w-full h-full object-cover hidden" />
-                            <i class="ri-image-line text-3xl text-gray-400" id="photoPlaceholder"></i>
-                        </div>
-                        </label>
-                    </div>
+                    <input type="file" id="patientEditImage" accept="image/*" class="block w-full text-sm text-gray-600">
                 </div>
 
-                <!-- Additional Fields -->
+                <div>
+                    <label for="patientEditName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="patientEditName" class="form-input mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
+                </div>
+
+                <div>
+                    <label for="patientEditCondition" class="block text-sm font-medium text-gray-700">Medical Condition</label>
+                    <textarea id="patientEditCondition" class="form-textarea mt-1 block w-full border border-gray-300 rounded px-3 py-2" rows="3"></textarea>
+                </div>
+
                 <div class="grid grid-cols-2 gap-4">
-
-                    <!-- Email Field -->
-                    <div class="relative">
-                        <i
-                            class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
-                        ></i>
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Enter your email"
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            onfocus="this.placeholder='example@medora.com'"
-                            onblur="this.placeholder='Enter your email'"
-                            required
-                        />
-                        <label
-                        for="email"
-                        class="absolute left-4 -top-2.5 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                        >Email</label
-                        >
-                    </div>
-
-                    <!-- Blood Type Field -->
-                    <div class="relative">
-                        <i
-                            class="fa-solid fa-droplet absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"
-                            style="transform: translateY(-50%)"
-                        ></i>
-                        <select
-                            id="bloodType"
-                            class="w-full pl-10 pr-4 py-2 sm:py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            required
-                        >
-                            <option value="" disabled selected>Select Blood Type</option>
+                    <div>
+                        <label for="patientEditBloodType" class="block text-sm font-medium text-gray-700">Blood Type</label>
+                        <select id="patientEditBloodType" class="form-select mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
+                            <option value="">Select Blood Type</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -1203,169 +885,48 @@
                             <option value="O+">O+</option>
                             <option value="O-">O-</option>
                         </select>
-                        <label
-                            for="bloodType"
-                            class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                        >Blood Type</label
-                        >
                     </div>
 
-                    <!-- Location Field -->
-                    <div class="relative">
-                        <i
-                        class="fa-solid fa-location-dot absolute left-4 top-1/4 -translate-y-1/4 text-[#1CB5BD]"
-                        ></i>
-                        <input
-                        type="location"
-                        id="location"
-                        placeholder="Enter your location"
-                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                        onfocus="this.placeholder='1234 Main St, Anytown, USA'"
-                        onblur="this.placeholder='Enter your location'"
-                        required
-                        />
-                        <label
-                        for="location"
-                        class="absolute left-10 top-1/4 transform -translate-y-1/4 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary peer-focus:top-1 peer-focus:-translate-y-1/2"
-                        >Location</label
-                        >
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <select id="conditionSelect" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
-                        <option value="" disabled selected>Select Medical Condition</option>
-                        <option>Diabetes</option>
-                        <option>Hypertension</option>
-                        <option>Asthma</option>
-                        <option>Heart Disease</option>
+                    <div>
+                        <label for="patientEditStatus" class="block text-sm font-medium text-gray-700">Status</label>
+                        <select id="patientEditStatus" class="form-select mt-1 block w-full border border-gray-300 rounded px-3 py-2" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Recovered">Recovered</option>
+                            <option value="Deceased">Deceased</option>
                         </select>
-                        <input type="text" placeholder="Or enter new condition" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" />
                     </div>
                 </div>
 
-                <!-- Medical Record Upload -->
-                <label
-                class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer transition hover:border-primary mt-2">
-                <span class="text-gray-500 text-sm mb-2">Upload Medical Records (PDF, DOC, DOCX, JPG, PNG)</span>
-                <input type="file" id="patientRecords" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden" />
-
-                <!-- Add these inside the label after the input and before the div -->
-                <div class="w-full mt-4 hidden" id="recordUploadProgressWrapper">
-                    <div class="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-                        <div id="recordUploadProgress" class="absolute h-full bg-primary w-0 transition-all duration-200 ease-in-out"></div>
-                    </div>
-                    <div class="flex items-center mt-2 text-sm text-gray-600">
-                        <i id="recordUploadCheck" class="ri-check-line text-green-500 text-lg mr-2 hidden"></i>
-                        <span id="recordUploadStatus">Uploading...</span>
-                    </div>
+                <div>
+                    <label for="patientEditEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="patientEditEmail" class="form-input mt-1 block w-full border border-gray-300 rounded px-3 py-2">
                 </div>
 
-                <div class="w-full flex items-center justify-center">
-                    <i class="ri-upload-cloud-2-line text-2xl text-primary mr-2"></i>
-                    <span class="text-primary font-medium">Choose file</span>
+                <div>
+                    <label for="patientEditPhone" class="block text-sm font-medium text-gray-700">Phone</label>
+                    <input type="tel" id="patientEditPhone" class="form-input mt-1 block w-full border border-gray-300 rounded px-3 py-2">
                 </div>
-                </label>
-                
-                <div class="flex justify-end">
-                  <button type="button" id="cancelPatient"
-                    class="px-6 py-2 border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 transition duration-300 whitespace-nowrap mr-3">
-                    Cancel
-                  </button>
-                  <button type="submit"
-                    class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap">
-                    Submit
-                  </button>
-                </div>
-              </form>
-          </div>
-    </div>
 
-    <!-- Edit Patient Modal -->
-    <div id="patientModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
-        <div class="modal-content">
-            <div class="modal-header flex justify-between items-center p-4">
-                <h3 class="text-lg font-semibold" id="modalTitle">Edit Patient</h3>
-                <button id="closeModal" class="close-modal text-gray-500 hover:text-gray-700">
-                    <i class="ri-close-line"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="patientForm" class="space-y-4">
-                    <input type="hidden" id="patientEditId" name="id">
-                    <div class="file-input-container">
-                        <label class="file-input-label">Profile Photo</label>
-                        
-                        <div id="previewSection" class="preview-section">
-                            <div class="preview-wrapper">
-                                <img id="patientEditPreview" class="patient-preview" src="#" alt="Patient preview">
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="patientEditName" class="block text-sm font-medium text-gray-700">Full Name</label>
-                        <input type="text" id="patientEditName" class="form-input mt-1 block w-full">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="patientEditCondition" class="block text-sm font-medium text-gray-700">Medical Condition</label>
-                            <div id="conditionText" class="mt-1 p-2 bg-gray-50 rounded border border-gray-200 text-gray-700">
-                                <!-- Condition value will be inserted here -->
-                            </div>
-                        </div>
-                        <div>
-                            <label for="patientEditBloodType" class="block text-sm font-medium text-gray-700">Blood Type</label>
-                            <select id="patientEditBloodType" class="form-input mt-1 block w-full" required>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="patientEditEmail" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" id="patientEditEmail" class="form-input mt-1 block w-full" required>
-                        </div>
-                        <div>
-                            <label for="patientEditPhone" class="block text-sm font-medium text-gray-700">Phone</label>
-                            <input type="tel" id="patientEditPhone" class="form-input mt-1 block w-full" required>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="patientEditStatus" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select id="patientEditStatus" class="form-input mt-1 block w-full" required>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                                <option value="Critical">Critical</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="patientEditAppointments" class="block text-sm font-medium text-gray-700">Appointments</label>
-                            <input type="number" id="patientEditAppointments" class="form-input mt-1 block w-full" required>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="patientEditNotes" class="block text-sm font-medium text-gray-700">Medical Notes</label>
-                        <textarea id="patientEditNotes" class="form-input mt-1 block w-full" rows="3"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer gap-2">
-                <button type="button" id="cancelEditPatient" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                    Cancel
-                </button>
-                <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                    Save Changes
-                </button>
-            </div>
+                <div>
+                    <label for="patientEditAppointments" class="block text-sm font-medium text-gray-700">Appointments</label>
+                    <input type="number" id="patientEditAppointments" min="0" class="form-input mt-1 block w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+
+                <div>
+                    <label for="patientEditNotes" class="block text-sm font-medium text-gray-700">Notes</label>
+                    <textarea id="patientEditNotes" class="form-textarea mt-1 block w-full border border-gray-300 rounded px-3 py-2" rows="3"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" id="closeModalBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
 
     <!-- Confirmation Modal -->
     <div id="confirmModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
@@ -1385,369 +946,207 @@
         </div>
     </div>
 
-    <script>
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        const notificationBtn = document.getElementById('notification-btn');
-        const notificationDropdown = document.getElementById('notification-dropdown');
-        const profileBtn = document.getElementById('profile-btn');
-        const profileDropdown = document.getElementById('profile-dropdown');
+    <script type="module">
+        import {getAllPatients} from '../assets/js/api/patients.js'
+ import {getAllDoctors} from '../assets/js/api/doctors.js'
+                                        import {getToken} from '../assets/js/utils/jwt.js'
 
-        function handleScreenSize() {
-            if (window.innerWidth >= 767) { // md breakpoint
-                mobileMenu.classList.remove("active");
-                menuIcon.classList.remove("ri-close-line");
-                menuIcon.classList.add("ri-menu-line");
-            }
-        }
+        class PatientService {
+            static BASE_URL = 'https://localhost:7227/api/Patient';
 
-        // Initial check
-        handleScreenSize();
-
-        // Add resize event listener
-        window.addEventListener("resize", handleScreenSize);
-
-        // Toggle mobile menu
-        mobileMenuButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileMenu.classList.toggle('active');
-            menuIcon.classList.toggle('ri-menu-line');
-            menuIcon.classList.toggle('ri-close-line');
-            // Close other dropdowns when menu opens
-            if (mobileMenu.classList.contains('active')) {
-                profileDropdown.classList.add('hidden');
-                notificationDropdown.classList.add('hidden');
-            }
-        });
-
-        // Notification Dropdown Toggle
-        if (notificationBtn) {
-            notificationBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                notificationDropdown.classList.toggle('hidden');
-                profileDropdown.classList.add('hidden');
-                mobileMenu.classList.remove('active');
-                menuIcon.classList.remove('ri-close-line');
-                menuIcon.classList.add('ri-menu-line');
-            });
-        }
-
-        if (notificationDropdown) {
-            notificationDropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }    
-
-        // Profile Dropdown Toggle
-        if (profileBtn) {
-            profileBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                profileDropdown.classList.toggle('hidden');
-                notificationDropdown.classList.add('hidden');
-                mobileMenu.classList.remove('active');
-                menuIcon.classList.remove('ri-close-line');
-                menuIcon.classList.add('ri-menu-line');
-            });
-        }
-
-        if (profileDropdown) {
-            profileDropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
-
-        document.addEventListener('click', function() {
-            if (profileDropdown) profileDropdown.classList.add('hidden');
-            if (notificationDropdown) notificationDropdown.classList.add('hidden');
-        });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!notificationBtn.contains(e.target)) {
-                notificationDropdown.classList.add('hidden');
-            }
-            if (!profileBtn.contains(e.target)) {
-                profileDropdown.classList.add('hidden');
-            }
-            if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
-                mobileMenu.classList.remove('active');
-                menuIcon.classList.remove('ri-close-line');
-                menuIcon.classList.add('ri-menu-line');
-            }
-        });
-
-        // Patient data and state management
-        let patients = [];
-        let currentPage = 1;
-        const itemsPerPage = 9;
-        let sortConfig = { key: null, direction: 'asc' };
-        let currentPatientId = null;
-
-        // Initialize sample patients
-        function initializePatients() {
-            patients = [
-                {
-                    id: 1,
-                    name: 'John Smith',
-                    gender: 'Male',
-                    condition: 'Hypertension',
-                    bloodType: 'A+',
-                    phone: '+1 234 567 890',
-                    email: 'john.smith@example.com',
-                    status: 'Active',
-                    appointments: 5,
-                    notes: 'Mild hypertension, on medication',
-                    image: 'https://randomuser.me/api/portraits/men/32.jpg'
-                },
-                {
-                    id: 2,
-                    name: 'Emily Johnson',
-                    gender: 'Female',
-                    condition: 'Diabetes Type 2',
-                    bloodType: 'B-',
-                    phone: '+1 234 567 891',
-                    email: 'emily.j@example.com',
-                    status: 'Active',
-                    appointments: 8,
-                    notes: 'Controlled with diet and medication',
-                    image: 'https://randomuser.me/api/portraits/women/44.jpg'
-                },
-                {
-                    id: 3,
-                    name: 'Michael Brown',
-                    gender: 'Male',
-                    condition: 'Asthma',
-                    bloodType: 'O+',
-                    phone: '+1 234 567 892',
-                    email: 'michael.b@example.com',
-                    status: 'Active',
-                    appointments: 3,
-                    notes: 'Seasonal asthma, uses inhaler',
-                    image: 'https://randomuser.me/api/portraits/men/22.jpg'
-                },
-                {
-                    id: 4,
-                    name: 'Sarah Wilson',
-                    gender: 'Female',
-                    condition: 'Heart Disease',
-                    bloodType: 'AB+',
-                    phone: '+1 234 567 893',
-                    email: 'sarah.w@example.com',
-                    status: 'Critical',
-                    appointments: 12,
-                    notes: 'Post-surgery recovery, regular monitoring needed',
-                    image: 'https://randomuser.me/api/portraits/women/65.jpg'
-                },
-                {
-                    id: 5,
-                    name: 'David Lee',
-                    gender: 'Male',
-                    condition: 'Arthritis',
-                    bloodType: 'A-',
-                    phone: '+1 234 567 894',
-                    email: 'david.l@example.com',
-                    status: 'Active',
-                    appointments: 6,
-                    notes: 'Chronic pain management',
-                    image: 'https://randomuser.me/api/portraits/men/45.jpg'
-                },
-                {
-                    id: 6,
-                    name: 'Jennifer Davis',
-                    gender: 'Female',
-                    condition: 'Migraine',
-                    bloodType: 'B+',
-                    phone: '+1 234 567 895',
-                    email: 'jennifer.d@example.com',
-                    status: 'Inactive',
-                    appointments: 2,
-                    notes: 'Occasional migraines, no recent visits',
-                    image: 'https://randomuser.me/api/portraits/women/33.jpg'
-                },
-                {
-                    id: 7,
-                    name: 'James Wilson',
-                    gender: 'Male',
-                    condition: 'High Cholesterol',    
-                    bloodType: 'O-',
-                    phone: '+1 234 567 896',
-                    email: 'james.w@example.com',
-                    status: 'Active',
-                    appointments: 4,
-                    notes: 'Diet-controlled, improving',
-                    image: 'https://randomuser.me/api/portraits/men/76.jpg'
-                },
-                {
-                    id: 8,
-                    name: 'Lisa Taylor',
-                    gender: 'Female',
-                    condition: 'Depression',
-                    bloodType: 'AB-',
-                    phone: '+1 234 567 897',
-                    email: 'lisa.t@example.com',
-                    status: 'Active',
-                    appointments: 7,
-                    notes: 'Therapy and medication management',
-                    image: 'https://randomuser.me/api/portraits/women/28.jpg'
-                },
-                {
-                    id: 9,
-                    name: 'Robert Johnson',
-                    gender: 'Male',
-                    condition: 'Obesity',
-                    bloodType: 'A+',
-                    phone: '+1 234 567 898',
-                    email: 'robert.j@example.com',
-                    status: 'Active',
-                    appointments: 9,
-                    notes: 'Weight management program',
-                    image: 'https://randomuser.me/api/portraits/men/67.jpg'
-                },
-                {
-                    id: 10,
-                    name: 'Maria Garcia',
-                    gender: 'Female',
-                    condition: 'Pregnancy',
-                    bloodType: 'B+',
-                    phone: '+1 234 567 899',
-                    email: 'maria.g@example.com',
-                    status: 'Active',
-                    appointments: 5,
-                    notes: 'Regular prenatal checkups',
-                    image: 'https://randomuser.me/api/portraits/women/72.jpg'
-                },
-                {
-                    id: 11,
-                    name: 'William Chen',
-                    gender: 'Male',
-                    condition: 'Allergies',
-                    bloodType: 'O+',
-                    phone: '+1 234 567 900',
-                    email: 'william.c@example.com',
-                    status: 'Active',
-                    appointments: 3,
-                    notes: 'Seasonal allergies, pollen sensitive',
-                    image: 'https://randomuser.me/api/portraits/men/55.jpg'
-                },
-                {
-                    id: 12,
-                    name: 'Sophia Martinez',
-                    gender: 'Female',
-                    condition: 'Anemia',
-                    bloodType: 'A-',
-                    phone: '+1 234 567 901',
-                    email: 'sophia.m@example.com',
-                    status: 'Active',
-                    appointments: 4,
-                    notes: 'Iron supplements prescribed',
-                    image: 'https://randomuser.me/api/portraits/women/88.jpg'
+            static async getAllPatients() {
+                try {
+                    const patients =await  getAllPatients(getToken())
+                    console.log(patients)
+                    return patients
+                } catch (error) {
+                    console.error('Error fetching patients:', error);
+                    throw error;
                 }
-            ];
-        }
+            }
 
-        // Get status badge class
-        function getStatusClass(status) {
-            const classes = {
-                Active: 'bg-green-100 text-green-800',
-                Inactive: 'bg-gray-100 text-gray-800',
-                Critical: 'bg-red-100 text-red-800'
-            };
-            return classes[status] || 'bg-gray-100 text-gray-800';
-        }
-
-        // Get blood type badge
-        function getBloodTypeBadge(bloodType) {
-            const type = bloodType.substring(0, bloodType.length-1); // Remove +/-
-            const badgeClass = `blood-type-${type}`;
-            return `<span class="blood-type-badge ${badgeClass}">${bloodType}</span>`;
-        }
-
-        // Filter patients based on search and filters
-        function filterPatients() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const bloodType = document.getElementById('bloodTypeFilter').value;
-            const status = document.getElementById('statusFilter').value;
-            const appointmentsFilter = document.getElementById('appointmentsFilter').value;
-
-            return patients.filter(patient => {
-                const matchesSearch = patient.name.toLowerCase().includes(searchTerm) || 
-                                     patient.condition.toLowerCase().includes(searchTerm) ||
-                                     patient.email.toLowerCase().includes(searchTerm);
-                
-                const matchesBloodType = !bloodType || patient.bloodType === bloodType;
-                const matchesStatus = !status || patient.status === status;
-                
-                let matchesAppointments = true;
-                if (appointmentsFilter === '5+') {
-                    matchesAppointments = patient.appointments >= 5;
-                } else if (appointmentsFilter === '10+') {
-                    matchesAppointments = patient.appointments >= 10;
+            static async getPatientById(id) {
+                try {
+                    const response = await fetch(`${this.BASE_URL}/${id}`);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error fetching patient:', error);
+                    throw error;
                 }
-                
-                return matchesSearch && matchesBloodType && matchesStatus && matchesAppointments;
-            });
+            }
+
+            static async createPatient(patientData) {
+                try {
+                    const response = await fetch(this.BASE_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(patientData)
+                    });
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error creating patient:', error);
+                    throw error;
+                }
+            }
+
+            static async updatePatient(id, patientData) {
+                try {
+                    const response = await fetch(`${this.BASE_URL}/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(patientData)
+                    });
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return await response.json();
+                } catch (error) {
+                    console.error('Error updating patient:', error);
+                    throw error;
+                }
+            }
+
+            static async deletePatient(id) {
+                try {
+                    const response = await fetch(`${this.BASE_URL}/${id}`, {
+                        method: 'DELETE'
+                    });
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return true;
+                } catch (error) {
+                    console.error('Error deleting patient:', error);
+                    throw error;
+                }
+            }
         }
 
-        // Sort patients
-        function sortPatients(patientsToSort) {
-            if (!sortConfig.key) return patientsToSort;
+        // إدارة حالة التطبيق
+        const appState = {
+            patients: [],
+            currentPage: 1,
+            itemsPerPage: 9,
+            sortConfig: { key: null, direction: 'asc' },
+            currentPatientId: null,
+            isLoading: false,
+            error: null,
+            currentView: localStorage.getItem('patientViewPreference') || 'card' // Track current view
+        };
+
+        // عناصر DOM الرئيسية
+        const DOM = {
+            cardView: document.getElementById('cardView'),
+            listView: document.getElementById('listView'),
+            listViewBody: document.getElementById('listViewBody'),
+            searchInput: document.getElementById('searchInput'),
+            bloodTypeFilter: document.getElementById('bloodTypeFilter'),
+            statusFilter: document.getElementById('statusFilter'),
+            appointmentsFilter: document.getElementById('appointmentsFilter'),
+            pageNumbers: document.getElementById('pageNumbers'),
+            showingFrom: document.getElementById('showingFrom'),
+            showingTo: document.getElementById('showingTo'),
+            totalItems: document.getElementById('totalItems'),
+            prevButton: document.getElementById('prevPage'),
+            nextButton: document.getElementById('nextPage'),
+            addPatientModal: document.getElementById('addPatientModal'),
+            patientModal: document.getElementById('patientModal'),
+            confirmModal: document.getElementById('confirmModal')
+        };
+
+        // View management functions
+        function applyViewPreference() {
+            // Set active button
+            document.querySelectorAll('.view-toggle').forEach(button => {
+                button.classList.toggle('active', button.dataset.view === appState.currentView);
+            });
             
-            return [...patientsToSort].sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === 'asc' ? -1 : 1;
-                }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === 'asc' ? 1 : -1;
-                }
-                return 0;
-            });
+            // Show/hide views
+            document.getElementById('cardView').classList.toggle('hidden', appState.currentView !== 'card');
+            document.getElementById('listView').classList.toggle('hidden', appState.currentView !== 'list');
         }
 
-        // Paginate patients
-        function paginatePatients(patientsToPaginate) {
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            return patientsToPaginate.slice(startIndex, startIndex + itemsPerPage);
+        function switchView(view) {
+            appState.currentView = view;
+            localStorage.setItem('patientViewPreference', view);
+            applyViewPreference();
+            renderPatients();
         }
+
+        // Initialize the app
+        async function initApp() {
+            try {
+                setLoading(true);
+                const patients = await PatientService.getAllPatients();
+                appState.patients = patients;
+                console.log(patients)
+                applyViewPreference(); // Set the initial view
+                renderPatients(patients);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // وظائف المساعدة
+        function setLoading(isLoading) {
+            appState.isLoading = isLoading;
+            // يمكنك إضافة مؤشر تحميل هنا إذا لزم الأمر
+        }
+
+        function showError(message) {
+            appState.error = message;
+            // يمكنك عرض رسالة الخطأ للمستخدم هنا
+            alert(message);
+        }
+
+        // وظائف العرض
+function renderPatients(patients) {
+
+    console.log(patients)
+    if (DOM.cardView.classList.contains('hidden')) {
+        renderListView(patients);
+    } else {
+        renderCardView(patients);
+    }
+    
+    updatePaginationControls(filtered.length);
+}
+
 
         // Render card view
         function renderCardView(paginatedPatients) {
             const cardView = document.getElementById('cardView');
             cardView.innerHTML = paginatedPatients.map(patient => `
-                <div class="patient-card bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                     data-id="${patient.id}">
+                <div class="patient-card bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center">
-                            <img src="${patient.image}" 
+                            <img src="${patient.image || `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`}" 
                                  class="w-16 h-16 rounded-full object-cover mr-4"
-                                 alt="${patient.name}">
+                                 alt="${patient.patientName}">
                             <div>
-                                <h3 class="font-semibold">${patient.name}</h3>
-                                <p class="text-sm text-gray-500">${patient.condition}</p>
+                                <h3 class="font-semibold">${patient.patientName}</h3>
+                                <p class="text-sm text-gray-500">DOB: ${new Date(patient.dateOfBirth).toLocaleDateString()}</p>
                                 <div class="flex items-center">
-                                    ${getBloodTypeBadge(patient.bloodType)}
-                                    <span class="badge ${getStatusClass(patient.status)} text-xs">
-                                        ${patient.status}
+                                    <span class="badge bg-green-100 text-green-800 text-xs">
+                                        Active
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="dropdown relative">
-                            <button class="text-gray-500 hover:text-primary">
+                            <button class="text-gray-500 hover:text-primary dropdown-toggle">
                                 <i class="ri-more-2-fill"></i>
                             </button>
                             <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left view-patient" data-id="${patient.id}">
-                                    <i class="ri-eye-line mr-2"></i> View
-                                </button>
-                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left edit-patient" data-id="${patient.id}">
+                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left edit-patient-btn" 
+                                        data-id="${patient.patientId}">
                                     <i class="ri-pencil-line mr-2"></i> Edit
                                 </button>
-                                <button class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left delete-patient" data-id="${patient.id}">
+                                <button class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left delete-patient-btn" 
+                                        data-id="${patient.patientId}">
                                     <i class="ri-delete-bin-line mr-2"></i> Delete
-                                </button>
-                                <button class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 w-full text-left print-patient" data-id="${patient.id}">
-                                    <i class="ri-printer-line mr-2"></i> Print
                                 </button>
                             </div>
                         </div>
@@ -1755,15 +1154,15 @@
                     <div class="space-y-2 text-sm">
                         <div class="flex items-center">
                             <i class="ri-phone-line mr-2 text-gray-500"></i>
-                            ${patient.phone}
+                            ${patient.contactInfo || '-'}
                         </div>
                         <div class="flex items-center">
                             <i class="ri-mail-line mr-2 text-gray-500"></i>
-                            ${patient.email}
+                            ${patient.email || '-'}
                         </div>
                         <div class="flex items-center">
-                            <i class="ri-calendar-line mr-2 text-gray-500"></i>
-                            ${patient.appointments} Appointments
+                            <i class="ri-map-pin-line mr-2 text-gray-500"></i>
+                            ${patient.address || '-'}
                         </div>
                     </div>
                 </div>
@@ -1773,792 +1172,369 @@
         // Render list view
         function renderListView(paginatedPatients) {
             const listViewBody = document.getElementById('listViewBody');
-            listViewBody.innerHTML = paginatedPatients.map(patient => `
+            listViewBody.innerHTML = paginatedPatients.forEach(patient => `
                 <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <img class="h-10 w-10 rounded-full object-cover" 
-                                 src="${patient.image}" 
-                                 alt="${patient.name}">
+                                 src="${patient.image || `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`}" 
+                                 alt="${patient.patientName}">
                             <div class="ml-4">
-                                <div class="text-sm font-medium text-gray-900">${patient.name}</div>
-                                <div class="text-sm text-gray-500">${patient.gender}</div>
+                                <div class="text-sm font-medium text-gray-900">${patient.patientName}</div>
+                                <div class="text-sm text-gray-500">DOB: ${new Date(patient.dateOfBirth).toLocaleDateString()}</div>
                             </div>
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${patient.condition}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${getBloodTypeBadge(patient.bloodType)}
+                        ${patient.contactInfo || '-'}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">${patient.email}</div>
-                        <div class="text-sm text-gray-500">${patient.phone}</div>
+                        <div class="text-sm text-gray-900">${patient.email || '-'}</div>
+                        <div class="text-sm text-gray-500">${patient.address || '-'}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="badge ${getStatusClass(patient.status)}">
-                            ${patient.status}
+                        <span class="badge bg-green-100 text-green-800">
+                            Active
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex space-x-2">
-                            <button class="text-primary hover:text-primary-dark view-patient" data-id="${patient.id}">
-                                <i class="ri-eye-line"></i>
-                            </button>
-                            <button class="text-blue-600 hover:text-blue-800 edit-patient" data-id="${patient.id}">
+                            <button class="text-blue-600 hover:text-blue-800 edit-patient-btn" 
+                                    data-id="${patient.patientId}">
                                 <i class="ri-pencil-line"></i>
                             </button>
-                            <button class="text-red-600 hover:text-red-800 delete-patient" data-id="${patient.id}">
+                            <button class="text-red-600 hover:text-red-800 delete-patient-btn" 
+                                    data-id="${patient.patientId}">
                                 <i class="ri-delete-bin-line"></i>
-                            </button>
-                            <button class="text-gray-600 hover:text-gray-800 print-patient" data-id="${patient.id}">
-                                <i class="ri-printer-line"></i>
                             </button>
                         </div>
                     </td>
                 </tr>
             `).join('');
         }
-
-        // Save current page to localStorage
-        function saveCurrentPage(page) {
-            localStorage.setItem('currentPatientPage', page);
-        }
-
-        // Get saved page from localStorage
-        function getSavedPage() {
-            const savedPage = localStorage.getItem('currentPatientPage');
-            return savedPage ? parseInt(savedPage) : 1;
-        }
         
+        // Filter patients
+        function filterPatients() {
+            const searchTerm = DOM.searchInput.value.toLowerCase();
+            
+            return appState.patients.filter(patient => {
+                const matchesSearch = patient.patientName.toLowerCase().includes(searchTerm) || 
+                                     patient.email.toLowerCase().includes(searchTerm);
+                
+                return matchesSearch;
+            });
+        }
+
+        function sortPatients(patientsToSort) {
+            if (!appState.sortConfig.key) return patientsToSort;
+            
+            return [...patientsToSort].sort((a, b) => {
+                if (a[appState.sortConfig.key] < b[appState.sortConfig.key]) {
+                    return appState.sortConfig.direction === 'asc' ? -1 : 1;
+                }
+                if (a[appState.sortConfig.key] > b[appState.sortConfig.key]) {
+                    return appState.sortConfig.direction === 'asc' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+
+        function paginatePatients(patientsToPaginate) {
+            const startIndex = (appState.currentPage - 1) * appState.itemsPerPage;
+            return patientsToPaginate.slice(startIndex, startIndex + appState.itemsPerPage);
+        }
+
         // Update pagination controls
         function updatePaginationControls(totalItems) {
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            const pageNumbersContainer = document.getElementById('pageNumbers');
-            const showingFrom = document.getElementById('showingFrom');
-            const showingTo = document.getElementById('showingTo');
-            const totalItemsSpan = document.getElementById('totalItems');
-            const prevButton = document.getElementById('prevPage');
-            const nextButton = document.getElementById('nextPage');
-
-            // Update showing text
-            const startItem = (currentPage - 1) * itemsPerPage + 1;
-            const endItem = Math.min(currentPage * itemsPerPage, totalItems);
-            showingFrom.textContent = startItem;
-            showingTo.textContent = endItem;
-            totalItemsSpan.textContent = totalItems;
-
+            const totalPages = Math.ceil(totalItems / appState.itemsPerPage);
             
-            // Update page numbers
-            pageNumbersContainer.innerHTML = '';
+            // تحديث النص المعروض
+            const startItem = (appState.currentPage - 1) * appState.itemsPerPage + 1;
+            const endItem = Math.min(appState.currentPage * appState.itemsPerPage, totalItems);
+            DOM.showingFrom.textContent = startItem;
+            DOM.showingTo.textContent = endItem;
+            DOM.totalItems.textContent = totalItems;
+
+            // تحديث أرقام الصفحات
+            DOM.pageNumbers.innerHTML = '';
             
-            // Always show first page
-            if (currentPage > 2) {
+            // إظهار الصفحة الأولى دائمًا
+            if (appState.currentPage > 2) {
                 addPageNumber(1);
-                if (currentPage > 3) {
-                    pageNumbersContainer.innerHTML += '<span class="px-2">...</span>';
+                if (appState.currentPage > 3) {
+                    DOM.pageNumbers.innerHTML += '<span class="px-2">...</span>';
                 }
             }
             
-            // Show current page and adjacent pages
-            for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
+            // إظهار الصفحة الحالية والصفحات المجاورة
+            for (let i = Math.max(1, appState.currentPage - 1); i <= Math.min(totalPages, appState.currentPage + 1); i++) {
                 addPageNumber(i);
             }
     
-            // Always show last page
-            if (currentPage < totalPages - 1) {
-                if (currentPage < totalPages - 2) {
-                    pageNumbersContainer.innerHTML += '<span class="px-2">...</span>';
+            // إظهار الصفحة الأخيرة دائمًا
+            if (appState.currentPage < totalPages - 1) {
+                if (appState.currentPage < totalPages - 2) {
+                    DOM.pageNumbers.innerHTML += '<span class="px-2">...</span>';
                 }
                 addPageNumber(totalPages);
             }
             
+            // تحديث أزرار السابق/التالي
+            DOM.prevButton.disabled = appState.currentPage === 1;
+            DOM.nextButton.disabled = appState.currentPage === totalPages || totalPages === 0;
             
-            // Helper function to add a page number button
+            // دالة مساعدة لإضافة زر صفحة
             function addPageNumber(page) {
                 const button = document.createElement('button');
-                button.className = `w-10 h-10 rounded-lg ${page === currentPage ? 'bg-primary text-white' : 'border border-gray-300 hover:bg-gray-100'}`;
+                button.className = `w-10 h-10 rounded-lg ${page === appState.currentPage ? 'bg-primary text-white' : 'border border-gray-300 hover:bg-gray-100'}`;
                 button.textContent = page;
                 button.addEventListener('click', () => {
-                    currentPage = page;
-                    saveCurrentPage(currentPage);
+                    appState.currentPage = page;
                     renderPatients();
                 });
-                pageNumbersContainer.appendChild(button);
-            }
-            
-            // Update prev/next buttons
-            prevButton.disabled = currentPage === 1;
-            nextButton.disabled = currentPage === totalPages || totalPages === 0;
-        }
-
-        // Render patients based on current view
-        function renderPatients() {
-            const filtered = filterPatients();
-            const sorted = sortPatients(filtered);
-            const paginated = paginatePatients(sorted);
-            
-            if (document.getElementById('cardView').classList.contains('hidden')) {
-                renderListView(paginated);
-            } else {
-                renderCardView(paginated);
-            }
-            
-            updatePaginationControls(filtered.length);
-        }
-
-        // Toggle add patient modal
-        function toggleModal(show) {
-            const modal = document.getElementById('addPatientModal');
-            if (show) {
-                modal.classList.remove('hidden');
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            } else {
-                modal.classList.remove('active');
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
+                DOM.pageNumbers.appendChild(button);
             }
         }
 
-        // Open patient modal for editing
-        function openEditPatientModal(patientId) {
-            const modal = document.getElementById('patientModal');
-            const title = document.getElementById('modalTitle');
-            const patient = patients.find(p => p.id === patientId);
-            
+        // Modal handling functions
+        function openEditModal(patientId) {
+            const patient = appState.patients.find(p => p.patientId === patientId);
             if (!patient) return;
             
-            currentPatientId = patientId;
+            // Populate the edit form
+            document.getElementById('patientEditId').value = patient.patientId;
+            document.getElementById('patientEditName').value = patient.patientName || '';
+            document.getElementById('patientEditEmail').value = patient.email || '';
+            document.getElementById('patientEditPhone').value = patient.contactInfo || '';
+            document.getElementById('patientEditPreview').src = patient.image || 'https://via.placeholder.com/150';
             
-            // Set form values
-            document.getElementById('patientEditId').value = patient.id;
-            document.getElementById('patientEditName').value = patient.name;
-            document.getElementById('conditionText').textContent = patient.condition;
-            document.getElementById('patientEditBloodType').value = patient.bloodType;
-            document.getElementById('patientEditEmail').value = patient.email;
-            document.getElementById('patientEditPhone').value = patient.phone;
-            document.getElementById('patientEditStatus').value = patient.status;
-            document.getElementById('patientEditAppointments').value = patient.appointments;
-            document.getElementById('patientEditNotes').value = patient.notes || '';
-            document.getElementById('patientEditPreview').src = patient.image;
-            
-            modal.classList.remove('hidden');
+            // Show the modal
+            document.getElementById('patientModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
-        // Confirm delete
-        function confirmDelete(patientId) {
-            const patient = patients.find(p => p.id === patientId);
-            const modal = document.getElementById('confirmModal');
-            
-            // Update modal content dynamically
-            modal.querySelector('p').textContent = `Are you sure you want to delete ${patient.name}?`;
-            
-            currentPatientId = patientId;
-            modal.classList.remove('hidden');
+        function openDeleteModal(patientId) {
+            appState.currentPatientId = patientId;
+            document.getElementById('confirmModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
-        // Delete patient
-        function deletePatient() {
-            patients = patients.filter(patient => patient.id !== currentPatientId);
-            renderPatients();
-            closeModal();
-        }
-
-        // Print patient
-        function printPatient(patientId) {
-            const patient = patients.find(p => p.id === patientId);
-            if (!patient) return;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Patient Details - ${patient.name}</title>
-                        <style>
-                            body { font-family: Arial; padding: 20px; }
-                            .patient-header { margin-bottom: 20px; }
-                            .patient-info { margin-bottom: 15px; }
-                            .patient-photo { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="patient-header">
-                            <h1>${patient.name}</h1>
-                            <h2>${patient.condition}</h2>
-                        </div>
-                        <img src="${patient.image}" class="patient-photo" alt="${patient.name}">
-                        <div class="patient-info">
-                            <p><strong>Status:</strong> ${patient.status}</p>
-                            <p><strong>Blood Type:</strong> ${patient.bloodType}</p>
-                            <p><strong>Appointments:</strong> ${patient.appointments}</p>
-                            <p><strong>Phone:</strong> ${patient.phone}</p>
-                            <p><strong>Email:</strong> ${patient.email}</p>
-                            <p><strong>Medical Notes:</strong> ${patient.notes || 'None'}</p>
-                        </div>
-                    </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
-
-        // Close modal
-        function closeModal() {
+        function closeAllModals() {
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.classList.add('hidden');
             });
-            document.getElementById('addPatientModal').classList.remove('active');
-            document.getElementById('addPatientModal').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
 
-        // View state management
-        function getStoredViewPreference() {
-            return localStorage.getItem('patientViewPreference') || 'card';
-        }
-
-        function setStoredViewPreference(view) {
-            localStorage.setItem('patientViewPreference', view);
-        }
-
-        function applyViewPreference() {
-            const preferredView = getStoredViewPreference();
-            const cardView = document.getElementById('cardView');
-            const listView = document.getElementById('listView');
-            const cardButton = document.querySelector('.view-toggle[data-view="card"]');
-            const listButton = document.querySelector('.view-toggle[data-view="list"]');
-
-            if (preferredView === 'card') {
-                cardView.classList.remove('hidden');
-                listView.classList.add('hidden');
-                cardButton.classList.add('active');
-                listButton.classList.remove('active');
-            } else {
-                cardView.classList.add('hidden');
-                listView.classList.remove('hidden');
-                cardButton.classList.remove('active');
-                listButton.classList.add('active');
-            }
-        }
-
-        // Initialize phone country codes
-        function initializeCountryCodes() {
-            // Phone country code dropdown logic
-            const phoneCountryDropdown = document.getElementById(
-                "phoneCountryDropdown"
-                );
-                const phoneCountryFlag = document.getElementById("phoneCountryFlag");
-                const phoneCountryCode = document.getElementById("phoneCountryCode");
-                const phoneCountryArrow = document.getElementById("phoneCountryArrow");
-                const phoneCountryOptions = document.getElementById(
-                "phoneCountryOptions"
-                );
-                let phoneCountryList = [];
-                let isPhoneCountryOpen = false;
-                let selectedPhoneCountry = null;
-
-                async function fetchPhoneCountries() {
-                try {
-                    const res = await fetch("https://restcountries.com/v3.1/all");
-                    const data = await res.json();
-                    phoneCountryList = data
-                    .map((c) => ({
-                        name: c.name.common,
-                        code: c.idd?.root
-                        ? c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : "")
-                        : "",
-                        flag: c.flags?.svg || c.flags?.png || "",
-                        cca2: c.cca2,
-                    }))
-                    .filter((c) => c.code && c.flag)
-                    .sort((a, b) => a.name.localeCompare(b.name));
-                    renderPhoneCountryOptions();
-                    // Default to US if available
-                    const us = phoneCountryList.find((c) => c.cca2 === "US");
-                    if (us) selectPhoneCountry(us);
-                } catch {
-                    // fallback
-                    phoneCountryList = [
-                    {
-                        name: "United States",
-                        code: "+1",
-                        flag: "https://flagcdn.com/us.svg",
-                        cca2: "US",
-                    },
-                    {
-                        name: "United Kingdom",
-                        code: "+44",
-                        flag: "https://flagcdn.com/gb.svg",
-                        cca2: "GB",
-                    },
-                    {
-                        name: "Canada",
-                        code: "+1",
-                        flag: "https://flagcdn.com/ca.svg",
-                        cca2: "CA",
-                    },
-                    {
-                        name: "Australia",
-                        code: "+61",
-                        flag: "https://flagcdn.com/au.svg",
-                        cca2: "AU",
-                    },
-                    {
-                        name: "India",
-                        code: "+91",
-                        flag: "https://flagcdn.com/in.svg",
-                        cca2: "IN",
-                    },
-                    ];
-                    renderPhoneCountryOptions();
-                    selectPhoneCountry(phoneCountryList[0]);
-                }
-                }
-
-                function renderPhoneCountryOptions(filter = "") {
-                phoneCountryOptions.innerHTML = "";
-                let filtered = phoneCountryList;
-                if (filter) {
-                    const f = filter.trim().toLowerCase();
-                    filtered = phoneCountryList.filter(
-                    (c) =>
-                        c.name.toLowerCase().includes(f) ||
-                        c.code.replace("+", "").startsWith(f.replace("+", "")) ||
-                        c.cca2.toLowerCase().startsWith(f)
-                    );
-                }
-                filtered.forEach((c) => {
-                    const li = document.createElement("li");
-                    li.className =
-                    "w-full flex items-center px-3 py-2 hover:bg-teal-50 hover:text-[#1CB5BD] cursor-pointer";
-                    li.innerHTML = `<img src="${c.flag}" alt="${c.cca2}" class="w-5 h-5 mr-2 rounded-sm"/> <span class="w-[calc(100%-80px)] font-medium text-sm">${c.name}</span> <span class="absolute right-2 text-gray-500">${c.code}</span>`;
-                    li.addEventListener("click", () => selectPhoneCountry(c));
-                    phoneCountryOptions.appendChild(li);
-                });
-                }
-
-                function selectPhoneCountry(c) {
-                selectedPhoneCountry = c;
-                phoneCountryFlag.innerHTML = `<img src="${c.flag}" alt="${c.cca2}" class="w-6 h-6 rounded-sm"/>`;
-                phoneCountryCode.value = c.code;
-                closePhoneCountryDropdown();
-                }
-
-                function openPhoneCountryDropdown() {
-                phoneCountryOptions.classList.remove("hidden");
-                phoneCountryOptions.classList.add("block");
-                phoneCountryArrow.classList.add("rotate-180");
-                isPhoneCountryOpen = true;
-                }
-
-                function closePhoneCountryDropdown() {
-                phoneCountryOptions.classList.add("hidden");
-                phoneCountryOptions.classList.remove("block");
-                phoneCountryArrow.classList.remove("rotate-180");
-                isPhoneCountryOpen = false;
-                }
-
-                phoneCountryDropdown.addEventListener("click", (e) => {
-                e.stopPropagation();
-                if (isPhoneCountryOpen) {
-                    closePhoneCountryDropdown();
-                } else {
-                    openPhoneCountryDropdown();
-                    renderPhoneCountryOptions();
-                }
-                });
-
-                phoneCountryCode.addEventListener("input", (e) => {
-                renderPhoneCountryOptions(e.target.value);
-                openPhoneCountryDropdown();
-                });
-
-                phoneCountryOptions.addEventListener("click", (e) => {
-                e.stopPropagation();
-                });
-
-                document.addEventListener("click", (e) => {
-                if (!phoneCountryDropdown.contains(e.target)) {
-                    closePhoneCountryDropdown();
-                }
-                });
-
-                // Add keyboard navigation for phone country dropdown
-                phoneCountryDropdown.addEventListener("keydown", function (e) {
-                if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    openPhoneCountryDropdown();
-                    const first = phoneCountryOptions.querySelector("li");
-                    if (first) first.focus();
-                }
-                });
-
-                phoneCountryOptions.addEventListener("keydown", function (e) {
-                const active = document.activeElement;
-                if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    if (active.nextElementSibling) active.nextElementSibling.focus();
-                } else if (e.key === "ArrowUp") {
-                    e.preventDefault();
-                    if (active.previousElementSibling)
-                    active.previousElementSibling.focus();
-                } else if (e.key === "Escape") {
-                    closePhoneCountryDropdown();
-                    phoneCountryDropdown.focus();
-                }
-                });
-            fetchPhoneCountries();
-        }
-
-        // Handle gender selection
-        function setupGenderSelection() {
-            // Gender selection logic
-            const btnMale = document.getElementById("btnMale");
-            const btnFemale = document.getElementById("btnFemale");
-            const genderInput = document.getElementById("genderInput");
-            const genderLabel = document.getElementById("genderLabel");
-            const genderContainer = document.querySelector(".gender-container");
-
-            function updateGenderLabel() {
-            if (genderContainer && genderLabel) {
-                if (genderContainer.classList.contains("focused")) {
-                genderLabel.classList.add("opacity-100", "-top-3", "text-primary");
-                genderLabel.classList.remove("opacity-0", "top-1/2", "text-gray-500");
-                } else {
-                genderLabel.classList.remove("opacity-100", "-top-3", "text-primary");
-                genderLabel.classList.add("opacity-0", "top-1/2", "text-gray-500");
-                }
-            }
-            }
-
-            function selectGender(gender) {
-            if (!btnMale || !btnFemale || !genderInput) return;
-            genderInput.value = gender;
-            btnMale.classList.toggle("bg-white", gender === "Male");
-            btnMale.classList.toggle("text-blue-600", gender === "Male");
-            btnMale.classList.toggle("text-gray-600", gender !== "Male");
-            btnFemale.classList.toggle("bg-white", gender === "Female");
-            btnFemale.classList.toggle("text-pink-600", gender === "Female");
-            btnFemale.classList.toggle("text-gray-600", gender !== "Female");
-            }
-
-            if (genderContainer && btnMale && btnFemale) {
-            genderContainer.addEventListener("focusin", () => {
-                genderContainer.classList.add("focused");
-                updateGenderLabel();
-            });
-            genderContainer.addEventListener("focusout", () => {
-                genderContainer.classList.remove("focused");
-                updateGenderLabel();
-            });
-            btnMale.addEventListener("click", () => selectGender("Male"));
-            btnFemale.addEventListener("click", () => selectGender("Female"));
-            }
-        }
-
-        // Handle photo upload preview
-        function setupPhotoUpload() {
-            const photoInput = document.getElementById('patientPhoto');
-            const photoPreview = document.getElementById('patientPreview');
-            const photoPlaceholder = document.getElementById('photoPlaceholder');
-
-            photoInput.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        photoPreview.src = e.target.result;
-                        photoPreview.classList.remove('hidden');
-                        photoPlaceholder.classList.add('hidden');
-                    };
-                    reader.readAsDataURL(this.files[0]);
-                }
-            });
-        }
-
-        // Handle medical record upload with progress
-        function setupRecordUpload() {
-            const recordInput = document.getElementById('patientRecords');
-            const progressWrapper = document.getElementById('recordUploadProgressWrapper');
-            const progressBar = document.getElementById('recordUploadProgress');
-            const uploadCheck = document.getElementById('recordUploadCheck');
-            const uploadStatus = document.getElementById('recordUploadStatus');
-
-            recordInput.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    progressWrapper.classList.remove('hidden');
-                    
-                    // Simulate upload progress
-                    let progress = 0;
-                    const interval = setInterval(() => {
-                        progress += 5;
-                        progressBar.style.width = `${progress}%`;
-                        
-                        if (progress >= 100) {
-                            clearInterval(interval);
-                            uploadCheck.classList.remove('hidden');
-                            uploadStatus.textContent = 'Upload complete!';
-                        }
-                    }, 100);
-                }
-            });
-        }
-
-        function resetToFirstPage() {
-            currentPage = 1;
-            saveCurrentPage(currentPage);
-        }
-
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            initializePatients();
-            applyViewPreference(); // Load the saved view preference
-            currentPage = getSavedPage();
-            renderPatients();
+        async function handleEditFormSubmit(e) {
+            e.preventDefault();
             
-            // Initialize new modal components
-            initializeCountryCodes();
-            setupGenderSelection();
-            setupPhotoUpload();
-            setupRecordUpload();
-            
-            // View toggle
-            document.querySelectorAll('.view-toggle').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.view-toggle').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    button.classList.add('active');
-                    
-                    const view = button.dataset.view;
-                    setStoredViewPreference(view);
-                    
-                    document.getElementById('cardView').classList.toggle('hidden', view !== 'card');
-                    document.getElementById('listView').classList.toggle('hidden', view !== 'list');
-                    
-                    renderPatients();
-                });
-            });
-            
-            // Add patient button - opens new modal
-            document.getElementById('addPatientBtn').addEventListener('click', () => {
-                toggleModal(true);
-            });
-            
-            // Cancel button in add patient modal
-            document.getElementById('cancelPatient').addEventListener('click', () => {
-                toggleModal(false);
-            });
-            
-            // Cancel button in edit patient modal
-            document.getElementById('cancelEditPatient').addEventListener('click', closeModal);
-            
-            // Close modal buttons
-            document.getElementById('closeModal').addEventListener('click', closeModal);
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        closeModal();
-                    }
-                });
-            });
-            
-            // Delete confirmation
-            document.getElementById('confirmDelete').addEventListener('click', deletePatient);
-            document.getElementById('cancelDelete').addEventListener('click', closeModal);
-            
-            // New patient form submission
-            document.getElementById('newPatientForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const formData = new FormData(e.target);
-                const patientId = Date.now();
-                
-                // Get the photo if uploaded
-                let photoUrl = '../assets/images/Admin pages/Patients page/default-avatar.jpg';
-                const photoInput = document.getElementById('patientPhoto');
-                if (photoInput.files && photoInput.files[0]) {
-                    photoUrl = URL.createObjectURL(photoInput.files[0]);
-                }
+            try {
+                setLoading(true);
                 
                 const patientData = {
-                    id: patientId,
-                    name: formData.get('fullName'),
-                    gender: document.getElementById('genderInput').value,
-                    condition: document.getElementById('conditionSelect').value,
-                    bloodType: document.getElementById('bloodType').value,
-                    email: formData.get('email'),
-                    phone: `${document.getElementById('phoneCountryCode').value} ${formData.get('phone')}`,
-                    status: 'Active', // Default status
-                    appointments: 0, // Default appointment count
-                    notes: '', // Default empty notes
-                    image: photoUrl
-                };
-                
-                // Add new patient
-                patients.push(patientData);
-                
-                renderPatients();
-                toggleModal(false);
-                
-                // Show success notification
-                alert('Patient added successfully!');
-            });
-            
-            // Edit patient form submission
-            document.getElementById('patientForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const patientData = {
-                    id: document.getElementById('patientEditId').value,
-                    name: document.getElementById('patientEditName').value,
-                    condition: document.getElementById('conditionText').textContent,
-                    bloodType: document.getElementById('patientEditBloodType').value,
+                    patientId: document.getElementById('patientEditId').value,
+                    patientName: document.getElementById('patientEditName').value,
                     email: document.getElementById('patientEditEmail').value,
-                    phone: document.getElementById('patientEditPhone').value,
-                    status: document.getElementById('patientEditStatus').value,
-                    appointments: parseInt(document.getElementById('patientEditAppointments').value),
-                    notes: document.getElementById('patientEditNotes').value,
+                    contactInfo: document.getElementById('patientEditPhone').value,
+                    address: document.getElementById('patientEditAddress').value,
+                    dateOfBirth: document.getElementById('patientEditDob').value,
+                    insuranceDetails: document.getElementById('patientEditInsurance').value,
+                    emergencyContact: document.getElementById('patientEditEmergency').value,
                     image: document.getElementById('patientEditPreview').src
                 };
                 
-                // Update patient in the array
-                const index = patients.findIndex(p => p.id === patientData.id);
+                await PatientService.updatePatient(appState.currentPatientId, patientData);
+                
+                // تحديث البيانات المحلية
+                const index = appState.patients.findIndex(p => p.patientId === appState.currentPatientId);
                 if (index !== -1) {
-                    patients[index] = { ...patients[index], ...patientData };
+                    appState.patients[index] = { ...appState.patients[index], ...patientData };
                 }
                 
                 renderPatients();
                 closeModal();
                 alert('Patient updated successfully!');
-            });
-            
-            // Search and filter inputs
-            document.getElementById('searchInput').addEventListener('input', () => {
-                resetToFirstPage();
-                renderPatients();
-            });
+            }  finally {
+                setLoading(false);
+            }
+        }
 
-            document.getElementById('bloodTypeFilter').addEventListener('change', () => {
-                resetToFirstPage();
-                renderPatients();
-            });
-
-            document.getElementById('statusFilter').addEventListener('change', () => {
-                resetToFirstPage();
-                renderPatients();
-            });
-
-            document.getElementById('appointmentsFilter').addEventListener('change', () => {
-                resetToFirstPage();
-                renderPatients();
-            });
+        async function handleAddFormSubmit(e) {
+            e.preventDefault();
             
-            // Pagination controls
-            document.getElementById('prevPage').addEventListener('click', () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    saveCurrentPage(currentPage);
-                    renderPatients();
-                }
-            });
-            
-            document.getElementById('nextPage').addEventListener('click', () => {
-                const filtered = filterPatients();
-                const totalPages = Math.ceil(filtered.length / itemsPerPage);
+            try {
+                setLoading(true);
                 
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    saveCurrentPage(currentPage);
+                const formData = new FormData(e.target);
+                const patientData = {
+                    patientName: formData.get('fullName'),
+                    email: formData.get('email'),
+                    contactInfo: `${formData.get('phoneCountryCode')} ${formData.get('phone')}`,
+                    address: formData.get('location'),
+                    dateOfBirth: formData.get('dateOfBirth'),
+                    insuranceDetails: '', // يمكن إضافته لاحقًا
+                    emergencyContact: '', // يمكن إضافته لاحقًا
+                    image: 'https://via.placeholder.com/150' // يمكن معالجة رفع الصور لاحقًا
+                };
+                
+                const newPatient = await PatientService.createPatient(patientData);
+                
+                // إضافة المريض الجديد إلى البيانات المحلية
+                appState.patients.push(newPatient);
+                
+                renderPatients();
+                toggleModal(false);
+                alert('Patient added successfully!');
+            } catch (error) {
+                showError('Failed to add patient. Please try again.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function confirmDelete(patientId) {
+            const patient = appState.patients.find(p => p.patientId === patientId);
+            if (!patient) return;
+            
+            appState.currentPatientId = patientId;
+            DOM.confirmModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        async function deletePatient() {
+            try {
+                setLoading(true);
+                const success = await PatientService.deletePatient(appState.currentPatientId);
+                
+                if (success) {
+                    // إزالة المريض من البيانات المحلية
+                    appState.patients = appState.patients.filter(p => p.patientId !== appState.currentPatientId);
+                    
                     renderPatients();
+                    closeModal();
+                    alert('Patient deleted successfully!');
+                }
+            } catch (error) {
+
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function toggleModal(show) {
+            if (show) {
+                DOM.addPatientModal.classList.remove('hidden');
+                DOM.addPatientModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                DOM.addPatientModal.classList.remove('active');
+                DOM.addPatientModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function closeModal() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.add('hidden');
+            });
+            DOM.addPatientModal.classList.remove('active');
+            DOM.addPatientModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // تهيئة الأحداث
+        function setupEventListeners() {
+            // أحداث القوائم المنسدلة
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const notificationBtn = document.getElementById('notification-btn');
+            const notificationDropdown = document.getElementById('notification-dropdown');
+            const profileBtn = document.getElementById('profile-btn');
+            const profileDropdown = document.getElementById('profile-dropdown');
+
+            function handleScreenSize() {
+                if (window.innerWidth >= 767) {
+                    mobileMenu.classList.remove("active");
+                    menuIcon.classList.remove("ri-close-line");
+                    menuIcon.classList.add("ri-menu-line");
+                }
+            }
+
+            window.addEventListener("resize", handleScreenSize);
+            handleScreenSize();
+
+            mobileMenuButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('active');
+                menuIcon.classList.toggle('ri-menu-line');
+                menuIcon.classList.toggle('ri-close-line');
+                if (mobileMenu.classList.contains('active')) {
+                    profileDropdown.classList.add('hidden');
+                    notificationDropdown.classList.add('hidden');
                 }
             });
-            
-            // Sortable headers
-            document.querySelectorAll('.sortable-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const key = header.dataset.sort;
-                    
-                    if (sortConfig.key === key) {
-                        sortConfig.direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
-                    } else {
-                        sortConfig.key = key;
-                        sortConfig.direction = 'asc';
-                    }
-                    
-                    renderPatients();
+
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    notificationDropdown.classList.toggle('hidden');
+                    profileDropdown.classList.add('hidden');
+                    mobileMenu.classList.remove('active');
+                    menuIcon.classList.remove('ri-close-line');
+                    menuIcon.classList.add('ri-menu-line');
                 });
+            }
+
+            if (profileBtn) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                    notificationDropdown.classList.add('hidden');
+                    mobileMenu.classList.remove('active');
+                    menuIcon.classList.remove('ri-close-line');
+                    menuIcon.classList.add('ri-menu-line');
+                });
+            }
+
+            document.addEventListener('click', function() {
+                if (profileDropdown) profileDropdown.classList.add('hidden');
+                if (notificationDropdown) notificationDropdown.classList.add('hidden');
+                if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                    mobileMenu.classList.remove('active');
+                    menuIcon.classList.remove('ri-close-line');
+                    menuIcon.classList.add('ri-menu-line');
+                }
             });
-            
-            // Print all button
-            document.getElementById('printAllBtn').addEventListener('click', () => {
-                const filtered = filterPatients();
-                const sorted = sortPatients(filtered);
-                
-                const printContent = sorted.map(patient => `
-                    <div class="print-patient" style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding: 10px;">
-                        <h3 style="font-size: 18px; margin-bottom: 5px;">${patient.name}</h3>
-                        <p><strong>Condition:</strong> ${patient.condition}</p>
-                        <p><strong>Blood Type:</strong> ${patient.bloodType}</p>
-                        <p><strong>Status:</strong> ${patient.status}</p>
-                        <p><strong>Contact:</strong> ${patient.email} | ${patient.phone}</p>
-                        <p><strong>Appointments:</strong> ${patient.appointments}</p>
-                    </div>
-                `).join('');
-                
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <html>
-                        <head>
-                            <title>Patients List</title>
-                            <style>
-                                body { font-family: Arial; padding: 20px; }
-                                .print-header { margin-bottom: 20px; text-align: center; }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="print-header">
-                                <h1>Patients List</h1>
-                                <p>Generated on ${new Date().toLocaleDateString()}</p>
-                            </div>
-                            ${printContent}
-                        </body>
-                    </html>
-                `);
-                printWindow.document.close();
-                printWindow.print();
+
+            // أحداث البحث والتصفية
+            DOM.searchInput.addEventListener('input', () => {
+                appState.currentPage = 1;
+                renderPatients();
             });
-            
-            // Delegated event listeners for dynamic elements
+
+            // أحداث عرض المريض
             document.addEventListener('click', (e) => {
-                // View button
+                // عرض المريض
                 if (e.target.closest('.view-patient')) {
-                    const patientId = parseInt(e.target.closest('.view-patient').dataset.id);
+                    const patientId = e.target.closest('.view-patient').dataset.id;
                     window.location.href = `patient-details.html?id=${patientId}`;
                 }
                 
-                // Edit button
+                // تعديل المريض
                 if (e.target.closest('.edit-patient')) {
-                    const patientId = parseInt(e.target.closest('.edit-patient').dataset.id);
+                    const patientId = e.target.closest('.edit-patient').dataset.id;
                     openEditPatientModal(patientId);
                 }
                 
-                // Delete button
+                // حذف المريض
                 if (e.target.closest('.delete-patient')) {
-                    const patientId = parseInt(e.target.closest('.delete-patient').dataset.id);
+                    const patientId = e.target.closest('.delete-patient').dataset.id;
                     confirmDelete(patientId);
                 }
                 
-                // Print button
-                if (e.target.closest('.print-patient')) {
-                    const patientId = parseInt(e.target.closest('.print-patient').dataset.id);
-                    printPatient(patientId);
-                }
-                
-                // Dropdown menu
+                // القوائم المنسدلة
                 if (e.target.closest('.dropdown button')) {
                     const dropdown = e.target.closest('.dropdown').querySelector('.dropdown-menu');
                     document.querySelectorAll('.dropdown-menu').forEach(menu => {
@@ -2571,7 +1547,133 @@
                     });
                 }
             });
-        });
-    </script>
+
+            // أحداث التصفح
+            DOM.prevButton.addEventListener('click', () => {
+                if (appState.currentPage > 1) {
+                    appState.currentPage--;
+                    renderPatients();
+                }
+            });
+            
+            DOM.nextButton.addEventListener('click', () => {
+                const filtered = filterPatients();
+                const totalPages = Math.ceil(filtered.length / appState.itemsPerPage);
+                
+                if (appState.currentPage < totalPages) {
+                    appState.currentPage++;
+                    renderPatients();
+                }
+            });
+
+            // View toggle buttons
+            document.querySelectorAll('.view-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    switchView(button.dataset.view);
+                });
+            });
+
+            // Edit/Delete buttons (delegated events)
+            document.addEventListener('click', (e) => {
+                // Edit button in card view
+                if (e.target.closest('.edit-patient-btn')) {
+                    const patientId = e.target.closest('.edit-patient-btn').dataset.id;
+                    openEditModal(patientId);
+                }
+                
+                // Delete button in card view
+                if (e.target.closest('.delete-patient-btn')) {
+                    const patientId = e.target.closest('.delete-patient-btn').dataset.id;
+                    openDeleteModal(patientId);
+                }
+                
+                // Dropdown menus
+                if (e.target.closest('.dropdown-toggle')) {
+                    const dropdown = e.target.closest('.dropdown').querySelector('.dropdown-menu');
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        if (menu !== dropdown) menu.classList.add('hidden');
+                    });
+                    dropdown.classList.toggle('hidden');
+                } else {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                }
+            });
+
+            // Modal close buttons
+            document.querySelectorAll('.modal .close-modal, #cancelDelete, #closeModalBtn').forEach(btn => {
+                btn.addEventListener('click', closeAllModals);
+            });
+
+            // Confirm delete
+            document.getElementById('confirmDelete').addEventListener('click', async () => {
+                    setLoading(true);
+                    await PatientService.deletePatient(appState.currentPatientId);
+                    appState.patients = appState.patients.filter(p => p.patientId !== appState.currentPatientId);
+                    renderPatients();
+                    closeAllModals();
+                    showSuccess('Patient deleted successfully');
+            });
+
+            // Edit form submission
+            document.getElementById('patientForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    setLoading(true);
+                    const patientData = {
+                        patientId: document.getElementById('patientEditId').value,
+                        patientName: document.getElementById('patientEditName').value,
+                        email: document.getElementById('patientEditEmail').value,
+                        contactInfo: document.getElementById('patientEditPhone').value,
+                        address: document.getElementById('patientEditAddress').value,
+                        dateOfBirth: document.getElementById('patientEditDob').value,
+                        image: document.getElementById('patientEditPreview').src
+                    };
+                    
+                    await PatientService.updatePatient(patientData.patientId, patientData);
+                    
+                    // Update local data
+                    const index = appState.patients.findIndex(p => p.patientId === patientData.patientId);
+                    if (index !== -1) {
+                        appState.patients[index] = patientData;
+                    }
+                    
+                    renderPatients();
+                    closeAllModals();
+                    showSuccess('Patient updated successfully');
+                } catch (error) {
+                    showError('Failed to update patient');
+                } finally {
+                    setLoading(false);
+                }
+            });
+        }
+
+            // أحداث الترتيب
+            document.querySelectorAll('.sortable-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const key = header.dataset.sort;
+                    
+                    if (appState.sortConfig.key === key) {
+                        appState.sortConfig.direction = appState.sortConfig.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        appState.sortConfig.key = key;
+                        appState.sortConfig.direction = 'asc';
+                    }
+                    
+                    renderPatients();
+                });
+            });
+
+    
+            // بدء التطبيق
+            document.addEventListener('DOMContentLoaded', () => {
+                setupEventListeners();
+                initApp();
+            });
+        </script>
+
+
 </body>
 </html>

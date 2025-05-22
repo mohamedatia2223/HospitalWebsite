@@ -104,7 +104,7 @@
 			return Created();
 		}
 		[HttpPut]
-		public async Task<IActionResult> UpdatePatient(Guid patientId,[FromForm] PatientDTOUpdate patient)
+		public async Task<IActionResult> UpdatePatient(Guid patientId,[FromBody] PatientDTOUpdate patient)
 		{
 
 			if (!ModelState.IsValid)
@@ -147,7 +147,7 @@
 			return Ok(docs);
 		}
 		[HttpPost("[action]")]
-		public async Task<IActionResult> RateDoctor([FromForm]DoctorPatientDTO doctorPatientDTO)
+		public async Task<IActionResult> RateDoctor([FromBody] DoctorPatientDTO doctorPatientDTO)
 		{
 
 			if (!await _patientService.PatientExists(doctorPatientDTO.PatientId))

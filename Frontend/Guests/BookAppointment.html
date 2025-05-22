@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MEDora is a modern healthcare solutions provider that offers a range of services to help you stay healthy and active.">
+    <meta name="keywords" content="MEDora, healthcare, modern, solutions, services, health, active, modern healthcare solutions provider, stay healthy and active">
+    <meta name="author" content="MEDora">
+    <meta name="theme-color" content="#1CB5BD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0D8A91" media="(prefers-color-scheme: dark)">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="google" content="notranslate">
+    
+    <title>Book Appointment - MEDora</title>
+    <link rel="icon" href="../assets/Icons/MEDora Logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        primary: "#1CB5BD", 
+                        secondary: "#64b5f6",
+                        dark: "#0f172a",
+                        light: "#f8fafc"
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                    fontFamily: {
+                        pacifico: ['Pacifico', 'cursive'],
+                        poppins: ['Poppins', 'sans-serif']
+                    }
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo on the left -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <i class="ri-stethoscope-line ri-2x text-primary mr-2"></i>
+                        <span class="text-primary text-2xl font-['Pacifico']">MEDora</span>
+                    </a>
+                </div>
+                
+                <!-- Navigation items on the right -->
+                <div class="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
+                    <a href="home.html" class="text-gray-700 hover:text-primary transition">Home</a>
+                    <a href="find-doctor.html" class="text-gray-700 hover:text-primary transition">Doctors</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary transition">Contact</a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-primary focus:outline-none">
+                        <i class="ri-menu-line ri-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Spacer for fixed navbar -->
+    <div class="h-16"></div>
+
+    <!-- Breadcrumb - placed below navbar -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center text-sm text-gray-500">
+                <a href="home.html" class="hover:text-primary">Home</a>
+                <div class="w-4 h-4 flex items-center justify-center mx-1">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+                <span class="text-primary font-medium">Find a Doctor</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Left Column - Form -->
+                <div class="lg:w-7/12">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="p-6">
+                            <!-- Checkout Form -->
+                            <form id="checkoutForm">
+                                <!-- Personal Information -->
+                                <div class="mb-8">
+                                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Personal Information</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Insurence Details</label>
+                                            <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Emergency Contact</label>
+                                            <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Personal Information -->
+                                
+                                <div class="payment-widget">
+                                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Payment Method</h4>
+                                    
+                                    <!-- Credit Card Payment -->
+                                    <div class="mb-6 p-4 border border-gray-200 rounded-lg">
+                                        <label class="flex items-center mb-4 cursor-pointer">
+                                            <input type="radio" name="paymentMethod" value="creditCard" checked class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                            <span class="ml-2 text-gray-700">Credit card</span>
+                                        </label>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="md:col-span-2">
+                                                <label for="card_name" class="block text-sm font-medium text-gray-700 mb-1">Name on Card</label>
+                                                <input id="card_name" type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+                                                <input id="card_number" type="text" placeholder="1234 5678 9876 5432" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                            </div>
+                                            <div>
+                                                <label for="expiry_month" class="block text-sm font-medium text-gray-700 mb-1">Expiry Month</label>
+                                                <input id="expiry_month" type="text" placeholder="MM" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                            </div>
+                                            <div>
+                                                <label for="expiry_year" class="block text-sm font-medium text-gray-700 mb-1">Expiry Year</label>
+                                                <input id="expiry_year" type="text" placeholder="YY" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                            </div>
+                                            <div>
+                                                <label for="cvv" class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+                                                <input id="cvv" type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Credit Card Payment -->
+                                    
+                                    <!-- Paypal Payment -->
+                                    <div class="mb-6 p-4 border border-gray-200 rounded-lg">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" name="paymentMethod" value="paypal" class="h-4 w-4 text-primary focus:ring-primary border-gray-300">
+                                            <span class="ml-2 text-gray-700">Paypal</span>
+                                        </label>
+                                    </div>
+                                    <!-- /Paypal Payment -->
+                                    
+                                    <!-- Terms Accept -->
+                                    <div class="mb-6">
+                                        <div class="flex items-start">
+                                            <div class="flex items-center h-5">
+                                                <input id="terms_accept" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" required>
+                                            </div>
+                                            <label for="terms_accept" class="ml-2 block text-sm text-gray-700">
+                                                I have read and accept <a href="#" class="text-primary hover:underline">Terms & Conditions</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- /Terms Accept -->
+                                    
+                                    <!-- Submit Section -->
+                                    <div class="mt-6">
+                                        <button type="submit" class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 px-4 rounded-md transition duration-300">
+                                            Confirm and Pay
+                                        </button>
+                                    </div>
+                                    <!-- /Submit Section -->
+                                </div>
+                            </form>
+                            <!-- /Checkout Form -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Booking Summary -->
+                <div class="lg:w-5/12">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden sticky top-24">
+                        <div class="bg-primary p-4">
+                            <h4 class="text-lg font-semibold text-white">Booking Summary</h4>
+                        </div>
+                        <div class="p-6">
+                            <!-- Booking Doctor Info -->
+                            <div class="flex items-start mb-6">
+                                <div class="flex-shrink-0 mr-4">
+                                    <img src="../assets/images/Dr. Amanda Taylor.jpg" alt="Doctor" class="w-16 h-16 rounded-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-800"><a href="#" class="hover:text-primary transition">Dr. Darren Elder</a></h4>
+                                    <div class="flex items-center mt-1">
+                                        <div class="flex text-yellow-400">
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-fill"></i>
+                                            <i class="ri-star-line"></i>
+                                        </div>
+                                        <span class="text-sm text-gray-500 ml-2">(35)</span>
+                                    </div>
+                                    <div class="flex items-center mt-1 text-sm text-gray-500">
+                                        <i class="ri-map-pin-line mr-1"></i>
+                                        <span>Newyork, USA</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Booking Doctor Info -->
+                            
+                            <div class="border-t border-gray-200 pt-4">
+                                <div class="space-y-4">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Date</span>
+                                        <span class="font-medium">16 Nov 2023</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Time</span>
+                                        <span class="font-medium">10:00 AM</span>
+                                    </div>
+                                    <div class="border-t border-gray-200 pt-3">
+                                        <div class="flex justify-between py-1">
+                                            <span class="text-gray-600">Consulting Fee</span>
+                                            <span>$100</span>
+                                        </div>
+                                        <div class="flex justify-between py-1">
+                                            <span class="text-gray-600">Booking Fee</span>
+                                            <span>$10</span>
+                                        </div>
+                                        <div class="flex justify-between py-1">
+                                            <span class="text-gray-600">Video Call</span>
+                                            <span>$50</span>
+                                        </div>
+                                    </div>
+                                    <div class="border-t border-gray-200 pt-3">
+                                        <div class="flex justify-between items-center py-1 font-semibold text-lg">
+                                            <span>Total</span>
+                                            <span class="text-primary">$160</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Content -->
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="#" class="text-2xl font-pacifico text-white mb-4 inline-block">MEDora</a>
+                    <p class="text-gray-400 mb-6">Providing advanced healthcare solutions with compassion and excellence since 2010.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+                            <i class="ri-twitter-x-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition duration-300">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="home.html" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Our Services</a></li>
+                        <li><a href="find-doctor.html" class="text-gray-400 hover:text-white transition duration-300">Find a Doctor</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white transition duration-300">Blog</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition duration-300">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Our Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Emergency Care</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Primary Care</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Surgical Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Mental Health</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Maternity Care</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Diagnostic Services</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Information</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-primary mt-1 mr-3">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <a href="https://www.google.com/maps/search/123+Healthcare+Avenue,+Medical+District,+New+York,+NY+10001" 
+                                class="text-gray-400 hover:text-white transition duration-300" 
+                                target="_blank">123 Healthcare Avenue, Medical District, New York, NY 10001</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center text-primary mr-3">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <a href="tel:+201026955789" class="text-gray-400 hover:text-white transition duration-300">+1 (555) 123-4567</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center text-primary mr-3">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <a href="mailto:info@medora.com" class="text-gray-400 hover:text-white transition duration-300">info@medora.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center text-primary mr-3">
+                                <i class="ri-time-line"></i>
+                            </div>
+                            <span class="text-gray-400">24/7 Emergency Services</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 MEDora Healthcare. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form validation
+            const form = document.getElementById('checkoutForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form fields
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('border-red-500');
+                    } else {
+                        field.classList.remove('border-red-500');
+                    }
+                });
+                
+                // Validate credit card if selected
+                const paymentMethod = form.querySelector('input[name="paymentMethod"]:checked').value;
+                
+                if (paymentMethod === 'creditCard') {
+                    const cardNumber = document.getElementById('card_number').value.replace(/\s+/g, '');
+                    const expiryMonth = document.getElementById('expiry_month').value;
+                    const expiryYear = document.getElementById('expiry_year').value;
+                    const cvv = document.getElementById('cvv').value;
+                    
+                    // Simple validation - in a real app you'd want more robust validation
+                    if (!/^\d{16}$/.test(cardNumber)) {
+                        alert('Please enter a valid 16-digit card number');
+                        isValid = false;
+                    }
+                    
+                    if (!/^\d{2}$/.test(expiryMonth) || parseInt(expiryMonth) < 1 || parseInt(expiryMonth) > 12) {
+                        alert('Please enter a valid expiry month (MM)');
+                        isValid = false;
+                    }
+                    
+                    if (!/^\d{2}$/.test(expiryYear)) {
+                        alert('Please enter a valid expiry year (YY)');
+                        isValid = false;
+                    }
+                    
+                    if (!/^\d{3,4}$/.test(cvv)) {
+                        alert('Please enter a valid CVV (3 or 4 digits)');
+                        isValid = false;
+                    }
+                }
+                
+                if (isValid && document.getElementById('terms_accept').checked) {
+                    // Form is valid, proceed with submission
+                    // In a real app, you would send this data to your server
+                    alert('Appointment booked successfully!');
+                    // window.location.href = 'booking-success.html';
+                } else if (!document.getElementById('terms_accept').checked) {
+                    alert('Please accept the terms and conditions');
+                }
+            });
+            
+            // Format credit card number
+            const cardNumberInput = document.getElementById('card_number');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s+/g, '');
+                    if (value.length > 0) {
+                        value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+                    }
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

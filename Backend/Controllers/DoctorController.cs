@@ -31,7 +31,7 @@ namespace Hospital.Controllers
 		[HttpPost]
         [Authorize(Roles = "Admin")]
 
-		public async Task<IActionResult> AddDoctor([FromForm]DoctorDTOUpdate doctor)
+		public async Task<IActionResult> AddDoctor([FromBody] DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -42,7 +42,7 @@ namespace Hospital.Controllers
 		}
 		[Authorize(Roles="Admin")]
 		[HttpPut("{doctorId}")]
-		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromForm]DoctorDTOUpdate doctor)
+		public async Task<IActionResult> UpdateDoctorById(Guid doctorId, [FromBody] DoctorDTOUpdate doctor)
 		{
 			if (!ModelState.IsValid)
 			{

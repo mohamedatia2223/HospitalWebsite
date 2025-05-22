@@ -506,20 +506,24 @@
               >
             </div>
           </div>
-          <div
-            class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8"
-          >
-            <button
-              class="px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
+
+            <div id="authLogo" class="hidden md:flex items-center md:space-x-2 lg:space-x-4 xl:space-x-8">
+            <a
+              href="log-in.html"
+              class="flex items-center px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
             >
-              <a href="log-in.html">Sign In</a>
-            </button>
-            <button
-              class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
+              <i class="ri-login-box-line mr-2"></i>
+              Sign In
+            </a>
+            <a
+              href="sign-up.html"
+              class="flex items-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 sm:text-xs md:text-sm lg:text-base xl:text-lg whitespace-nowrap"
             >
-              <a href="sign-up.html">Sign Up</a>
-            </button>
+              <i class="ri-user-add-line mr-2"></i>
+              Sign Up
+            </a>
           </div>
+
           <div class="flex md:hidden items-center">
             <button
               id="mobile-menu-button"
@@ -1660,21 +1664,51 @@
           <i class="ri-contacts-line mr-2 text-primary"></i>
           Contact
       </a>
-      <div class="mt-4 space-y-2">
-          <a href="log-in.html" class="block text-center px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300">
-              <i class="ri-login-box-line mr-2"></i>
-              Sign In
-          </a>
-          <a href="sign_up.html" class="block text-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300">
-              <i class="ri-user-add-line mr-2"></i>
-              Sign Up
-          </a>
+      <div id="authButtonsMobile" class="mt-4 space-y-2 mobile-menu-buttons">
+        <a href="log-in.html" class="block text-center px-4 py-2 text-primary border border-primary rounded-button hover:bg-primary hover:text-white transition duration-300">
+          <i class="ri-login-box-line mr-2"></i> Sign In
+        </a>
+        <a href="sign-up.html" class="block text-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300">
+          <i class="ri-user-add-line mr-2"></i> Sign Up
+        </a>
       </div>
+
   </div>
 
-    <script>
+    <script type="module">
+
+      import {setupUser} from '../assets/js/authSetup.js'
+      import {filterDoctors,getDoctorAverageRating} from '../assets/js/api/doctors.js'
+      import {getToken} from '../assets/js/utils/jwt.js'
+
+
       document.addEventListener("DOMContentLoaded", function () {
-        // Mobile menu functionality
+              setupUser();
+
+                const authLogo = document.getElementById("authLogo");
+                const authButtonsDesktop = document.getElementById("authButtonsDesktop");
+                const authButtonsMobile = document.getElementById("authButtonsMobile");
+
+                if (window.User) {
+                  if (authButtonsDesktop) authButtonsDesktop.style.display = "none";
+                  if (authButtonsMobile) authButtonsMobile.style.display = "none";
+
+                  if (authLogo) {
+                    authLogo.innerHTML = ""; 
+                  switch (window.User.role) {
+                    case "Admin":
+                        authLogo.textContent = "Admin"
+                        break;
+                    case "Patient":
+                        authLogo.textContent = "Patient"
+                        break;
+                    case "Doctor":
+                        authLogo.textContent = "Doctor"
+                        break;
+                
+                }
+                  }
+                }
         const mobileMenuButton = document.getElementById("mobile-menu-button");
         const mobileMenu = document.getElementById("mobile-menu");
         const mobileServicesMenu = document.getElementById("mobile-services-menu");

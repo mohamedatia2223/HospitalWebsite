@@ -371,7 +371,6 @@
         .preview-wrapper {
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 0.5rem;
         }
 
@@ -824,9 +823,7 @@
                         <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark" id="addDoctorBtn">
                             <i class="ri-user-add-line mr-1"></i> Add Doctor
                         </button>
-                        <button class="px-4 py-2 bg-gray-200 rounded-button print-button" id="printAllBtn">
-                            <i class="ri-printer-line mr-1"></i> Print All
-                        </button>
+
                     </div>
                 </div>
 
@@ -925,339 +922,6 @@
         </div>
     </div>
 
-    <!-- Add Doctor Modal -->
-    <div id="addDoctorModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center hidden transition-all duration-300">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 relative animate-fadeIn">
-            <!-- Close Button -->
-            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-xl">
-                &times;
-            </button>
-
-            <h2 class="text-xl font-semibold mb-4">Add New Doctor</h2>
-
-            <!-- FORM -->
-            <form class="grid grid-cols-1 gap-6" id="newDoctorForm">
-                <div class="grid grid-cols-3 gap-4">
-                    <!-- Left Inputs -->
-                    <div class="col-span-2 flex flex-col gap-4">
-                        <!-- Floating Label Group -->
-
-                        <!-- Doctor ID Field -->
-                        <div class="relative w-full">
-                            <i
-                                class="fa-solid fa-tag absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
-                            ></i>
-                            <input
-                                type="text"
-                                id="doctorId"
-                                placeholder="Doctor ID"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                                onfocus="this.placeholder='MED-001'"
-                                onblur="this.placeholder='Doctor ID'"
-                                required
-                            />
-                            <label
-                                for="doctorId"
-                                class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                            >Doctor ID</label
-                            >
-                        </div>
-
-                        <!-- Full Name Field -->
-                        <div class="relative w-full">
-                            <i
-                                class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
-                            ></i>
-                            <input
-                                type="text"
-                                id="fullName"
-                                placeholder="Full name"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                                onfocus="this.placeholder='Dr. John Doe'"
-                                onblur="this.placeholder='Full name'"
-                                required
-                            />
-                            <label
-                                for="fullName"
-                                class="absolute left-4 -top-2.5 translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                            >Full Name</label
-                            >
-                        </div>
-
-                        <!-- Date of Birth / Gender Field -->
-                        <div
-                            class="flex flex-col sm:flex-row sm:space-x-4 space-y-3 sm:space-y-0"
-                        >
-                            <!-- Date of Birth -->
-                            <div class="relative w-full sm:w-1/2">
-                                <i
-                                class="fa-solid fa-calendar-days absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"
-                                style="transform: translateY(-50%)"
-                                ></i>
-                                <input
-                                type="date"
-                                id="dateOfBirth"
-                                placeholder="Select your date of birth"
-                                class="w-full pl-10 pr-4 py-3 text-sm text-gray-500 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                                onfocus="this.placeholder='MM/DD/YYYY'"
-                                onblur="this.placeholder='Select your date of birth'"
-                                required
-                                />
-                                <label
-                                for="dateOfBirth"
-                                class="absolute left-4 -top-2.5 translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                                >
-                                Date of Birth
-                                </label>
-                            </div>
-
-                            <!-- Gender -->
-                            <div class="w-full sm:w-1/2">
-                                <div class="relative h-full">
-                                <!-- Floating Label -->
-                                <label
-                                    id="genderLabel"
-                                    for="genderInput"
-                                    class="absolute left-5 -top-3 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 pointer-events-none"
-                                >
-                                    Gender
-                                </label>
-                                <!-- Icon and Button Container -->
-                                <div
-                                    class="gender-container flex items-center gap-3 bg-teal-400 rounded-lg overflow-hidden border border-teal-400 ring-1 ring-teal-500 w-full pl-4 pr-2 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary transition-all duration-200 mt-2"
-                                    tabindex="0"
-                                >
-                                    <!-- Icon -->
-                                    <i class="fa-solid fa-venus-mars text-white text-lg"></i>
-                                    <!-- Buttons -->
-                                    <div class="flex w-full bg-gray-100">
-                                    <button
-                                        type="button"
-                                        id="btnMale"
-                                        class="w-1/2 py-2 text-sm font-medium text-gray-600 focus:outline-none border-r border-gray-300 flex items-center justify-center gap-2"
-                                    >
-                                        <i class="fa-solid fa-mars text-blue-500"></i> <span class="text-sm sm:hidden">Male</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        id="btnFemale"
-                                        class="w-1/2 py-2 text-sm font-medium text-gray-600 focus:outline-none flex items-center justify-center gap-2"
-                                    >
-                                        <i class="fa-solid fa-venus text-pink-500"></i> <span class="text-sm sm:hidden">Female</span>
-                                    </button>
-                                    </div>
-                                </div>
-                                <!-- Hidden Input -->
-                                <input type="hidden" name="gender" id="genderInput" required />
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Phone Number Field (country code + number) -->
-                        <div class="relative w-full mb-3">
-                            <!-- Input container (flag + code + phone input) -->
-                            <div
-                            class="flex items-center w-full border border-gray-300 rounded-lg bg-white focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all duration-200"
-                            >
-                                <!-- Country Code Dropdown -->
-                                <div
-                                    id="phoneCountryDropdown"
-                                    class="relative flex items-center cursor-pointer px-2 select-none border-r border-gray-300"
-                                    style="
-                                    min-width: 10px;
-                                    scrollbar-width: thin;
-                                    scrollbar-color: #1cb5bd #f1f5f9;
-                                    scrollbar-track-color: #f1f5f9;
-                                    "
-                                >
-                                    <span id="phoneCountryFlag" class="mr-2"></span>
-                                    <input
-                                        id="phoneCountryCode"
-                                        type="text"
-                                        class="w-12 bg-transparent outline-none text-gray-900 text-sm px-0 border-0 mr-4 focus:ring-0 text-center"
-                                        placeholder="+1"
-                                        autocomplete="off"
-                                    />
-                                    <svg
-                                        id="phoneCountryArrow"
-                                        class="ml-1 w-4 h-4 text-[#1CB5BD] transition-transform duration-200"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19 9l-7 7-7-7"
-                                    />
-                                    </svg>
-            
-                                    <!-- Country code options -->
-                                    <ul
-                                        id="phoneCountryOptions"
-                                        class="w-48 absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto z-50 hidden transition-all duration-300 text-sm"
-                                    ></ul>
-                                </div>
-            
-                                <!-- Phone Number Input -->
-                                <input
-                                    type="text"
-                                    id="phone"
-                                    placeholder="Phone number"
-                                    class="peer flex-1 pl-3 pr-4 py-2 sm:py-3 bg-transparent border-0 focus:ring-0 focus:outline-none text-gray-900 text-sm"
-                                    onfocus="this.placeholder='1234567890'"
-                                    onblur="this.placeholder='Phone number'"
-                                    required
-                                />
-            
-                                <!-- Phone Label ABOVE the full container -->
-                                <label
-                                    for="phone"
-                                    class="absolute left-4 -top-2.5 -translate-y-1/2 text-sm text-gray-500 bg-white px-1 transition-all duration-200 opacity-0 scale-95 pointer-events-none peer-focus:opacity-100 peer-focus:scale-100 peer-focus:-top-1 peer-focus:text-primary"
-                                >
-                                    Phone Number
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Photo Upload -->
-                    <div class="flex flex-col items-center justify-center">
-                        <label
-                        class="w-full h-full flex flex-col items-center justify-center bg-white border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer transition hover:border-primary">
-                        <span class="text-gray-500 text-sm mb-2">Upload Photo</span>
-                        <input type="file" id="doctorPhoto" accept="image/*" class="hidden" />
-                        <div
-                            class="w-24 h-24 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
-                            <img id="doctorPreview" class="w-full h-full object-cover hidden" />
-                            <i class="ri-image-line text-3xl text-gray-400" id="photoPlaceholder"></i>
-                        </div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Additional Fields -->
-                <div class="grid grid-cols-2 gap-4">
-
-                    <!-- Email Field -->
-                    <div class="relative">
-                        <i
-                            class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD]"
-                        ></i>
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Enter your email"
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            onfocus="this.placeholder='example@medora.com'"
-                            onblur="this.placeholder='Enter your email'"
-                            required
-                        />
-                        <label
-                        for="email"
-                        class="absolute left-4 -top-2.5 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                        >Email</label
-                        >
-                    </div>
-
-                    <!-- Password Field -->
-                    <div class="relative">
-                        <i
-                            class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-[#1CB5BD] pointer-events-none"
-                            style="transform: translateY(-50%)"
-                        ></i>
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="Enter your password"
-                            class="w-full pl-10 pr-10 py-2 sm:py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            onfocus="this.placeholder='Str0ngP@ssw0rd'"
-                            onblur="this.placeholder='Enter your password'"
-                            required
-                        />
-                        <label
-                            for="password"
-                            class="absolute left-4 -top-2.5 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary"
-                        >Password</label
-                        >
-                        <!-- Eye Icon for Password -->
-                        <i
-                            id="togglePassword"
-                            class="fa-solid fa-eye absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-[#1CB5FF] hover:text-[#1CB5BD] opacity-0"
-                        ></i>
-                    </div>
-
-
-                    <!-- Location Field -->
-                    <div class="relative">
-                        <i
-                        class="fa-solid fa-location-dot absolute left-4 top-1/4 -translate-y-1/4 text-[#1CB5BD]"
-                        ></i>
-                        <input
-                        type="location"
-                        id="location"
-                        placeholder="Enter your location"
-                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg peer focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                        onfocus="this.placeholder='1234 Main St, Anytown, USA'"
-                        onblur="this.placeholder='Enter your location'"
-                        required
-                        />
-                        <label
-                        for="location"
-                        class="absolute left-10 top-1/4 transform -translate-y-1/4 bg-white px-1 text-sm text-gray-500 transition-all duration-200 opacity-0 peer-focus:opacity-100 peer-focus:text-primary peer-focus:top-1 peer-focus:-translate-y-1/2"
-                        >Location</label
-                        >
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <select id="specialistSelect" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
-                        <option value="" disabled selected>Select Specialty</option>
-                        <option>Cardiologist</option>
-                        <option>Neurologist</option>
-                        <option>Psychiatrist</option>
-                        </select>
-                        <input type="text" placeholder="Or enter new specialty" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" />
-                    </div>
-                </div>
-
-                <!-- CV Upload -->
-                <label
-                class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 cursor-pointer transition hover:border-primary mt-2">
-                <span class="text-gray-500 text-sm mb-2">Upload CV (PDF, DOC, DOCX)</span>
-                <input type="file" id="doctorCV" accept=".pdf,.doc,.docx" class="hidden" />
-
-                <!-- Add these inside the label after the input and before the div -->
-                <div class="w-full mt-4 hidden" id="cvUploadProgressWrapper">
-                    <div class="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-                        <div id="cvUploadProgress" class="absolute h-full bg-primary w-0 transition-all duration-200 ease-in-out"></div>
-                    </div>
-                    <div class="flex items-center mt-2 text-sm text-gray-600">
-                        <i id="cvUploadCheck" class="ri-check-line text-green-500 text-lg mr-2 hidden"></i>
-                        <span id="cvUploadStatus">Uploading...</span>
-                    </div>
-                </div>
-
-                <div class="w-full flex items-center justify-center">
-                    <i class="ri-upload-cloud-2-line text-2xl text-primary mr-2"></i>
-                    <span class="text-primary font-medium">Choose file</span>
-                </div>
-                </label>
-                
-                <div class="flex justify-end">
-                  <button type="button" id="cancelDoctor"
-                    class="px-6 py-2 border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 transition duration-300 whitespace-nowrap mr-3">
-                    Cancel
-                  </button>
-                  <button type="submit"
-                    class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition duration-300 whitespace-nowrap">
-                    Submit
-                  </button>
-                </div>
-              </form>
-          </div>
-    </div>
-
     <!-- Edit Doctor Modal -->
     <div id="doctorModal" class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50">
         <div class="modal-content">
@@ -1286,45 +950,10 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label for="doctorEditSpecialization" class="block text-sm font-medium text-gray-700">Specialization</label>
+                            <input type="text" id="doctorEditSpecialization" class="mt-1 p-2 bg-gray-50 rounded border border-gray-200 text-gray-700" />
+
                             <div id="specializationText" class="mt-1 p-2 bg-gray-50 rounded border border-gray-200 text-gray-700">
                                 <!-- Specialization value will be inserted here -->
-                            </div>
-                        </div>
-                        <div>
-                            <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                            <input type="text" id="gender" class="form-input mt-1 block w-full" readonly>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="doctorEditEmail" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" id="doctorEditEmail" class="form-input mt-1 block w-full" required>
-                        </div>
-                        <div class="relative">
-                            <label for="doctorEditPassword" class="block text-sm font-medium text-gray-700">Password</label>
-                            <div class="flex items-center mt-1">
-                                <input 
-                                    type="password" 
-                                    id="doctorEditPassword" 
-                                    class="form-input block w-full pr-10" 
-                                    readonly
-                                    value="••••••••"
-                                >
-                                <button 
-                                    type="button" 
-                                    id="toggleEditPassword" 
-                                    class="absolute right-3 p-1 text-gray-400 hover:text-primary focus:outline-none"
-                                >
-                                    <i class="fa-solid fa-eye"></i>
-                                </button>
-                                <button 
-                                    type="button" 
-                                    id="enablePasswordEdit" 
-                                    class="absolute right-10 p-1 text-xs text-primary hover:text-primary-dark focus:outline-none"
-                                    title="Change password"
-                                >
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -1383,14 +1012,15 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+                                        import {getAllPatients} from '../assets/js/api/patients.js'
+                                        import {getToken} from '../assets/js/utils/jwt.js'
+                                        import {getAllDoctors} from '../assets/js/api/doctors.js'
+
+        // Mobile menu and dropdown functionality
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
-        const notificationBtn = document.getElementById('notification-btn');
-        const notificationDropdown = document.getElementById('notification-dropdown');
-        const profileBtn = document.getElementById('profile-btn');
-        const profileDropdown = document.getElementById('profile-dropdown');
 
         function handleScreenSize() {
             if (window.innerWidth >= 767) { // md breakpoint
@@ -1412,62 +1042,11 @@
             mobileMenu.classList.toggle('active');
             menuIcon.classList.toggle('ri-menu-line');
             menuIcon.classList.toggle('ri-close-line');
-            // Close other dropdowns when menu opens
-            if (mobileMenu.classList.contains('active')) {
-                profileDropdown.classList.add('hidden');
-                notificationDropdown.classList.add('hidden');
-            }
-        });
-
-        // Notification Dropdown Toggle
-        if (notificationBtn) {
-            notificationBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                notificationDropdown.classList.toggle('hidden');
-                profileDropdown.classList.add('hidden');
-                mobileMenu.classList.remove('active');
-                menuIcon.classList.remove('ri-close-line');
-                menuIcon.classList.add('ri-menu-line');
-            });
-        }
-
-        if (notificationDropdown) {
-            notificationDropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }    
-
-        // Profile Dropdown Toggle
-        if (profileBtn) {
-            profileBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                profileDropdown.classList.toggle('hidden');
-                notificationDropdown.classList.add('hidden');
-                mobileMenu.classList.remove('active');
-                menuIcon.classList.remove('ri-close-line');
-                menuIcon.classList.add('ri-menu-line');
-            });
-        }
-
-        if (profileDropdown) {
-            profileDropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
-
-        document.addEventListener('click', function() {
-            if (profileDropdown) profileDropdown.classList.add('hidden');
-            if (notificationDropdown) notificationDropdown.classList.add('hidden');
         });
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', (e) => {
-            if (!notificationBtn.contains(e.target)) {
-                notificationDropdown.classList.add('hidden');
-            }
-            if (!profileBtn.contains(e.target)) {
-                profileDropdown.classList.add('hidden');
-            }
+
             if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
                 mobileMenu.classList.remove('active');
                 menuIcon.classList.remove('ri-close-line');
@@ -1477,174 +1056,15 @@
 
         // Doctor data and state management
         let doctors = [];
+        
         let currentPage = 1;
         const itemsPerPage = 9;
         let sortConfig = { key: null, direction: 'asc' };
         let currentDoctorId = null;
 
-        // Initialize sample doctors
-        function initializeDoctors() {
-            doctors = [
-                {
-                    id: 1,
-                    name: 'Dr. Robert Smith',
-                    gender: 'Male',
-                    specialization: 'Cardiology',
-                    phone: '+1 234 567 890',
-                    email: 'robert.smith@example.com',
-                    status: 'Active',
-                    patients: 85,
-                    experience: '15 Years',
-                    image: 'https://randomuser.me/api/portraits/men/68.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 2,
-                    name: 'Dr. Emily Johnson',
-                    gender: 'Female',
-                    specialization: 'Neurology',
-                    phone: '+1 234 567 891',
-                    email: 'emily.j@example.com',
-                    status: 'Active',
-                    patients: 62,
-                    experience: '12 Years',
-                    image: 'https://randomuser.me/api/portraits/women/22.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 3,
-                    name: 'Dr. Michael Brown',
-                    gender: 'Male',
-                    specialization: 'Pediatrics',
-                    phone: '+1 234 567 892',
-                    email: 'michael.b@example.com',
-                    status: 'On Leave',
-                    patients: 45,
-                    experience: '8 Years',
-                    image: 'https://randomuser.me/api/portraits/men/50.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 4,
-                    name: 'Dr. Sarah Wilson',
-                    gender: 'Female',
-                    specialization: 'Orthopedics',
-                    phone: '+1 234 567 893',
-                    email: 'sarah.w@example.com',
-                    status: 'Active',
-                    patients: 112,
-                    experience: '18 Years',
-                    image: 'https://randomuser.me/api/portraits/women/12.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 5,
-                    name: 'Dr. David Lee',
-                    gender: 'Male',
-                    specialization: 'Dermatology',
-                    phone: '+1 234 567 894',
-                    email: 'david.l@example.com',
-                    status: 'Inactive',
-                    patients: 28,
-                    experience: '6 Years',
-                    image: 'https://randomuser.me/api/portraits/men/8.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 6,
-                    name: 'Dr. Jennifer Davis',
-                    gender: 'Female',
-                    specialization: 'Cardiology',
-                    phone: '+1 234 567 895',
-                    email: 'jennifer.d@example.com',
-                    status: 'Active',
-                    patients: 93,
-                    experience: '14 Years',
-                    image: 'https://randomuser.me/api/portraits/women/32.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 7,
-                    name: 'Dr. James Wilson',
-                    gender: 'Male',
-                    specialization: 'Neurology',    
-                    phone: '+1 234 567 896',
-                    email: 'james.w@example.com',
-                    status: 'Active',
-                    patients: 78,
-                    experience: '11 Years',
-                    image: 'https://randomuser.me/api/portraits/men/58.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 8,
-                    name: 'Dr. Lisa Taylor',
-                    gender: 'Female',
-                    specialization: 'Pediatrics',
-                    phone: '+1 234 567 897',
-                    email: 'lisa.t@example.com',
-                    status: 'Active',
-                    patients: 65,
-                    experience: '9 Years',
-                    image: 'https://randomuser.me/api/portraits/women/62.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 9,
-                    name: 'Dr. Michael Johnson',
-                    gender: 'Male',
-                    specialization: 'Dermatology',
-                    phone: '+1 234 567 898',
-                    email: 'michael.j@example.com',
-                    status: 'Active',
-                    patients: 25,
-                    experience: '3 Years',
-                    image: 'https://randomuser.me/api/portraits/men/45.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 10,
-                    name: 'Dr. Sarah Johnson',
-                    gender: 'Female',
-                    specialization: 'Neurology',
-                    phone: '+1 234 567 899',
-                    email: 'sarah.j@example.com',
-                    status: 'Active',
-                    patients: 12,
-                    experience: '5 Years',
-                    image: 'https://randomuser.me/api/portraits/women/10.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 11,
-                    name: 'Dr. Karim Nedved',
-                    gender: 'Male',
-                    specialization: 'Pediatrics',
-                    phone: '+1 234 567 900',
-                    email: 'karim.n@example.com',
-                    status: 'Active',
-                    patients: 45,
-                    experience: '8 Years',
-                    image: 'https://randomuser.me/api/portraits/men/5.jpg',
-                    password: 'password123'
-                },
-                {
-                    id: 12,
-                    name: 'Dr. Soufiane Rahimi',
-                    gender: 'Male',
-                    specialization: 'Pediatrics',
-                    phone: '+1 234 567 901',
-                    email: 'soufiane.r@example.com',
-                    status: 'Active',
-                    patients: 12,
-                    experience: '5 Years',
-                    image: 'https://randomuser.me/api/portraits/men/1.jpg',
-                    password: 'password123'
-                }
-            ];
-        }
+        const API_BASE_URL = 'https://localhost:7227/api/Doctor';
 
-        // Get status badge class
+
         function getStatusClass(status) {
             const classes = {
                 Active: 'bg-green-100 text-green-800',
@@ -1654,45 +1074,28 @@
             return classes[status] || 'bg-gray-100 text-gray-800';
         }
 
-        // Filter doctors based on search and filters
-        function filterDoctors() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const specialization = document.getElementById('specializationFilter').value;
-            const status = document.getElementById('statusFilter').value;
-            const patientsFilter = document.getElementById('patientsFilter').value;
+        // Fetch doctors from API
+        async function fetchDoctors() {
+            try {
+            const doctors = await getAllDoctors(getToken());
+                doctors.forEach(doc => ({
+                    doctorId: doc.doctorId,     
+                    name: doc.doctorName,       
+                    speciality: doc.specialty,   
+                    email: doc.email,
+                    contactInfo: doc.contactInfo,
+                    hourlyPay: doc.hourlyPay,
+                    yearsOfExperience: doc.yearsOfExperience,
+                    photo: doc.photo || 'https://randomuser.me/api/portraits/men/1.jpg'
+                }));
 
-            return doctors.filter(doctor => {
-                const matchesSearch = doctor.name.toLowerCase().includes(searchTerm) || 
-                                     doctor.specialization.toLowerCase().includes(searchTerm) ||
-                                     doctor.email.toLowerCase().includes(searchTerm);
-                
-                const matchesSpecialization = !specialization || doctor.specialization === specialization;
-                const matchesStatus = !status || doctor.status === status;
-                
-                let matchesPatients = true;
-                if (patientsFilter === '50+') {
-                    matchesPatients = doctor.patients >= 50;
-                } else if (patientsFilter === '100+') {
-                    matchesPatients = doctor.patients >= 100;
-                }
-                
-                return matchesSearch && matchesSpecialization && matchesStatus && matchesPatients;
-            });
-        }
+                renderDoctors(doctors);
 
-        // Sort doctors
-        function sortDoctors(doctorsToSort) {
-            if (!sortConfig.key) return doctorsToSort;
-            
-            return [...doctorsToSort].sort((a, b) => {
-                if (a[sortConfig.key] < b[sortConfig.key]) {
-                    return sortConfig.direction === 'asc' ? -1 : 1;
-                }
-                if (a[sortConfig.key] > b[sortConfig.key]) {
-                    return sortConfig.direction === 'asc' ? 1 : -1;
-                }
-                return 0;
-            });
+            } catch (error) {
+                console.error('Error fetching doctors:', error);
+                doctors = [];
+                renderDoctors();
+            }
         }
 
         // Paginate doctors
@@ -1703,20 +1106,26 @@
 
         // Render card view
         function renderCardView(paginatedDoctors) {
+                if (!Array.isArray(doctors)) {
+                console.error("renderCardView error: doctors is not an array", doctors);
+                return;
+            }
             const cardView = document.getElementById('cardView');
+            console.log(paginatedDoctors)
+            
             cardView.innerHTML = paginatedDoctors.map(doctor => `
                 <div class="doctor-card bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                     data-id="${doctor.id}">
+                     data-id="${doctor.doctorId}">
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center">
-                            <img src="${doctor.image}" 
+                            <img src="${'https://randomuser.me/api/portraits/men/1.jpg'}" 
                                  class="w-16 h-16 rounded-full object-cover mr-4"
-                                 alt="${doctor.name}">
+                                 alt="${doctor.doctorName}">
                             <div>
-                                <h3 class="font-semibold">${doctor.name}</h3>
-                                <p class="text-sm text-gray-500">${doctor.specialization}</p>
-                                <span class="badge ${getStatusClass(doctor.status)} text-xs">
-                                    ${doctor.status}
+                                <h3 class="font-semibold">${doctor.doctorName}</h3>
+                                <p class="text-sm text-gray-500">${doctor.specialty}</p>
+                                <span class="badge ${getStatusClass('Active')} text-xs">
+                                    Active
                                 </span>
                             </div>
                         </div>
@@ -1725,17 +1134,11 @@
                                 <i class="ri-more-2-fill"></i>
                             </button>
                             <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left view-doctor" data-id="${doctor.id}">
-                                    <i class="ri-eye-line mr-2"></i> View
-                                </button>
-                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left edit-doctor" data-id="${doctor.id}">
+                                <button class="block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left edit-doctor" data-id="${doctor.doctorId}">
                                     <i class="ri-pencil-line mr-2"></i> Edit
                                 </button>
-                                <button class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left delete-doctor" data-id="${doctor.id}">
+                                <button class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left delete-doctor" data-id="${doctor.doctorId}">
                                     <i class="ri-delete-bin-line mr-2"></i> Delete
-                                </button>
-                                <button class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 w-full text-left print-doctor" data-id="${doctor.id}">
-                                    <i class="ri-printer-line mr-2"></i> Print
                                 </button>
                             </div>
                         </div>
@@ -1743,15 +1146,19 @@
                     <div class="space-y-2 text-sm">
                         <div class="flex items-center">
                             <i class="ri-phone-line mr-2 text-gray-500"></i>
-                            ${doctor.phone}
+                            ${doctor.contactInfo}
                         </div>
                         <div class="flex items-center">
                             <i class="ri-mail-line mr-2 text-gray-500"></i>
                             ${doctor.email}
                         </div>
                         <div class="flex items-center">
-                            <i class="ri-user-line mr-2 text-gray-500"></i>
-                            ${doctor.patients} Patients
+                            <i class="ri-money-dollar-circle-line mr-2 text-gray-500"></i>
+                            $${doctor.hourlyPay}/hour
+                        </div>
+                        <div class="flex items-center">
+                            <i class="ri-time-line mr-2 text-gray-500"></i>
+                            ${doctor.yearsOfExperience} years experience
                         </div>
                     </div>
                 </div>
@@ -1766,49 +1173,44 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <img class="h-10 w-10 rounded-full object-cover" 
-                                 src="${doctor.image}" 
-                                 alt="${doctor.name}">
+                                 src="${doctor.photo || 'https://randomuser.me/api/portraits/men/1.jpg'}" 
+                                 alt="${doctor.doctorName}">
                             <div class="ml-4">
-                                <div class="text-sm font-medium text-gray-900">${doctor.name}</div>
-                                <div class="text-sm text-gray-500">${doctor.specialization}</div>
+                                <div class="text-sm font-medium text-gray-900">${doctor.doctorName}</div>
+                                <div class="text-sm text-gray-500">${doctor.specialty}</div>
                             </div>
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${doctor.specialization}
+                        ${doctor.specialty}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        ${doctor.patients}
+                        $${doctor.hourlyPay}/hour
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">${doctor.email}</div>
-                        <div class="text-sm text-gray-500">${doctor.phone}</div>
+                        <div class="text-sm text-gray-500">${doctor.contactInfo}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="badge ${getStatusClass(doctor.status)}">
-                            ${doctor.status}
+                        <span class="badge ${getStatusClass('Active')}">
+                            Active
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex space-x-2">
-                            <button class="text-primary hover:text-primary-dark view-doctor" data-id="${doctor.id}">
-                                <i class="ri-eye-line"></i>
-                            </button>
-                            <button class="text-blue-600 hover:text-blue-800 edit-doctor" data-id="${doctor.id}">
+                            <button class="text-blue-600 hover:text-blue-800 edit-doctor" data-id="${doctor.doctorId}">
                                 <i class="ri-pencil-line"></i>
                             </button>
-                            <button class="text-red-600 hover:text-red-800 delete-doctor" data-id="${doctor.id}">
+                            <button class="text-red-600 hover:text-red-800 delete-doctor" data-id="${doctor.doctorId}">
                                 <i class="ri-delete-bin-line"></i>
                             </button>
-                            <button class="text-gray-600 hover:text-gray-800 print-doctor" data-id="${doctor.id}">
-                                <i class="ri-printer-line"></i>
-                            </button>
+
                         </div>
                     </td>
                 </tr>
             `).join('');
         }
-
+        
         // Save current page to localStorage
         function saveCurrentPage(page) {
             localStorage.setItem('currentDoctorPage', page);
@@ -1881,12 +1283,11 @@
             nextButton.disabled = currentPage === totalPages || totalPages === 0;
         }
 
-        // Render doctors based on current view
-        function renderDoctors() {
-            const filtered = filterDoctors();
-            const sorted = sortDoctors(filtered);
-            const paginated = paginateDoctors(sorted);
-            
+        function renderDoctors(doctors) {
+            const filtered = doctors;  // no filtering
+            const sorted = filtered;   // no sorting
+            const paginated = sorted;  // no pagination
+            console.log(doctors)
             if (document.getElementById('cardView').classList.contains('hidden')) {
                 renderListView(paginated);
             } else {
@@ -1910,127 +1311,102 @@
             }
         }
 
-        // Password toggle functionality for edit modal
-        function setupEditPasswordToggle() {
-            const passwordInput = document.getElementById('doctorEditPassword');
-            const toggleIcon = document.getElementById('toggleEditPassword');
-            const enableEditBtn = document.getElementById('enablePasswordEdit');
-
-            // Toggle password visibility
-            toggleIcon.addEventListener('click', () => {
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    toggleIcon.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
-                } else {
-                    passwordInput.type = 'password';
-                    toggleIcon.innerHTML = '<i class="fa-solid fa-eye"></i>';
-                }
-            });
-
-            // Enable password editing with confirmation
-            enableEditBtn.addEventListener('click', () => {
-                // Show confirmation dialog
-                const confirmed = confirm('Are you sure you want to change this doctor\'s password?');
-                
-                if (confirmed) {
-                    passwordInput.readOnly = false;
-                    passwordInput.value = ''; // Clear the placeholder
-                    passwordInput.focus();
-                    enableEditBtn.classList.add('hidden'); // Hide the edit button after enabling
-                }
-            });
-        }
 
         // Open doctor modal for editing
-        function openEditDoctorModal(doctorId) {
+        async function openEditDoctorModal(doctorId) {
             const modal = document.getElementById('doctorModal');
             const title = document.getElementById('modalTitle');
-            const doctor = doctors.find(d => d.id === doctorId);
             
-            if (!doctor) return;
-            
-            currentDoctorId = doctorId;
-            
-            // Set form values
-            document.getElementById('doctorEditId').value = doctor.id;
-            document.getElementById('doctorEditName').value = doctor.name;
-            document.getElementById('specializationText').textContent = doctor.specialization;
-            document.getElementById('gender').value = doctor.gender || 'Not specified';
-            document.getElementById('doctorEditEmail').value = doctor.email;
-            document.getElementById('doctorEditPhone').value = doctor.phone;
-            document.getElementById('doctorEditStatus').value = doctor.status;
-            document.getElementById('doctorEditPatients').value = doctor.patients;
-            document.getElementById('doctorEditExperience').value = doctor.experience;
-            document.getElementById('doctorEditPreview').src = doctor.image;
-            
-            // Reset password field to readonly with placeholder
-            const passwordInput = document.getElementById('doctorEditPassword');
-            passwordInput.readOnly = true;
-            passwordInput.value = doctor.password;
-            passwordInput.type = 'password';
-            document.getElementById('toggleEditPassword').innerHTML = '<i class="fa-solid fa-eye"></i>';
-            document.getElementById('enablePasswordEdit').classList.remove('hidden');
+            if (doctorId) {
+                // Edit mode
+                const doctor = doctors.find(d => d.doctorId === doctorId);
+                if (!doctor) return;
+                
+                currentDoctorId = doctorId;
+                title.textContent = 'Edit Doctor';
+                
+                // Set form values
+                document.getElementById('doctorEditId').value = doctor.DoctorId;
+                document.getElementById('doctorEditName').value = doctor.DoctorName;
+                document.getElementById('specializationText').textContent = doctor.Specialty;
+                document.getElementById('doctorEditEmail').value = doctor.Email;
+                document.getElementById('doctorEditPhone').value = doctor.ContactInfo;
+                document.getElementById('doctorEditHourlyPay').value = doctor.HourlyPay;
+                document.getElementById('doctorEditExperience').value = doctor.YearsOfExperience;
+                document.getElementById('doctorEditPreview').src = doctor.Photo || 'https://randomuser.me/api/portraits/men/1.jpg';
+
+            } else {
+                // Add mode
+                currentDoctorId = null;
+                title.textContent = 'Add New Doctor';
+                
+                // Reset form values
+                document.getElementById('doctorEditId').value = '';
+                document.getElementById('doctorEditName').value = '';
+                document.getElementById('specializationText').textContent = '';
+                document.getElementById('doctorEditEmail').value = '';
+                document.getElementById('doctorEditPhone').value = '';
+                document.getElementById('doctorEditHourlyPay').value = '';
+                document.getElementById('doctorEditExperience').value = '';
+                document.getElementById('doctorEditPreview').src = 'https://randomuser.me/api/portraits/men/1.jpg';
+            }
             
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
+        // Save doctor to API
+        async function saveDoctor(doctorData, isNew = true) {
+            try {
+                const url = isNew ? API_BASE_URL : `${API_BASE_URL}/${doctorData.doctorId}`;
+                const method = isNew ? 'POST' : 'PUT';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(doctorData)
+                });
+
+                if (!response.ok) throw new Error('Failed to save doctor');
+                
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('Error saving doctor:', error);
+                throw error;
+            }
+        }
+
+        // Delete doctor from API
+        async function deleteDoctorFromAPI(doctorId) {
+                const response = await fetch(`${API_BASE_URL}/${doctorId}`, {
+                    method: 'DELETE'
+                });
+
+        }
+        
         // Confirm delete
-        function confirmDelete(doctorId) {
-            const doctor = doctors.find(d => d.id === doctorId);
+        async function confirmDelete(doctorId) {
+            const doctor = doctors.find(d => d.doctorId === doctorId);
             const modal = document.getElementById('confirmModal');
-            
-            // Update modal content dynamically
-            modal.querySelector('p').textContent = `Are you sure you want to delete Dr. ${doctor.name}?`;
-            
+            modal.querySelector('p').textContent = `Are you sure you want to delete `;
             currentDoctorId = doctorId;
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
         // Delete doctor
-        function deleteDoctor() {
-            doctors = doctors.filter(doctor => doctor.id !== currentDoctorId);
-            renderDoctors();
-            closeModal();
-        }
+        async function deleteDoctor() {
+                await deleteDoctorFromAPI(currentDoctorId);
+                doctors = doctors.filter(doctor => doctor.doctorId !== currentDoctorId);
+                renderDoctors();
+                closeModal();
+                alert('Doctor deleted successfully!');
 
-        // Print doctor
-        function printDoctor(doctorId) {
-            const doctor = doctors.find(d => d.id === doctorId);
-            if (!doctor) return;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Doctor Details - ${doctor.name}</title>
-                        <style>
-                            body { font-family: Arial; padding: 20px; }
-                            .doctor-header { margin-bottom: 20px; }
-                            .doctor-info { margin-bottom: 15px; }
-                            .doctor-photo { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="doctor-header">
-                            <h1>${doctor.name}</h1>
-                            <h2>${doctor.specialization}</h2>
-                        </div>
-                        <img src="${doctor.image}" class="doctor-photo" alt="${doctor.name}">
-                        <div class="doctor-info">
-                            <p><strong>Status:</strong> ${doctor.status}</p>
-                            <p><strong>Patients:</strong> ${doctor.patients}</p>
-                            <p><strong>Experience:</strong> ${doctor.experience}</p>
-                            <p><strong>Phone:</strong> ${doctor.phone}</p>
-                            <p><strong>Email:</strong> ${doctor.email}</p>
-                        </div>
-                    </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
         }
+        
 
         // Close modal
         function closeModal() {
@@ -2071,331 +1447,29 @@
             }
         }
 
-        // Initialize phone country codes
-        function initializeCountryCodes() {
-            // Phone country code dropdown logic
-            const phoneCountryDropdown = document.getElementById(
-                "phoneCountryDropdown"
-                );
-                const phoneCountryFlag = document.getElementById("phoneCountryFlag");
-                const phoneCountryCode = document.getElementById("phoneCountryCode");
-                const phoneCountryArrow = document.getElementById("phoneCountryArrow");
-                const phoneCountryOptions = document.getElementById(
-                "phoneCountryOptions"
-                );
-                let phoneCountryList = [];
-                let isPhoneCountryOpen = false;
-                let selectedPhoneCountry = null;
-
-                async function fetchPhoneCountries() {
-                try {
-                    const res = await fetch("https://restcountries.com/v3.1/all");
-                    const data = await res.json();
-                    phoneCountryList = data
-                    .map((c) => ({
-                        name: c.name.common,
-                        code: c.idd?.root
-                        ? c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : "")
-                        : "",
-                        flag: c.flags?.svg || c.flags?.png || "",
-                        cca2: c.cca2,
-                    }))
-                    .filter((c) => c.code && c.flag)
-                    .sort((a, b) => a.name.localeCompare(b.name));
-                    renderPhoneCountryOptions();
-                    // Default to US if available
-                    const us = phoneCountryList.find((c) => c.cca2 === "US");
-                    if (us) selectPhoneCountry(us);
-                } catch {
-                    // fallback
-                    phoneCountryList = [
-                    {
-                        name: "United States",
-                        code: "+1",
-                        flag: "https://flagcdn.com/us.svg",
-                        cca2: "US",
-                    },
-                    {
-                        name: "United Kingdom",
-                        code: "+44",
-                        flag: "https://flagcdn.com/gb.svg",
-                        cca2: "GB",
-                    },
-                    {
-                        name: "Canada",
-                        code: "+1",
-                        flag: "https://flagcdn.com/ca.svg",
-                        cca2: "CA",
-                    },
-                    {
-                        name: "Australia",
-                        code: "+61",
-                        flag: "https://flagcdn.com/au.svg",
-                        cca2: "AU",
-                    },
-                    {
-                        name: "India",
-                        code: "+91",
-                        flag: "https://flagcdn.com/in.svg",
-                        cca2: "IN",
-                    },
-                    ];
-                    renderPhoneCountryOptions();
-                    selectPhoneCountry(phoneCountryList[0]);
-                }
-                }
-
-                function renderPhoneCountryOptions(filter = "") {
-                phoneCountryOptions.innerHTML = "";
-                let filtered = phoneCountryList;
-                if (filter) {
-                    const f = filter.trim().toLowerCase();
-                    filtered = phoneCountryList.filter(
-                    (c) =>
-                        c.name.toLowerCase().includes(f) ||
-                        c.code.replace("+", "").startsWith(f.replace("+", "")) ||
-                        c.cca2.toLowerCase().startsWith(f)
-                    );
-                }
-                filtered.forEach((c) => {
-                    const li = document.createElement("li");
-                    li.className =
-                    "w-full flex items-center px-3 py-2 hover:bg-teal-50 hover:text-[#1CB5BD] cursor-pointer";
-                    li.innerHTML = `<img src="${c.flag}" alt="${c.cca2}" class="w-5 h-5 mr-2 rounded-sm"/> <span class="w-[calc(100%-80px)] font-medium text-sm">${c.name}</span> <span class="absolute right-2 text-gray-500">${c.code}</span>`;
-                    li.addEventListener("click", () => selectPhoneCountry(c));
-                    phoneCountryOptions.appendChild(li);
-                });
-                }
-
-                function selectPhoneCountry(c) {
-                selectedPhoneCountry = c;
-                phoneCountryFlag.innerHTML = `<img src="${c.flag}" alt="${c.cca2}" class="w-6 h-6 rounded-sm"/>`;
-                phoneCountryCode.value = c.code;
-                closePhoneCountryDropdown();
-                }
-
-                function openPhoneCountryDropdown() {
-                phoneCountryOptions.classList.remove("hidden");
-                phoneCountryOptions.classList.add("block");
-                phoneCountryArrow.classList.add("rotate-180");
-                isPhoneCountryOpen = true;
-                }
-
-                function closePhoneCountryDropdown() {
-                phoneCountryOptions.classList.add("hidden");
-                phoneCountryOptions.classList.remove("block");
-                phoneCountryArrow.classList.remove("rotate-180");
-                isPhoneCountryOpen = false;
-                }
-
-                phoneCountryDropdown.addEventListener("click", (e) => {
-                e.stopPropagation();
-                if (isPhoneCountryOpen) {
-                    closePhoneCountryDropdown();
-                } else {
-                    openPhoneCountryDropdown();
-                    renderPhoneCountryOptions();
-                }
-                });
-
-                phoneCountryCode.addEventListener("input", (e) => {
-                renderPhoneCountryOptions(e.target.value);
-                openPhoneCountryDropdown();
-                });
-
-                phoneCountryOptions.addEventListener("click", (e) => {
-                e.stopPropagation();
-                });
-
-                document.addEventListener("click", (e) => {
-                if (!phoneCountryDropdown.contains(e.target)) {
-                    closePhoneCountryDropdown();
-                }
-                });
-
-                // Add keyboard navigation for phone country dropdown
-                phoneCountryDropdown.addEventListener("keydown", function (e) {
-                if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    openPhoneCountryDropdown();
-                    const first = phoneCountryOptions.querySelector("li");
-                    if (first) first.focus();
-                }
-                });
-
-                phoneCountryOptions.addEventListener("keydown", function (e) {
-                const active = document.activeElement;
-                if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    if (active.nextElementSibling) active.nextElementSibling.focus();
-                } else if (e.key === "ArrowUp") {
-                    e.preventDefault();
-                    if (active.previousElementSibling)
-                    active.previousElementSibling.focus();
-                } else if (e.key === "Escape") {
-                    closePhoneCountryDropdown();
-                    phoneCountryDropdown.focus();
-                }
-                });
-            fetchPhoneCountries();
-        }
-
-        // Toggle password visibility
-        function setupPasswordToggle() {
-            // Password eye icon logic
-            const togglePassword = document.getElementById("togglePassword");
-            const passwordField = document.getElementById("password");
-            function togglePasswordVisibility(inputField, icon) {
-            if (!inputField || !icon) return;
-            const isPassword = inputField.type === "password";
-            inputField.type = isPassword ? "text" : "password";
-            icon.classList.toggle("fa-eye", !isPassword);
-            icon.classList.toggle("fa-eye-slash", isPassword);
-            }
-            function updateEyeVisibility(inputField, icon) {
-            if (!inputField || !icon) return;
-            if (inputField.value.length > 0) {
-                icon.classList.add("opacity-100");
-                icon.classList.remove("opacity-0");
-            } else {
-                icon.classList.add("opacity-0");
-                icon.classList.remove("opacity-100");
-            }
-            }
-            if (togglePassword && passwordField) {
-            togglePassword.addEventListener("click", () =>
-                togglePasswordVisibility(passwordField, togglePassword)
-            );
-            passwordField.addEventListener("input", () => {
-                updateEyeVisibility(passwordField, togglePassword);
-            });
-            window.addEventListener("DOMContentLoaded", () => {
-                updateEyeVisibility(passwordField, togglePassword);
-            });
-            }
-        }
-
-        // Handle gender selection
-        function setupGenderSelection() {
-            // Gender selection logic
-            const btnMale = document.getElementById("btnMale");
-            const btnFemale = document.getElementById("btnFemale");
-            const genderInput = document.getElementById("genderInput");
-            const genderLabel = document.getElementById("genderLabel");
-            const genderContainer = document.querySelector(".gender-container");
-
-            function updateGenderLabel() {
-            if (genderContainer && genderLabel) {
-                if (genderContainer.classList.contains("focused")) {
-                genderLabel.classList.add("opacity-100", "-top-3", "text-primary");
-                genderLabel.classList.remove("opacity-0", "top-1/2", "text-gray-500");
-                } else {
-                genderLabel.classList.remove("opacity-100", "-top-3", "text-primary");
-                genderLabel.classList.add("opacity-0", "top-1/2", "text-gray-500");
-                }
-            }
-            }
-
-            function selectGender(gender) {
-            if (!btnMale || !btnFemale || !genderInput) return;
-            genderInput.value = gender;
-            btnMale.classList.toggle("bg-white", gender === "Male");
-            btnMale.classList.toggle("text-blue-600", gender === "Male");
-            btnMale.classList.toggle("text-gray-600", gender !== "Male");
-            btnFemale.classList.toggle("bg-white", gender === "Female");
-            btnFemale.classList.toggle("text-pink-600", gender === "Female");
-            btnFemale.classList.toggle("text-gray-600", gender !== "Female");
-            }
-
-            if (genderContainer && btnMale && btnFemale) {
-            genderContainer.addEventListener("focusin", () => {
-                genderContainer.classList.add("focused");
-                updateGenderLabel();
-            });
-            genderContainer.addEventListener("focusout", () => {
-                genderContainer.classList.remove("focused");
-                updateGenderLabel();
-            });
-            btnMale.addEventListener("click", () => selectGender("Male"));
-            btnFemale.addEventListener("click", () => selectGender("Female"));
-            }
-        }
-
-        // Handle photo upload preview
-        function setupPhotoUpload() {
-            const photoInput = document.getElementById('doctorPhoto');
-            const photoPreview = document.getElementById('doctorPreview');
-            const photoPlaceholder = document.getElementById('photoPlaceholder');
-
-            photoInput.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        photoPreview.src = e.target.result;
-                        photoPreview.classList.remove('hidden');
-                        photoPlaceholder.classList.add('hidden');
-                    };
-                    reader.readAsDataURL(this.files[0]);
-                }
-            });
-        }
-
-        // Handle CV upload with progress
-        function setupCVUpload() {
-            const cvInput = document.getElementById('doctorCV');
-            const progressWrapper = document.getElementById('cvUploadProgressWrapper');
-            const progressBar = document.getElementById('cvUploadProgress');
-            const uploadCheck = document.getElementById('cvUploadCheck');
-            const uploadStatus = document.getElementById('cvUploadStatus');
-
-            cvInput.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    progressWrapper.classList.remove('hidden');
-                    
-                    // Simulate upload progress
-                    let progress = 0;
-                    const interval = setInterval(() => {
-                        progress += 5;
-                        progressBar.style.width = `${progress}%`;
-                        
-                        if (progress >= 100) {
-                            clearInterval(interval);
-                            uploadCheck.classList.remove('hidden');
-                            uploadStatus.textContent = 'Upload complete!';
-                        }
-                    }, 100);
-                }
-            });
-        }
-
         function resetToFirstPage() {
             currentPage = 1;
             saveCurrentPage(currentPage);
         }
 
         // Event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeDoctors();
+        document.addEventListener('DOMContentLoaded', async() => {
+            // Load doctors from API
+            const doctor =    await fetchDoctors();
+            console.log()
+            // Initialize with sample data
+            renderDoctors();
             applyViewPreference(); // Load the saved view preference
             currentPage = getSavedPage();
-            renderDoctors();
-            setupEditPasswordToggle();
-            
-            // Initialize new modal components
-            initializeCountryCodes();
-            setupPasswordToggle();
-            setupGenderSelection();
-            setupPhotoUpload();
-            setupCVUpload();
             
             // View toggle
             document.querySelectorAll('.view-toggle').forEach(button => {
+                console.log(button)
                 button.addEventListener('click', () => {
                     document.querySelectorAll('.view-toggle').forEach(btn => {
                         btn.classList.remove('active');
                     });
                     button.classList.add('active');
-                    
                     const view = button.dataset.view;
                     setStoredViewPreference(view);
                     
@@ -2404,16 +1478,6 @@
                     
                     renderDoctors();
                 });
-            });
-            
-            // Add doctor button - opens new modal
-            document.getElementById('addDoctorBtn').addEventListener('click', () => {
-                toggleModal(true);
-            });
-            
-            // Cancel button in add doctor modal
-            document.getElementById('cancelDoctor').addEventListener('click', () => {
-                toggleModal(false);
             });
             
             // Cancel button in edit doctor modal
@@ -2433,103 +1497,44 @@
             document.getElementById('confirmDelete').addEventListener('click', deleteDoctor);
             document.getElementById('cancelDelete').addEventListener('click', closeModal);
             
-            // New doctor form submission
-            document.getElementById('newDoctorForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const formData = new FormData(e.target);
-                const doctorId = Date.now();
-                
-                // Get the photo if uploaded
-                let photoUrl = '../assets/images/Admin pages/Doctors page/default-avatar.jpg';
-                const photoInput = document.getElementById('doctorPhoto');
-                if (photoInput.files && photoInput.files[0]) {
-                    photoUrl = URL.createObjectURL(photoInput.files[0]);
-                }
-                
-                const doctorData = {
-                    id: doctorId,
-                    name: `Dr. ${formData.get('fullName')}`,
-                    specialization: document.getElementById('specialistSelect').value,
-                    email: formData.get('email'),
-                    phone: `${document.getElementById('phoneCountryCode').value} ${formData.get('phone')}`,
-                    experience: '0 Years', // Default for new doctors
-                    status: 'Active', // Default status
-                    patients: 0, // Default patient count
-                    image: photoUrl
-                };
-                
-                // Add new doctor
-                doctors.push(doctorData);
-                
-                renderDoctors();
-                toggleModal(false);
-                
-                // Show success notification
-                alert('Doctor added successfully!');
-            });
-            
             // Edit doctor form submission
-            document.getElementById('doctorForm').addEventListener('submit', (e) => {
+            document.getElementById('doctorForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                const passwordInput = document.getElementById('doctorEditPassword');
+                const isNew = !currentDoctorId;
                 const doctorData = {
-                    id: document.getElementById('doctorEditId').value,
+                    doctorId: currentDoctorId || Date.now(), // Use existing ID or generate new one
                     name: document.getElementById('doctorEditName').value,
-                    specialization: document.getElementById('specializationText').textContent,
-                    gender: document.getElementById('gender').value,
+                    speciality: document.getElementById('specializationText').textContent,
                     email: document.getElementById('doctorEditEmail').value,
-                    phone: document.getElementById('doctorEditPhone').value,
-                    status: document.getElementById('doctorEditStatus').value,
-                    patients: parseInt(document.getElementById('doctorEditPatients').value),
-                    experience: document.getElementById('doctorEditExperience').value,
-                    image: document.getElementById('doctorEditPreview').src
+                    contactInfo: document.getElementById('doctorEditPhone').value,
+                    hourlyPay: parseFloat(document.getElementById('doctorEditHourlyPay').value),
+                    yearsOfExperience: parseInt(document.getElementById('doctorEditExperience').value),
+                    photo: document.getElementById('doctorEditPreview').src
                 };
 
-                // Only update password if it was changed (not the placeholder)
-                if (passwordInput.value !== '••••••••') {
-                    doctorData.password = passwordInput.value;
+                try {
+                    const savedDoctor = await saveDoctor(doctorData, isNew);
+                    
+                    if (isNew) {
+                        doctors.push(savedDoctor);
+                        alert('Doctor added successfully!');
+                    } else {
+                        const index = doctors.findIndex(d => d.doctorId == currentDoctorId);
+                        if (index !== -1) {
+                            doctors[index] = savedDoctor;
+                        }
+                        alert('Doctor updated successfully!');
+                    }
+                    
+                    renderDoctors();
+                    closeModal();
+                } catch (error) {
+                    alert('Failed to save doctor. Please try again.');
+                    console.error('Save error:', error);
                 }
-                
-                // Update doctor in the array
-                const index = doctors.findIndex(d => d.id === doctorData.id);
-                if (index !== -1) {
-                    doctors[index] = { ...doctors[index], ...doctorData };
-                }
-                
-                renderDoctors();
-                closeModal();
-                alert('Doctor updated successfully!');
-            });
-            
-            // Search and filter inputs
-            // document.getElementById('searchInput').addEventListener('input', renderDoctors);
-            // document.getElementById('specializationFilter').addEventListener('change', renderDoctors);
-            // document.getElementById('statusFilter').addEventListener('change', renderDoctors);
-            // document.getElementById('patientsFilter').addEventListener('change', renderDoctors);
-
-            // Example usage in your filter event listeners:
-            document.getElementById('searchInput').addEventListener('input', () => {
-                resetToFirstPage();
-                renderDoctors();
             });
 
-            document.getElementById('specializationFilter').addEventListener('change', () => {
-                resetToFirstPage();
-                renderDoctors();
-            });
-
-            document.getElementById('statusFilter').addEventListener('change', () => {
-                resetToFirstPage();
-                renderDoctors();
-            });
-
-            document.getElementById('patientsFilter').addEventListener('change', () => {
-                resetToFirstPage();
-                renderDoctors();
-            });
-            
             // Pagination controls
             document.getElementById('prevPage').addEventListener('click', () => {
                 if (currentPage > 1) {
@@ -2566,43 +1571,7 @@
                 });
             });
             
-            // Print all button
-            document.getElementById('printAllBtn').addEventListener('click', () => {
-                const filtered = filterDoctors();
-                const sorted = sortDoctors(filtered);
-                
-                const printContent = sorted.map(doctor => `
-                    <div class="print-doctor" style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding: 10px;">
-                        <h3 style="font-size: 18px; margin-bottom: 5px;">${doctor.name}</h3>
-                        <p><strong>Specialization:</strong> ${doctor.specialization}</p>
-                        <p><strong>Patients:</strong> ${doctor.patients}</p>
-                        <p><strong>Status:</strong> ${doctor.status}</p>
-                        <p><strong>Contact:</strong> ${doctor.email} | ${doctor.phone}</p>
-                    </div>
-                `).join('');
-                
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <html>
-                        <head>
-                            <title>Doctors List</title>
-                            <style>
-                                body { font-family: Arial; padding: 20px; }
-                                .print-header { margin-bottom: 20px; text-align: center; }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="print-header">
-                                <h1>Doctors List</h1>
-                                <p>Generated on ${new Date().toLocaleDateString()}</p>
-                            </div>
-                            ${printContent}
-                        </body>
-                    </html>
-                `);
-                printWindow.document.close();
-                printWindow.print();
-            });
+            
             
             // Delegated event listeners for dynamic elements
             document.addEventListener('click', (e) => {
@@ -2619,17 +1588,10 @@
                 }
                 
                 // Delete button
-                if (e.target.closest('.delete-doctor')) {
-                    const doctorId = parseInt(e.target.closest('.delete-doctor').dataset.id);
-                    confirmDelete(doctorId);
-                }
-                
-                // Print button
-                if (e.target.closest('.print-doctor')) {
-                    const doctorId = parseInt(e.target.closest('.print-doctor').dataset.id);
-                    printDoctor(doctorId);
-                }
-                
+            if (e.target.closest('.delete-doctor')) {
+                const doctorId = e.target.closest('.delete-doctor').dataset.id; // Keep as string
+                confirmDelete(doctorId);
+            }
                 // Dropdown menu
                 if (e.target.closest('.dropdown button')) {
                     const dropdown = e.target.closest('.dropdown').querySelector('.dropdown-menu');

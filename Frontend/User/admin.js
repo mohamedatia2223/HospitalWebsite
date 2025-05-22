@@ -87,8 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initialize Charts
-    initializeCharts();
+
 });
 
 function searchPatientsAndDoctors(query) {

@@ -9,13 +9,13 @@ namespace Hospital.Services
         {
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("Your Email"),
+                From = new MailAddress("mo4026838@gmail.com"),
                 Subject = dto.Subject,
-                Body = $"From: {dto.Name}\n\nMessage:\n{dto.Message}",
+                Body = $"From: {dto.Name}\nEmail: {dto.Email}\n\nMessage:\n{dto.Message}",
                 IsBodyHtml = false
             };
 
-            mailMessage.To.Add(dto.Email);
+            mailMessage.To.Add("mo4026838@gmail.com");
 
             if (dto.Image != null && dto.Image.Length > 0)
             {
@@ -28,12 +28,11 @@ namespace Hospital.Services
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("Your Email", "Your password"),
+                Credentials = new NetworkCredential("mo4026838@gmail.com", "ctpm gxvg ynme txbj"),
                 EnableSsl = true,
             };
 
             await smtpClient.SendMailAsync(mailMessage);
-
         }
     }
 }

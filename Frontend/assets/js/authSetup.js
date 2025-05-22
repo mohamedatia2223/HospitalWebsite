@@ -7,22 +7,18 @@ import {
 } from "./utils/jwt.js";
 
 export const setupUser = () => {
-	const rawToken = getToken();
+    const rawToken = getToken();
 
-	if (!rawToken) return redirectToLogin();
+    if (!rawToken) return null; 
 
-	const parsedToken = parseJwt(rawToken);
+    const parsedToken = parseJwt(rawToken);
 
-	if (!parsedToken || !isTokenValid(parsedToken)) {
-		logOut();
-		redirectToLogin();
-	}
+    if (!parsedToken || !isTokenValid(parsedToken)) {
+        logOut(); 
+        return null; 
+    }
 
-	const token = cleanToken(parsedToken);
-
-	window.User = token;
-};
-
-const redirectToLogin = () => {
-	window.location.href = "http://127.0.0.1:5500/Frontend/Guests/log-in.html";
+    const token = cleanToken(parsedToken);
+    window.User = token;
+    return token; 
 };
